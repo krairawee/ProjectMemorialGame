@@ -47,9 +47,9 @@
 
 - **นายไกรวี บุญทัด**:
     - ออกแบบโครงสร้างเนื้อเรื่อง และหา reference เช่น assets และ หนังสือนิยาย
-	  - เขียน Logic Base (backend) เช่น แผนที่หลัก และ ระบบ Cutsence 
-	  - จัดการ GitHub repository
-	  - เขียนระบบเสริม (backend) เช่น Minigame และ แผนที่
+    - เขียน Logic Base (backend) เช่น แผนที่หลัก และ ระบบ Cutsence 
+    - จัดการ GitHub repository
+    - เขียนระบบเสริม (backend) เช่น Minigame และ แผนที่
     - เขียน UI ของเกม (front end) เช่น หน้าต่าง dialog และ choice
     - เขียนฐานข้อมูลของเกมเพื่อ สามารถบันทึกเกมและโหลดเกม
 - **นายกันต์พจน์ ฟ้าจงประเสริฐ**:
