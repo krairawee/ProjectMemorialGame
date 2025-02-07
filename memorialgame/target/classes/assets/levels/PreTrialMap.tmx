@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.11.0" orientation="orthogonal" renderorder="right-down" width="20" height="20" tilewidth="16" tileheight="16" infinite="0" nextlayerid="6" nextobjectid="2">
+<map version="1.10" tiledversion="1.11.0" orientation="orthogonal" renderorder="right-down" width="20" height="20" tilewidth="16" tileheight="16" infinite="0" nextlayerid="7" nextobjectid="3">
  <tileset firstgid="1" name="PropsTrial" tilewidth="16" tileheight="16" tilecount="400" columns="20">
   <image source="TilesetTrialMap/PropsTrial.png" width="320" height="320"/>
  </tileset>
  <tileset firstgid="401" name="TilesetTrial" tilewidth="16" tileheight="16" tilecount="400" columns="20">
   <image source="TilesetTrialMap/TilesetTrial.png" width="320" height="320"/>
  </tileset>
+ <objectgroup id="6" name="Obstacle">
+  <object id="2" type="obstacle" x="4" y="11.3333" width="8.66667" height="294"/>
+ </objectgroup>
  <layer id="1" name="BackGround" width="20" height="20">
   <data encoding="csv">
 691,632,632,632,632,632,632,632,632,632,632,632,632,632,632,632,632,632,632,692,
