@@ -14,6 +14,5 @@ public class CutsenceEvent extends Event {
 
     public CutsenceEvent(EventType<? extends Event> eventType) {
         super(eventType);
-        
     }
 }

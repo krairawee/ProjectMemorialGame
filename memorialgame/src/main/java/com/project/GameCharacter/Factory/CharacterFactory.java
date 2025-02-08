@@ -51,7 +51,7 @@ public class CharacterFactory implements EntityFactory{
     }
     
     @Spawns("kaito")
-    public Entity newCharacter(SpawnData data){
+    public Entity newkaitoCharacter(SpawnData data){
         PhysicsComponent physics = new PhysicsComponent();
         physics.setBodyType(BodyType.STATIC);
         physics.setFixtureDef(new FixtureDef().restitution(1));

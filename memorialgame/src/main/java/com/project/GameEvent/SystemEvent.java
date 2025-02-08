@@ -16,14 +16,14 @@ public class SystemEvent {
 
         if (getCharacterInGame("maki").getComponent(StatusComponent.class).getName().equals("maki")) {
             eventBus.addEventHandler(CutsenceEvent.MAKI, event -> {
-                Cutscene makiCutsence_1 = FXGL.getAssetLoader().loadCutscene("makiCutsencePhase1"+getCharacterInGame("maki").getComponent(StatusComponent.class).getPhaseCutsence());
+                Cutscene makiCutsence_1 = FXGL.getAssetLoader().loadCutscene("makiCutsencePhase"+getCharacterInGame("maki").getComponent(StatusComponent.class).getPhaseCutsence()+".txt");
                 FXGL.getCutsceneService().startCutscene(makiCutsence_1);
             });
         }
 
         if(getCharacterInGame("kaito").getComponent(StatusComponent.class).getName().equals("kaito")){
             eventBus.addEventHandler(CutsenceEvent.KAITO, event -> {
-                Cutscene kaitoCutsence_1 = FXGL.getAssetLoader().loadCutscene("kaitoCutsencePhase"+getCharacterInGame("kaito").getComponent(StatusComponent.class).getPhaseCutsence());
+                Cutscene kaitoCutsence_1 = FXGL.getAssetLoader().loadCutscene("kaitoCutsencePhase"+getCharacterInGame("kaito").getComponent(StatusComponent.class).getPhaseCutsence()+".txt");
                 FXGL.getCutsceneService().startCutscene(kaitoCutsence_1);
             });
         }

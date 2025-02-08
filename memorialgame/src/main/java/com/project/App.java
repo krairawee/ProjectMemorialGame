@@ -39,8 +39,8 @@ public class App extends GameApplication {
         // setting Screen
         settings.setFullScreenAllowed(true);
         settings.setFullScreenFromStart(true);
-        settings.setWidth(20 * 16);
-        settings.setHeight(20 * 16);
+        settings.setWidth(60 * 16);
+        settings.setHeight(60 * 16);
         // setting GameName
         settings.setTitle("Memorial");
         settings.setVersion("Beta");
@@ -65,6 +65,7 @@ public class App extends GameApplication {
         gameworld.addEntityFactory(new WorldFactory());
         map = FXGL.getAssetLoader().loadLevel("PreTrialMap.tmx", new TMXLevelLoader());
         gameworld.setLevel(map);
+        viewport.setZoom(3);
         viewport.bindToEntity(gameworld.getEntitiesByType(CharacterType.PLAYER).get(0), FXGL.getAppWidth()/2, FXGL.getAppHeight()/2);
         //setting event
         SystemEvent systemEvent = new SystemEvent();

@@ -31,6 +31,7 @@ public class InteractComponent extends Component{
 
     @Override
     public void onUpdate(double tpf){
+        
     }
 
     public Entity calculateDistance(){
