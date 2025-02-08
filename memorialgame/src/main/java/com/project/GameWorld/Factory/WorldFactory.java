@@ -17,8 +17,8 @@ public class WorldFactory implements EntityFactory {
         return FXGL.entityBuilder(data)
                 .type(SenceType.OBSTACLE)
                 .bbox(new HitBox(BoundingShape.box(data.<Integer>get("width"),data.<Integer>get("height"))))
-                .with(new PhysicsComponent())//set Animation ของตัวละคร
-                .with(new CollidableComponent(true))//อย่าลืม set collidablecomponent ด้วยให้มันชนกันได้เดี่ยวทะลุแมพ
+                .with(new PhysicsComponent())
+                .with(new CollidableComponent(true))
                 .build();         
     }
 }

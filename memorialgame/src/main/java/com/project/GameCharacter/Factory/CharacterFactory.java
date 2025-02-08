@@ -16,7 +16,7 @@ import com.project.GameCharacter.Component.MovementComponent;
 
 public class CharacterFactory implements EntityFactory{
     @Spawns("Player")
-    public Entity newCharacter(SpawnData data){
+    public Entity newPlayerCharacter(SpawnData data){
         PhysicsComponent physics = new PhysicsComponent();
         physics.setBodyType(BodyType.DYNAMIC); //set ให้ตัวละครขยับได้ เปลี่ยนเป็น static ถ้าอยากsetให้สิ่งที่ไม่มีชีวิต
         physics.setFixtureDef(new FixtureDef().restitution(1));
@@ -26,10 +26,37 @@ public class CharacterFactory implements EntityFactory{
                 .bbox(new HitBox(BoundingShape.box(data.<Integer>get("width"),data.<Integer>get("height"))))
                 .with(physics)//set physic
                 .with(new CollidableComponent(true))//อย่าลืม set collidablecomponent ด้วยให้มันชนกันได้เดี่ยวทะลุแมพ
-                .with(new MovementComponent())//set Animation ของตัวละคร
-                .build();
-                
-                
-                
+                .with(new MovementComponent("Shuiji.png"))//set Animation ของตัวละคร
+                .build(); 
+    }
+
+    @Spawns("maki")
+    public Entity newMakiCharacter(SpawnData data){
+        PhysicsComponent physics = new PhysicsComponent();
+        physics.setBodyType(BodyType.STATIC); //set ให้ตัวละครขยับได้ เปลี่ยนเป็น static ถ้าอยากsetให้สิ่งที่ไม่มีชีวิต
+        physics.setFixtureDef(new FixtureDef().restitution(1));
+
+        return FXGL.entityBuilder(data)
+                .type(CharacterType.OTHER)
+                .bbox(new HitBox(BoundingShape.box(data.<Integer>get("width"),data.<Integer>get("height"))))
+                .with(physics)//set physic
+                .with(new CollidableComponent(true))//อย่าลืม set collidablecomponent ด้วยให้มันชนกันได้เดี่ยวทะลุแมพ
+                .with(new MovementComponent("Maki.png"))//set Animation ของตัวละคร
+                .build(); 
+    }
+    
+    @Spawns("kaito")
+    public Entity newCharacter(SpawnData data){
+        PhysicsComponent physics = new PhysicsComponent();
+        physics.setBodyType(BodyType.STATIC); //set ให้ตัวละครขยับได้ เปลี่ยนเป็น static ถ้าอยากsetให้สิ่งที่ไม่มีชีวิต
+        physics.setFixtureDef(new FixtureDef().restitution(1));
+
+        return FXGL.entityBuilder(data)
+                .type(CharacterType.OTHER)
+                .bbox(new HitBox(BoundingShape.box(data.<Integer>get("width"),data.<Integer>get("height"))))
+                .with(physics)//set physic
+                .with(new CollidableComponent(true))//อย่าลืม set collidablecomponent ด้วยให้มันชนกันได้เดี่ยวทะลุแมพ
+                .with(new MovementComponent("Kaito.png"))//set Animation ของตัวละคร
+                .build(); 
     }
 }

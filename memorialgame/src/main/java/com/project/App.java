@@ -14,6 +14,7 @@ import com.almasb.fxgl.physics.PhysicsWorld;
 import com.project.GameCharacter.CharacterType;
 import com.project.GameCharacter.Component.MovementComponent;
 import com.project.GameCharacter.Factory.CharacterFactory;
+import com.project.GameEvent.SystemEvent;
 import com.project.GameWorld.Factory.WorldFactory;
 
 // JavaFX classes
@@ -26,7 +27,7 @@ public class App extends GameApplication {
     private PhysicsWorld gamephysic;
     private GameScene gamescene;
     private Viewport viewport;
-    private EventBus bus;
+    public SystemEvent gameevent;
     Level map;
 
     public static void main(String[] args) {
@@ -57,7 +58,7 @@ public class App extends GameApplication {
         gameworld = FXGL.getGameWorld();
         gamescene = FXGL.getGameScene();
         viewport = gamescene.getViewport();
-        bus = new EventBus();
+        gameevent = new SystemEvent();
         // setting Baseworld and EntityFactory
         gamescene.setBackgroundColor(Color.BLACK);
         gameworld.addEntityFactory(new CharacterFactory());
@@ -65,6 +66,7 @@ public class App extends GameApplication {
         map = FXGL.getAssetLoader().loadLevel("PreTrialMap.tmx", new TMXLevelLoader());
         gameworld.setLevel(map);
         viewport.bindToEntity(gameworld.getEntitiesByType(CharacterType.PLAYER).get(0), FXGL.getAppWidth()/2, FXGL.getAppHeight()/2);
+        //setting event
     }
 
     @Override
@@ -95,6 +97,8 @@ public class App extends GameApplication {
             protected void onAction() {
                 gameworld.getEntitiesByType(CharacterType.PLAYER).get(0).getComponent(MovementComponent.class).moveDown();
             }
+            
+            
         }, KeyCode.S);
     }
 }

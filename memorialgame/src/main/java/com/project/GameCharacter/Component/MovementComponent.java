@@ -20,12 +20,12 @@ public class MovementComponent extends Component{
     private PhysicsComponent physics;
     
 
-    public MovementComponent() {
-        animIdle = new AnimationChannel(FXGL.image("Shuiji.png"), 3, 60/3, 128/4, Duration.seconds(0.5), 1, 1);
-        animDown = new AnimationChannel(FXGL.image("Shuiji.png"), 3, 60/3, 128/4, Duration.seconds(0.5), 0, 2);
-        animLeft = new AnimationChannel(FXGL.image("Shuiji.png"), 3, 60/3, 128/4, Duration.seconds(0.5), 3, 5);
-        animRight = new AnimationChannel(FXGL.image("Shuiji.png"), 3, 60/3, 128/4, Duration.seconds(0.5), 6, 8);
-        animUp = new AnimationChannel(FXGL.image("Shuiji.png"), 3, 60/3, 128/4, Duration.seconds(0.5), 9, 11);
+    public MovementComponent(String namefile) {
+        animIdle = new AnimationChannel(FXGL.image(namefile), 3, 60/3, 128/4, Duration.seconds(0.5), 1, 1);
+        animDown = new AnimationChannel(FXGL.image(namefile), 3, 60/3, 128/4, Duration.seconds(0.5), 0, 2);
+        animLeft = new AnimationChannel(FXGL.image(namefile), 3, 60/3, 128/4, Duration.seconds(0.5), 3, 5);
+        animRight = new AnimationChannel(FXGL.image(namefile), 3, 60/3, 128/4, Duration.seconds(0.5), 6, 8);
+        animUp = new AnimationChannel(FXGL.image(namefile), 3, 60/3, 128/4, Duration.seconds(0.5), 9, 11);
 
         texture = new AnimatedTexture(animIdle);
         
@@ -34,7 +34,7 @@ public class MovementComponent extends Component{
     @Override
     public void onAdded() {
         
-        entity.getTransformComponent().setScaleOrigin(new Point2D(16, 21));
+        entity.getTransformComponent().setScaleOrigin(new Point2D(entity.getWidth(), entity.getHeight()));
         entity.getViewComponent().addChild(texture);  
     }
     @Override
@@ -93,19 +93,19 @@ public class MovementComponent extends Component{
     }
     
     public void moveUp(){
-        speedY = -150;
+        speedY = -100;
         entity.setScaleX(1);
     }
     public void moveDown(){
-        speedY = 150;
+        speedY = 100;
         entity.setScaleX(1);
     }
     public void moveLeft(){
-        speedX = -150;
+        speedX = -100;
         entity.setScaleX(1);
     }
     public void moveRight(){
-        speedX = 150;
+        speedX = 100;
         entity.setScaleX(1);
     }
     
