@@ -5,13 +5,15 @@ import javafx.event.EventType;
 
 public class CutsenceEvent extends Event {
 
-    public static final EventType<CutsenceEvent> MAKI_PHASE1
-            = new EventType<>(Event.ANY, "MAKI_PHASE");
+    public static final EventType<CutsenceEvent> MAKI
+            = new EventType<>(Event.ANY, "MAKI");
 
-    public static final EventType<CutsenceEvent> KAITO_PHASE1
-            = new EventType<>(ANY, "KAITO_PHASE");
+    public static final EventType<CutsenceEvent> KAITO
+            = new EventType<>(Event.ANY, "KAITO");
+    
 
     public CutsenceEvent(EventType<? extends Event> eventType) {
         super(eventType);
+        
     }
 }

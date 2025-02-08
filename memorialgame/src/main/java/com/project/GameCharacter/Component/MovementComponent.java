@@ -11,6 +11,7 @@ import javafx.geometry.Point2D;
 import javafx.util.Duration;
 
 public class MovementComponent extends Component{
+    public String name;
     public int speedX = 0;
     public int speedY = 0;
    
@@ -20,20 +21,21 @@ public class MovementComponent extends Component{
     private PhysicsComponent physics;
     
 
-    public MovementComponent(String namefile) {
-        animIdle = new AnimationChannel(FXGL.image(namefile), 3, 60/3, 128/4, Duration.seconds(0.5), 1, 1);
-        animDown = new AnimationChannel(FXGL.image(namefile), 3, 60/3, 128/4, Duration.seconds(0.5), 0, 2);
-        animLeft = new AnimationChannel(FXGL.image(namefile), 3, 60/3, 128/4, Duration.seconds(0.5), 3, 5);
-        animRight = new AnimationChannel(FXGL.image(namefile), 3, 60/3, 128/4, Duration.seconds(0.5), 6, 8);
-        animUp = new AnimationChannel(FXGL.image(namefile), 3, 60/3, 128/4, Duration.seconds(0.5), 9, 11);
+    public MovementComponent(String nameFile,String nameCharacter) {
+        animIdle = new AnimationChannel(FXGL.image(nameFile), 3, 60/3, 128/4, Duration.seconds(0.5), 1, 1);
+        animDown = new AnimationChannel(FXGL.image(nameFile), 3, 60/3, 128/4, Duration.seconds(0.5), 0, 2);
+        animLeft = new AnimationChannel(FXGL.image(nameFile), 3, 60/3, 128/4, Duration.seconds(0.5), 3, 5);
+        animRight = new AnimationChannel(FXGL.image(nameFile), 3, 60/3, 128/4, Duration.seconds(0.5), 6, 8);
+        animUp = new AnimationChannel(FXGL.image(nameFile), 3, 60/3, 128/4, Duration.seconds(0.5), 9, 11);
 
         texture = new AnimatedTexture(animIdle);
+        this.name = nameCharacter;
         
     }
 
     @Override
     public void onAdded() {
-        
+
         entity.getTransformComponent().setScaleOrigin(new Point2D(entity.getWidth(), entity.getHeight()));
         entity.getViewComponent().addChild(texture);  
     }
@@ -109,5 +111,8 @@ public class MovementComponent extends Component{
         entity.setScaleX(1);
     }
     
+    public String getName(){
+        return this.name;
+    }
 
 }
