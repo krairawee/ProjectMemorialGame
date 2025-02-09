@@ -5,6 +5,9 @@ import javafx.event.EventType;
 
 public class CutsenceEvent extends Event {
 
+    public static final EventType<CutsenceEvent> SHUIJI
+            = new EventType<>(Event.ANY, "SHUIJI");
+
     public static final EventType<CutsenceEvent> MAKI
             = new EventType<>(Event.ANY, "MAKI");
 

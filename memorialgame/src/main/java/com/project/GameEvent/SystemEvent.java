@@ -6,6 +6,8 @@ import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.event.EventBus;
 import com.project.GameCharacter.CharacterType;
 import com.project.GameCharacter.Component.StatusComponent;
+import com.project.GameWorld.Property.MapData;
+
 import java.util.List;
 
 public class SystemEvent {
@@ -14,20 +16,29 @@ public class SystemEvent {
     public void setHandler(){
         eventBus = FXGL.getEventBus();
 
-        if (getCharacterInGame("maki").getComponent(StatusComponent.class).getName().equals("maki")) {
+        
             eventBus.addEventHandler(CutsenceEvent.MAKI, event -> {
-                Cutscene makiCutsence_1 = FXGL.getAssetLoader().loadCutscene("makiCutsencePhase"+getCharacterInGame("maki").getComponent(StatusComponent.class).getPhaseCutsence()+".txt");
-                FXGL.getCutsceneService().startCutscene(makiCutsence_1);
+                if (getCharacterInGame("maki").getComponent(StatusComponent.class).getName().equals("maki")) {
+                Cutscene makiCutsence = FXGL.getAssetLoader().loadCutscene("makiCutsencePhase"+getCharacterInGame("maki").getComponent(StatusComponent.class).getPhaseCutsence()+".txt");
+                FXGL.getCutsceneService().startCutscene(makiCutsence);
+                }
             });
-        }
+        
 
-        if(getCharacterInGame("kaito").getComponent(StatusComponent.class).getName().equals("kaito")){
+
             eventBus.addEventHandler(CutsenceEvent.KAITO, event -> {
-                Cutscene kaitoCutsence_1 = FXGL.getAssetLoader().loadCutscene("kaitoCutsencePhase"+getCharacterInGame("kaito").getComponent(StatusComponent.class).getPhaseCutsence()+".txt");
-                FXGL.getCutsceneService().startCutscene(kaitoCutsence_1);
+            if(getCharacterInGame("kaito").getComponent(StatusComponent.class).getName().equals("kaito")){
+                Cutscene kaitoCutsence = FXGL.getAssetLoader().loadCutscene("kaitoCutsencePhase"+getCharacterInGame("kaito").getComponent(StatusComponent.class).getPhaseCutsence()+".txt");
+                FXGL.getCutsceneService().startCutscene(kaitoCutsence);
+                }
             });
+
+            eventBus.addEventHandler(MapEvent.LOAD_PRETRIAL, event -> {
+                FXGL.getGameWorld().setLevel(MapData.mapPreTrial);
+                });
         }
-    }
+        
+
 
     public static Entity getCharacterInGame(String name){
         List<Entity> charcterGame = FXGL.getGameWorld().getEntitiesByType(CharacterType.OTHER);
