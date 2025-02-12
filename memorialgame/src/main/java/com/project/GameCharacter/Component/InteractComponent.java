@@ -8,7 +8,11 @@ import com.almasb.fxgl.entity.component.Component;
 import com.project.GameCharacter.CharacterType;
 import com.project.GameCharacter.Items;
 import com.project.GameEvent.CutsenceEvent;
+import com.project.GameEvent.MapEvent;
 import com.project.GameEvent.SystemEvent;
+import com.project.GameWorld.SenceType;
+import com.project.GameWorld.Component.ObjectComponent;
+
 
 public class InteractComponent extends Component{
     private ArrayList<Items> inventory;
@@ -18,8 +22,14 @@ public class InteractComponent extends Component{
     }
   
     public void interactCharacter(){
-        Entity characterInteract = calculateDistance();
-        if(characterInteract.getType() != entity.getType()){
+        Entity characterInteract = calculateDistance("character");
+        Entity teleportInteract = calculateDistance("teleport");
+        if(teleportInteract.getType() == SenceType.TELEPORT){
+            if(teleportInteract.getComponent(ObjectComponent.class).getName().equals("pretrial")){
+                SystemEvent.eventBus.fireEvent(new MapEvent(MapEvent.TELEPORT_PRETRIAL));
+            }
+        }
+        if(characterInteract.getType() == CharacterType.OTHER){
             if(characterInteract.getComponent(StatusComponent.class).getName().equals("maki")){
                 SystemEvent.eventBus.fireEvent(new CutsenceEvent(CutsenceEvent.MAKI));
             }
@@ -29,18 +39,30 @@ public class InteractComponent extends Component{
         }
     }
 
+    
+
     @Override
     public void onUpdate(double tpf){
-        
     }
 
-    public Entity calculateDistance(){
-        var characterInGame = FXGL.getGameWorld().getEntitiesByType(CharacterType.OTHER);
-        for(int i = 0;i<characterInGame.size();i++){
+    public Entity calculateDistance(String seperate){
+        if(seperate == "character"){
+            var characterInGame = FXGL.getGameWorld().getEntitiesByType(CharacterType.OTHER);
+            for(int i = 0;i<characterInGame.size();i++){
             if(entity.distance(characterInGame.get(i))<20){
                 return characterInGame.get(i);
             }
         }
         return entity;
+        }
+        else{
+            var characterInGame = FXGL.getGameWorld().getEntitiesByType(SenceType.TELEPORT);
+            for(int i = 0;i<characterInGame.size();i++){
+            if(entity.distance(characterInGame.get(i))<20){
+                return characterInGame.get(i);
+            }
+        }
+        return entity;
+        }
     }
 }

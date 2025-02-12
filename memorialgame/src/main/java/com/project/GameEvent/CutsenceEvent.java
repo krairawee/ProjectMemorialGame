@@ -13,6 +13,9 @@ public class CutsenceEvent extends Event {
 
     public static final EventType<CutsenceEvent> KAITO
             = new EventType<>(Event.ANY, "KAITO");
+
+    public static final EventType<CutsenceEvent> PhaseEvent1
+            = new EventType<>(Event.ANY, "PhaseEvent1");
     
 
     public CutsenceEvent(EventType<? extends Event> eventType) {

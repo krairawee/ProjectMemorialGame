@@ -6,6 +6,7 @@ import com.almasb.fxgl.entity.component.Component;
 import com.almasb.fxgl.physics.PhysicsComponent;
 import com.almasb.fxgl.texture.AnimatedTexture;
 import com.almasb.fxgl.texture.AnimationChannel;
+import com.project.GameCharacter.CharacterType;
 
 import javafx.geometry.Point2D;
 import javafx.util.Duration;
@@ -90,8 +91,10 @@ public class MovementComponent extends Component{
             physics.setVelocityY(0);
             texture.loopAnimationChannel(animIdle);
         }
-        
-       
+        if(entity.isType(CharacterType.PLAYER)){
+            FXGL.set("PositionX",entity.getPosition().getX());
+            FXGL.set("PositionY",entity.getPosition().getY());
+        }
     }
     
     public void moveUp(){
@@ -109,10 +112,6 @@ public class MovementComponent extends Component{
     public void moveRight(){
         speedX = 100;
         entity.setScaleX(1);
-    }
-    
-    public String getName(){
-        return this.name;
     }
 
 }

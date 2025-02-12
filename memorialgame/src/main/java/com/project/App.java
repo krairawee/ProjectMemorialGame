@@ -1,39 +1,38 @@
 package com.project;
 
+
 import java.util.Map;
 
 import com.almasb.fxgl.app.GameApplication;
 import com.almasb.fxgl.app.GameSettings;
-import com.almasb.fxgl.app.scene.GameScene;
-import com.almasb.fxgl.app.scene.Viewport;
+import com.almasb.fxgl.core.serialization.Bundle;
+import com.almasb.fxgl.cutscene.Cutscene;
 import com.almasb.fxgl.dsl.FXGL;
-import com.almasb.fxgl.entity.GameWorld;
 import com.almasb.fxgl.entity.level.Level;
+import com.almasb.fxgl.entity.level.tiled.TMXLevelLoader;
 import com.almasb.fxgl.input.UserAction;
 import com.almasb.fxgl.physics.PhysicsWorld;
-import com.project.GameCharacter.CharacterType;
+import com.almasb.fxgl.profile.DataFile;
+import com.almasb.fxgl.profile.SaveLoadHandler;
 import com.project.GameCharacter.Component.InteractComponent;
 import com.project.GameCharacter.Component.MovementComponent;
+import com.project.GameCharacter.Component.StatusComponent;
 import com.project.GameCharacter.Factory.CharacterFactory;
-import com.project.GameEvent.PhaseEventGame;
 import com.project.GameEvent.SystemEvent;
-import com.project.GameEvent.SystemPhaseEvent;
 import com.project.GameWorld.Factory.WorldFactory;
 
+
+import javafx.scene.paint.Color;
 // JavaFX classes
 import javafx.scene.input.KeyCode;
-import javafx.scene.paint.Color;
 
 public class App extends GameApplication {
-
-    private GameWorld gameworld;
     private PhysicsWorld gamephysic;
-    private GameScene gamescene;
-    private Viewport viewport;
     public SystemEvent gameevent;
     public SystemEvent systemEvent;
-    public SystemPhaseEvent system;
-    Level map;
+    public Level map;
+    public Cutscene cutSenceMaki;
+    public Cutscene cutSenceKaito;
 
     public static void main(String[] args) {
         launch(args);
@@ -56,67 +55,114 @@ public class App extends GameApplication {
         gamephysic = FXGL.getPhysicsWorld();  // Initialize after FXGL engine starts
         gamephysic.setGravity(0, 0);  
     }
+    @Override
+    protected void onPreInit() {
+        FXGL.getSaveLoadService().addHandler(new SaveLoadHandler() {
+            @Override
+            public void onSave(DataFile data) {
+                var bundle = new Bundle("gameData");
+                String nameMap = FXGL.gets("nameMap");
+
+
+                
+                bundle.put("PositionX", SystemEvent.getCharacterInGame("Player").getComponent(StatusComponent.class).PosX);
+                bundle.put("PositionY", SystemEvent.getCharacterInGame("Player").getComponent(StatusComponent.class).PosY);
+                bundle.put("nameMap", nameMap);
+                bundle.put("PhaseCutsenceMaki",FXGL.geti("PhaseCutsenceMaki"));
+                bundle.put("PhaseCutsenceKaito",FXGL.geti("PhaseCutsenceKaito"));
+                bundle.put("PhaseCutsenceShuiji",FXGL.geti("PhaseCutsenceShuiji"));
+
+                data.putBundle(bundle);
+            }
+
+            @Override
+            public void onLoad(DataFile data) {
+                var bundle = data.getBundle("gameData");
+
+                String nameMap = bundle.get("nameMap");
+
+                FXGL.set("nameMap", nameMap);
+                FXGL.set("PhaseCutsenceMaki",bundle.get("PhaseCutsenceMaki"));
+                FXGL.set("PhaseCutsenceKaito",bundle.get("PhaseCutsenceKaito"));
+                FXGL.set("PhaseCutsenceShuiji",bundle.get("PhaseCutsenceShuiji"));
+                FXGL.set("PositionX",bundle.get("PositionX"));
+                FXGL.set("PositionY",bundle.get("PositionY"));
+                
+            }
+        });
+    }
+
+    
+
 
     @Override
     protected void initGame() {
-        // Initialize after FXGL engine is fully initialized
-        gameworld = FXGL.getGameWorld();
-        gamescene = FXGL.getGameScene();
-        viewport = gamescene.getViewport();
-        gameevent = new SystemEvent();
-        systemEvent = new SystemEvent();
-        system = new SystemPhaseEvent();
+        //load Save Data
+        FXGL.getSaveLoadService().readAndLoadTask("save1.sav").run();
         // setting Baseworld and EntityFactory
-        gamescene.setBackgroundColor(Color.BLACK);
-        gameworld.addEntityFactory(new CharacterFactory());
-        gameworld.addEntityFactory(new WorldFactory());
+        FXGL.getGameScene().setBackgroundColor(Color.BLACK);
         //setting event
+        SystemEvent systemEvent = new SystemEvent();
         systemEvent.setHandler();
-        system.setHandler();
-        //init Phase Game
-        system.eventBusPhase.fireEvent(new PhaseEventGame(FXGL.getWorldProperties().getObject("PhaseEventGame")));
+        //init Map Game
+        FXGL.getGameWorld().addEntityFactory(new CharacterFactory());
+        FXGL.getGameWorld().addEntityFactory(new WorldFactory());
+        map = FXGL.getAssetLoader().loadLevel(FXGL.gets("nameMap"), new TMXLevelLoader());
+        FXGL.getGameWorld().setLevel(map);
+        FXGL.getGameWorld().spawn("Player");
+        
         //set Camera
-        viewport.setZoom(3);
-        viewport.bindToEntity(gameworld.getEntitiesByType(CharacterType.PLAYER).get(0), FXGL.getAppWidth()/2, FXGL.getAppHeight()/2);
+        FXGL.getGameScene().getViewport().setZoom(3);
+        FXGL.getGameScene().getViewport().bindToEntity(SystemEvent.getCharacterInGame("Player"), FXGL.getAppWidth()/2, FXGL.getAppHeight()/2);
     }
     @Override
     protected void initGameVars(Map<String, Object> vars) {
-        vars.put("PhaseEventGame", PhaseEventGame.PHASE_1);
+        vars.put("nameMap","PreTrialMap.tmx");
+        vars.put("PhaseCutsenceMaki",1);
+        vars.put("PhaseCutsenceKaito",1);
+        vars.put("PhaseCutsenceShuiji",1);
+        vars.put("PositionX",150.00);
+        vars.put("PositionY",250.00);
     }
 
     @Override
     protected void initInput() {
+        FXGL.onKeyDown(KeyCode.F, "Save", () -> {
+            FXGL.getSaveLoadService().saveAndWriteTask("save1.sav").run();
+        });
+
+
         FXGL.getInput().addAction(new UserAction("Right") {
             @Override
             protected void onAction() {
-                gameworld.getEntitiesByType(CharacterType.PLAYER).get(0).getComponent(MovementComponent.class).moveRight();
+                SystemEvent.getCharacterInGame("Player").getComponent(MovementComponent.class).moveRight();
             }
         }, KeyCode.D);
 
         FXGL.getInput().addAction(new UserAction("Left") {
             @Override
             protected void onAction() {
-                gameworld.getEntitiesByType(CharacterType.PLAYER).get(0).getComponent(MovementComponent.class).moveLeft();
+                SystemEvent.getCharacterInGame("Player").getComponent(MovementComponent.class).moveLeft();
             }
         }, KeyCode.A);
 
         FXGL.getInput().addAction(new UserAction("Up") {
             @Override
             protected void onAction() {
-                gameworld.getEntitiesByType(CharacterType.PLAYER).get(0).getComponent(MovementComponent.class).moveUp();
+                SystemEvent.getCharacterInGame("Player").getComponent(MovementComponent.class).moveUp();
             }
         }, KeyCode.W);
 
         FXGL.getInput().addAction(new UserAction("Down") {
             @Override
             protected void onAction() {
-                gameworld.getEntitiesByType(CharacterType.PLAYER).get(0).getComponent(MovementComponent.class).moveDown();
+                SystemEvent.getCharacterInGame("Player").getComponent(MovementComponent.class).moveDown();
             }
         }, KeyCode.S);
         FXGL.getInput().addAction(new UserAction("InteractCharacter") {
             @Override
             protected void onAction() {
-                gameworld.getEntitiesByType(CharacterType.PLAYER).get(0).getComponent(InteractComponent.class).interactCharacter();
+                SystemEvent.getCharacterInGame("Player").getComponent(InteractComponent.class).interactCharacter();
             }
         }, KeyCode.E);
     }

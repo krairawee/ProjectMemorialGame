@@ -22,15 +22,17 @@ public class CharacterFactory implements EntityFactory{
         PhysicsComponent physics = new PhysicsComponent();
         physics.setBodyType(BodyType.DYNAMIC);
         physics.setFixtureDef(new FixtureDef().restitution(1));
+       
 
-        return FXGL.entityBuilder(data)
+        return FXGL.entityBuilder()
                 .type(CharacterType.PLAYER)
-                .bbox(new HitBox(BoundingShape.box(data.<Integer>get("width"),data.<Integer>get("height"))))
+                .bbox(new HitBox(BoundingShape.box(16,13)))
+                .at(FXGL.getd(("PositionX")), FXGL.getd("PositionY"))
                 .with(physics)
                 .with(new CollidableComponent(true))
                 .with(new MovementComponent("Shuiji.png","shuiji"))
                 .with(new InteractComponent())
-                .with(new StatusComponent("shuiji"))
+                .with(new StatusComponent("shuiji","PhaseCutsenceShuiji"))
                 .build(); 
     }
 
@@ -46,7 +48,7 @@ public class CharacterFactory implements EntityFactory{
                 .with(physics)
                 .with(new CollidableComponent(true))
                 .with(new MovementComponent("Maki.png","maki"))
-                .with(new StatusComponent("maki"))
+                .with(new StatusComponent("maki","PhaseCutsenceMaki"))
                 .build(); 
     }
     
@@ -62,7 +64,7 @@ public class CharacterFactory implements EntityFactory{
                 .with(physics)//set physic
                 .with(new CollidableComponent(true))
                 .with(new MovementComponent("Kaito.png","kaito"))
-                .with(new StatusComponent("kaito"))
+                .with(new StatusComponent("kaito","PhaseCutsenceKaito"))
                 .build(); 
     }
 }

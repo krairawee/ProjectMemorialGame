@@ -10,6 +10,7 @@ import com.almasb.fxgl.physics.BoundingShape;
 import com.almasb.fxgl.physics.HitBox;
 import com.almasb.fxgl.physics.PhysicsComponent;
 import com.project.GameWorld.SenceType;
+import com.project.GameWorld.Component.ObjectComponent;
 
 public class WorldFactory implements EntityFactory {
     @Spawns("obstacle")
@@ -19,6 +20,15 @@ public class WorldFactory implements EntityFactory {
                 .bbox(new HitBox(BoundingShape.box(data.<Integer>get("width"),data.<Integer>get("height"))))
                 .with(new PhysicsComponent())
                 .with(new CollidableComponent(true))
-                .build();         
+                .build();        
+    }
+    @Spawns("teleport")
+    public Entity newTeleport(SpawnData data){
+        return FXGL.entityBuilder(data)
+                .type(SenceType.TELEPORT)
+                .bbox(new HitBox(BoundingShape.box(data.<Integer>get("width"),data.<Integer>get("height"))))
+                .with(new CollidableComponent(true))
+                .with(new ObjectComponent("pretrial"))
+                .build();        
     }
 }

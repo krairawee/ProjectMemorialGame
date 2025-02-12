@@ -6,7 +6,6 @@ import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.event.EventBus;
 import com.project.GameCharacter.CharacterType;
 import com.project.GameCharacter.Component.StatusComponent;
-import com.project.GameWorld.Property.MapData;
 
 import java.util.List;
 
@@ -33,8 +32,18 @@ public class SystemEvent {
                 }
             });
 
-            eventBus.addEventHandler(MapEvent.LOAD_PRETRIAL, event -> {
-                FXGL.getGameWorld().setLevel(MapData.mapPreTrial);
+            eventBus.addEventHandler(CutsenceEvent.SHUIJI, event -> {
+                if(getCharacterInGame("Player").getComponent(StatusComponent.class).getName().equals("shuiji")){
+                    Cutscene shuijiCutsence = FXGL.getAssetLoader().loadCutscene("shuijiCutsencePhase"+getCharacterInGame("shuiji").getComponent(StatusComponent.class).getPhaseCutsence()+".txt");
+                    FXGL.getCutsceneService().startCutscene(shuijiCutsence);
+                    }
+                });
+
+            eventBus.addEventHandler(MapEvent.TELEPORT_PRETRIAL, event -> {
+                
+                    Cutscene shuijiCutsence = FXGL.getAssetLoader().loadCutscene("shuijiCutsencePhase"+getCharacterInGame("shuiji").getComponent(StatusComponent.class).getPhaseCutsence()+".txt");
+                    FXGL.getCutsceneService().startCutscene(shuijiCutsence);
+                    
                 });
         }
         
