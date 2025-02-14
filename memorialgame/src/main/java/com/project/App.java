@@ -19,6 +19,7 @@ import com.project.GameCharacter.Component.MovementComponent;
 import com.project.GameCharacter.Component.StatusComponent;
 import com.project.GameCharacter.Factory.CharacterFactory;
 import com.project.GameEvent.SystemEvent;
+import com.project.GameWorld.SenceType;
 import com.project.GameWorld.Factory.WorldFactory;
 
 
@@ -71,6 +72,13 @@ public class App extends GameApplication {
                 bundle.put("PhaseCutsenceMaki",FXGL.geti("PhaseCutsenceMaki"));
                 bundle.put("PhaseCutsenceKaito",FXGL.geti("PhaseCutsenceKaito"));
                 bundle.put("PhaseCutsenceShuiji",FXGL.geti("PhaseCutsenceShuiji"));
+                bundle.put("PhaseCutsenceKokichi",FXGL.geti("PhaseCutsenceKokichi"));
+                bundle.put("PhaseCutsenceHimiko",FXGL.geti("PhaseCutsenceHimiko"));
+                bundle.put("PhaseCutsenceKeebo",FXGL.geti("PhaseCutsenceKeebo"));
+                bundle.put("PhaseCutsenceGonta",FXGL.geti("PhaseCutsenceGonta"));
+                bundle.put("PhaseCutsenceTsumugi",FXGL.geti("PhaseCutsenceTsumugi"));
+                bundle.put("CameraState",FXGL.gets("CameraState"));
+                bundle.put("Zoom",FXGL.getd("Zoom"));
 
                 data.putBundle(bundle);
             }
@@ -85,9 +93,16 @@ public class App extends GameApplication {
                 FXGL.set("PhaseCutsenceMaki",bundle.get("PhaseCutsenceMaki"));
                 FXGL.set("PhaseCutsenceKaito",bundle.get("PhaseCutsenceKaito"));
                 FXGL.set("PhaseCutsenceShuiji",bundle.get("PhaseCutsenceShuiji"));
+                FXGL.set("PhaseCutsenceKokichi",bundle.get("PhaseCutsenceKokichi"));
+                FXGL.set("PhaseCutsenceHimiko",bundle.get("PhaseCutsenceHimiko"));
+                FXGL.set("PhaseCutsenceKeebo",bundle.get("PhaseCutsenceKeebo"));
+                FXGL.set("PhaseCutsenceGonta",bundle.get("PhaseCutsenceGonta"));
+                FXGL.set("PhaseCutsenceTsumugi",bundle.get("PhaseCutsenceTsumugi"));
                 FXGL.set("PositionX",bundle.get("PositionX"));
                 FXGL.set("PositionY",bundle.get("PositionY"));
-                
+                FXGL.set("CameraState",bundle.get("CameraState"));
+                FXGL.set("Zoom",bundle.get("Zoom"));
+
             }
         });
     }
@@ -112,8 +127,13 @@ public class App extends GameApplication {
         FXGL.getGameWorld().spawn("Player");
         
         //set Camera
-        FXGL.getGameScene().getViewport().setZoom(3);
-        FXGL.getGameScene().getViewport().bindToEntity(SystemEvent.getCharacterInGame("Player"), FXGL.getAppWidth()/2, FXGL.getAppHeight()/2);
+        FXGL.getGameScene().getViewport().setZoom(FXGL.getd("Zoom"));
+        if(FXGL.gets("CameraState")=="player"){
+            FXGL.getGameScene().getViewport().bindToEntity(SystemEvent.getCharacterInGame("Player"), FXGL.getAppWidth()/2, FXGL.getAppHeight()/2);
+        }
+        else{
+            FXGL.getGameScene().getViewport().bindToEntity(FXGL.getGameWorld().getEntitiesByType(SenceType.CAMERA).get(0), FXGL.getAppWidth()/2, FXGL.getAppHeight()/2);
+        }
     }
     @Override
     protected void initGameVars(Map<String, Object> vars) {
@@ -121,8 +141,16 @@ public class App extends GameApplication {
         vars.put("PhaseCutsenceMaki",1);
         vars.put("PhaseCutsenceKaito",1);
         vars.put("PhaseCutsenceShuiji",1);
+        vars.put("PhaseCutsenceHimiko",1);
+        vars.put("PhaseCutsenceKokichi",1);
+        vars.put("PhaseCutsenceKeebo",1);
+        vars.put("PhaseCutsenceTsumugi",1);
+        vars.put("PhaseCutsenceGonta",1);
         vars.put("PositionX",150.00);
         vars.put("PositionY",250.00);
+        vars.put("CameraState","player");
+        vars.put("Zoom",3.00); 
+
     }
 
     @Override

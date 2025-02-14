@@ -31,4 +31,12 @@ public class WorldFactory implements EntityFactory {
                 .with(new ObjectComponent("pretrial"))
                 .build();        
     }
+    @Spawns("camera")
+    public Entity newCamera(SpawnData data){
+        return FXGL.entityBuilder(data)
+                .type(SenceType.CAMERA)
+                .bbox(new HitBox(BoundingShape.box(data.<Integer>get("width"),data.<Integer>get("height"))))
+                .with(new CollidableComponent(true))
+                .build();        
+    }
 }

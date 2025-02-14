@@ -10,8 +10,16 @@
   <image source="TilesetTrialMap/TilesetTrial.png" width="320" height="320"/>
  </tileset>
  <objectgroup id="7" name="OtherCharacter">
-  <object id="5" type="maki" x="57" y="265" width="15.17" height="13.5"/>
-  <object id="6" type="kaito" x="260" y="264" width="15.17" height="13.5"/>
+  <object id="5" type="maki" x="28" y="65" width="15.17" height="13.5">
+   <properties>
+    <property name="animMaki" value="Right"/>
+   </properties>
+  </object>
+  <object id="6" type="kaito" x="277.5" y="68.5" width="15.17" height="13.5">
+   <properties>
+    <property name="animKaito" value="Left"/>
+   </properties>
+  </object>
  </objectgroup>
  <objectgroup id="6" name="Obstacle">
   <object id="2" type="obstacle" x="8" y="11.3333" width="4.66667" height="294"/>

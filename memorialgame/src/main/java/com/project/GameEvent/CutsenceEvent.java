@@ -14,8 +14,21 @@ public class CutsenceEvent extends Event {
     public static final EventType<CutsenceEvent> KAITO
             = new EventType<>(Event.ANY, "KAITO");
 
-    public static final EventType<CutsenceEvent> PhaseEvent1
-            = new EventType<>(Event.ANY, "PhaseEvent1");
+    public static final EventType<CutsenceEvent> KOKICHI
+            = new EventType<>(Event.ANY, "KOKICHI");
+
+    public static final EventType<CutsenceEvent> HIMIKO
+            = new EventType<>(Event.ANY, "HIMIKO");
+
+    public static final EventType<CutsenceEvent> KEEBO
+            = new EventType<>(Event.ANY, "KEEBO");
+            
+    public static final EventType<CutsenceEvent> TSUMUGI
+            = new EventType<>(Event.ANY, "TSUMUGI");
+
+    public static final EventType<CutsenceEvent> GONTA
+            = new EventType<>(Event.ANY, "GONTA");
+
     
 
     public CutsenceEvent(EventType<? extends Event> eventType) {

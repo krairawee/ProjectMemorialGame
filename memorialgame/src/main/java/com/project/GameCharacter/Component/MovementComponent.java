@@ -22,12 +22,12 @@ public class MovementComponent extends Component{
     private PhysicsComponent physics;
     
 
-    public MovementComponent(String nameFile,String nameCharacter) {
-        animIdle = new AnimationChannel(FXGL.image(nameFile), 3, 60/3, 128/4, Duration.seconds(0.5), 1, 1);
-        animDown = new AnimationChannel(FXGL.image(nameFile), 3, 60/3, 128/4, Duration.seconds(0.5), 0, 2);
-        animLeft = new AnimationChannel(FXGL.image(nameFile), 3, 60/3, 128/4, Duration.seconds(0.5), 3, 5);
-        animRight = new AnimationChannel(FXGL.image(nameFile), 3, 60/3, 128/4, Duration.seconds(0.5), 6, 8);
-        animUp = new AnimationChannel(FXGL.image(nameFile), 3, 60/3, 128/4, Duration.seconds(0.5), 9, 11);
+    public MovementComponent(String nameFile,String nameCharacter,int sizewidth,int sizeheight) {
+        animIdle = new AnimationChannel(FXGL.image(nameFile), 3, sizewidth/3, sizeheight/4, Duration.seconds(0.5), 1, 1);
+        animDown = new AnimationChannel(FXGL.image(nameFile), 3, sizewidth/3, sizeheight/4, Duration.seconds(0.5), 0, 2);
+        animLeft = new AnimationChannel(FXGL.image(nameFile), 3, sizewidth/3, sizeheight/4, Duration.seconds(0.5), 3, 5);
+        animRight = new AnimationChannel(FXGL.image(nameFile), 3, sizewidth/3, sizeheight/4, Duration.seconds(0.5), 6, 8);
+        animUp = new AnimationChannel(FXGL.image(nameFile), 3, sizewidth/3, sizeheight/4, Duration.seconds(0.5), 9, 11);
 
         texture = new AnimatedTexture(animIdle);
         this.name = nameCharacter;
@@ -113,5 +113,4 @@ public class MovementComponent extends Component{
         speedX = 100;
         entity.setScaleX(1);
     }
-
 }
