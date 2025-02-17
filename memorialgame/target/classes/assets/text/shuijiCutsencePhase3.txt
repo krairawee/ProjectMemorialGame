@@ -16,6 +16,7 @@
 6.image = KeeboProtrait.png
 7.image = TsumugiProtrait.png
 8.image = GontaProtrait.png
+9.image = TofuProtrait.png
 
 
 9: เอาล่ะ งั้นก็มาเริ่มอธิบายศาลชั้นเรียนกันเถอะะะ
