@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.11.0" orientation="orthogonal" renderorder="right-down" width="20" height="20" tilewidth="16" tileheight="16" infinite="0" nextlayerid="12" nextobjectid="27">
+<map version="1.10" tiledversion="1.11.0" orientation="orthogonal" renderorder="right-down" width="20" height="20" tilewidth="16" tileheight="16" infinite="0" nextlayerid="13" nextobjectid="31">
  <properties>
   <property name="NameMap" value="PreTrialMap"/>
  </properties>
@@ -15,24 +15,27 @@
     <property name="animMaki" value="Right"/>
    </properties>
   </object>
-  <object id="6" type="kaito" x="277.5" y="68.5" width="15.17" height="13.5">
+  <object id="6" type="kaito" x="265.5" y="65" width="15.17" height="13.5">
    <properties>
     <property name="animKaito" value="Left"/>
    </properties>
   </object>
  </objectgroup>
+ <objectgroup id="12" name="Player">
+  <object id="27" type="SpawnPoint" x="144.5" y="270.5" width="34" height="29"/>
+ </objectgroup>
  <objectgroup id="6" name="Obstacle">
   <object id="2" type="obstacle" x="8" y="11.3333" width="4.66667" height="294"/>
   <object id="8" type="obstacle" x="11.5" y="9.5" width="296.5" height="52.5"/>
   <object id="9" type="obstacle" x="304.5" y="11" width="5" height="297"/>
-  <object id="10" type="obstacle" x="12.5" y="285.5" width="297" height="19.5"/>
-  <object id="12" type="obstacle" x="34.5" y="81" width="77" height="63.5"/>
-  <object id="13" type="obstacle" x="144.5" y="81.5" width="31.5" height="62"/>
-  <object id="14" type="obstacle" x="207" y="80" width="77.5" height="64"/>
-  <object id="15" type="obstacle" x="81" y="163" width="45.5" height="86"/>
-  <object id="16" type="obstacle" x="193" y="164" width="47" height="85.5"/>
-  <object id="17" type="obstacle" x="287" y="177.5" width="20" height="68.5"/>
-  <object id="19" type="obstacle" x="17.5" y="176.5" width="14" height="70.5"/>
+  <object id="10" type="obstacle" x="11.5" y="305.5" width="297" height="19.5"/>
+  <object id="12" type="obstacle" x="32" y="103" width="79.5" height="56"/>
+  <object id="13" type="obstacle" x="144.5" y="103" width="31.5" height="57"/>
+  <object id="14" type="obstacle" x="208.5" y="103" width="77.5" height="58"/>
+  <object id="15" type="obstacle" x="47" y="196" width="49.5" height="77.5"/>
+  <object id="16" type="obstacle" x="222" y="196.5" width="52" height="77"/>
+  <object id="17" type="obstacle" x="287" y="196.5" width="20" height="59"/>
+  <object id="19" type="obstacle" x="17.5" y="194.5" width="14" height="60.5"/>
  </objectgroup>
  <layer id="1" name="BackGround" width="20" height="20">
   <data encoding="csv">
@@ -71,10 +74,10 @@
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,173,0,0,0,0,0,0,173,0,0,0,0,0,0,
-0,0,0,0,0,0,193,0,0,0,0,0,0,193,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,263,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,202,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,173,0,0,0,0,0,0,0,0,0,454,173,0,0,0,0,
+0,0,0,0,193,0,0,0,0,0,0,0,0,0,0,193,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
@@ -96,10 +99,10 @@
 0,0,135,136,137,138,140,0,0,135,140,0,0,135,137,138,139,140,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,14,0,0,0,16,17,18,0,0,0,0,16,17,18,0,0,0,14,0,
-0,34,0,0,0,36,37,38,0,0,0,0,36,37,38,0,0,0,34,0,
-0,34,0,0,0,56,57,58,0,0,0,0,56,57,58,0,0,0,34,0,
-0,54,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,54,0,
+0,14,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,14,0,
+0,34,0,16,17,18,0,0,0,0,0,0,0,0,16,17,18,0,34,0,
+0,34,0,36,37,38,0,0,0,0,0,0,0,0,36,37,38,0,34,0,
+0,54,0,56,57,58,0,0,0,0,0,0,0,0,56,57,58,0,54,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
@@ -121,10 +124,10 @@
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,43,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,147,0,0,0,43,167,0,0,0,0,0,43,107,126,0,0,0,148,0,
-0,0,0,0,0,0,172,0,0,0,0,0,0,172,0,0,0,0,44,0,
-0,0,0,0,0,0,192,0,0,0,0,0,0,192,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,147,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,148,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,44,0,
+0,0,0,0,172,0,0,0,0,0,0,0,0,0,0,172,0,0,0,0,
+0,0,0,0,192,0,0,0,0,0,0,0,0,0,0,192,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0

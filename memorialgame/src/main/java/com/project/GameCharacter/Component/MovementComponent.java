@@ -1,116 +1,113 @@
 package com.project.GameCharacter.Component;
 
-import com.almasb.fxgl.core.math.FXGLMath;
 import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.entity.component.Component;
 import com.almasb.fxgl.physics.PhysicsComponent;
 import com.almasb.fxgl.texture.AnimatedTexture;
 import com.almasb.fxgl.texture.AnimationChannel;
-import com.project.GameCharacter.CharacterType;
 
-import javafx.geometry.Point2D;
 import javafx.util.Duration;
 
 public class MovementComponent extends Component{
     public String name;
-    public int speedX = 0;
-    public int speedY = 0;
+    public double PosX;
+    public double PosY;
+
+    private static double SPEED = 100.00;
+    private static final double DECELERATION = 300.00;
+
+    private final AnimationChannel left;
+    private final AnimationChannel right;
+    private final AnimationChannel up;
+    private final AnimationChannel down;
+    private final AnimationChannel idle;
    
     
     private AnimatedTexture texture;
-    private AnimationChannel animIdle, animDown,animLeft,animRight,animUp;
     private PhysicsComponent physics;
     
 
     public MovementComponent(String nameFile,String nameCharacter,int sizewidth,int sizeheight) {
-        animIdle = new AnimationChannel(FXGL.image(nameFile), 3, sizewidth/3, sizeheight/4, Duration.seconds(0.5), 1, 1);
-        animDown = new AnimationChannel(FXGL.image(nameFile), 3, sizewidth/3, sizeheight/4, Duration.seconds(0.5), 0, 2);
-        animLeft = new AnimationChannel(FXGL.image(nameFile), 3, sizewidth/3, sizeheight/4, Duration.seconds(0.5), 3, 5);
-        animRight = new AnimationChannel(FXGL.image(nameFile), 3, sizewidth/3, sizeheight/4, Duration.seconds(0.5), 6, 8);
-        animUp = new AnimationChannel(FXGL.image(nameFile), 3, sizewidth/3, sizeheight/4, Duration.seconds(0.5), 9, 11);
+        idle = new AnimationChannel(FXGL.image(nameFile), 3, sizewidth/3, sizeheight/4, Duration.seconds(0.5), 1, 1);
+        down = new AnimationChannel(FXGL.image(nameFile), 3, sizewidth/3, sizeheight/4, Duration.seconds(0.5), 0, 2);
+        left = new AnimationChannel(FXGL.image(nameFile), 3, sizewidth/3, sizeheight/4, Duration.seconds(0.5), 3, 5);
+        right = new AnimationChannel(FXGL.image(nameFile), 3, sizewidth/3, sizeheight/4, Duration.seconds(0.5), 6, 8);
+        up = new AnimationChannel(FXGL.image(nameFile), 3, sizewidth/3, sizeheight/4, Duration.seconds(0.5), 9, 11);
 
-        texture = new AnimatedTexture(animIdle);
+        texture = new AnimatedTexture(idle);
         this.name = nameCharacter;
         
     }
 
     @Override
     public void onAdded() {
-
-        entity.getTransformComponent().setScaleOrigin(new Point2D(entity.getWidth(), entity.getHeight()));
-        entity.getViewComponent().addChild(texture);  
+        
+        entity.getViewComponent().addChild(texture);
+        texture.loopAnimationChannel(idle);  
     }
+
     @Override
     public void onUpdate(double tpf) {
-        if(speedX != 0 && speedY == 0){
-
-            physics.setVelocityX(speedX);
-                
-            
-            if((texture.getAnimationChannel() == animIdle || texture.getAnimationChannel() == animRight) && speedX < 0){
-                texture.loopAnimationChannel(animLeft);
-            }
-            else if((texture.getAnimationChannel() == animIdle || texture.getAnimationChannel() == animLeft) && speedX > 0){
-                texture.loopAnimationChannel(animRight);
-            }
-
-            speedX = (int) (speedX * 0.9);
-            if (FXGLMath.abs(speedX) < 1) {
-                speedX = 0;
-                texture.loopAnimationChannel(animIdle);
-            }
-        }
-        else if(speedY != 0 && speedX == 0){
-
-            physics.setVelocityY(speedY);;
-           
-            if((texture.getAnimationChannel() == animIdle || texture.getAnimationChannel() == animDown) && speedY < 0){
-                texture.loopAnimationChannel(animUp);
-            }
-            else if((texture.getAnimationChannel() == animIdle || texture.getAnimationChannel() == animUp) && speedY > 0){
-                texture.loopAnimationChannel(animDown);
-            }
-            speedY = (int) (speedY * 0.9);
-            if (FXGLMath.abs(speedY) < 1) {
-                speedY = 0;
-                texture.loopAnimationChannel(animIdle);
-            }
-        }
+        PosX = entity.getPosition().getX();
+        PosY = entity.getPosition().getY();
         
-        else if(speedY != 0 && speedX != 0){
-            speedX = 0;
-            speedY = 0;
+        double velocityX = physics.getVelocityX();
+        double velocityY = physics.getVelocityY();
+
+        
+        if (velocityX > 0) {
+            velocityX = Math.max(0, velocityX - DECELERATION * tpf);
+        } else if (velocityX < 0) {
+            velocityX = Math.min(0, velocityX + DECELERATION * tpf);
+        }
+
+        
+        if (velocityY > 0) {
+            velocityY = Math.max(0, velocityY - DECELERATION * tpf);
+        } else if (velocityY < 0) {
+            velocityY = Math.min(0, velocityY + DECELERATION * tpf);
+        }
+
+        physics.setVelocityX(velocityX);
+        physics.setVelocityY(velocityY);
+
+        
+        if (velocityX == 0 && velocityY == 0 && texture.getAnimationChannel() != idle) {
+            texture.loopAnimationChannel(idle);
+        }
+        if(velocityX != 0 && velocityY != 0){
             physics.setVelocityX(0);
             physics.setVelocityY(0);
-            texture.loopAnimationChannel(animIdle);
+            texture.loopAnimationChannel(idle);
         }
-        else if(speedY == 0 && speedX == 0){
-            speedX = 0;
-            speedY = 0;
-            physics.setVelocityX(0);
-            physics.setVelocityY(0);
-            texture.loopAnimationChannel(animIdle);
-        }
-        if(entity.isType(CharacterType.PLAYER)){
-            FXGL.set("PositionX",entity.getPosition().getX());
-            FXGL.set("PositionY",entity.getPosition().getY());
-        }
+       
     }
     
-    public void moveUp(){
-        speedY = -100;
-        entity.setScaleX(1);
+    public void left() {
+        physics.setVelocityX(-SPEED);
+        if (texture.getAnimationChannel() != left) {
+            texture.loopAnimationChannel(left);
+        }
     }
-    public void moveDown(){
-        speedY = 100;
-        entity.setScaleX(1);
+
+    public void right() {
+        physics.setVelocityX(SPEED);
+        if (texture.getAnimationChannel() != right) {
+            texture.loopAnimationChannel(right);
+        }
     }
-    public void moveLeft(){
-        speedX = -100;
-        entity.setScaleX(1);
+
+    public void up() {
+        physics.setVelocityY(-SPEED);
+        if (texture.getAnimationChannel() != up) {
+            texture.loopAnimationChannel(up);
+        }
     }
-    public void moveRight(){
-        speedX = 100;
-        entity.setScaleX(1);
+
+    public void down() {
+        physics.setVelocityY(SPEED);
+        if (texture.getAnimationChannel() != down) {
+            texture.loopAnimationChannel(down);
+        }
     }
 }

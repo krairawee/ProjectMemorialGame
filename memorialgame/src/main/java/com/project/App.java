@@ -49,6 +49,7 @@ public class App extends GameApplication {
         // setting GameName
         settings.setTitle("Memorial");
         settings.setVersion("Beta");
+        settings.setDeveloperMenuEnabled(true);
     }
 
     @Override
@@ -64,19 +65,11 @@ public class App extends GameApplication {
                 var bundle = new Bundle("gameData");
                 String nameMap = FXGL.gets("nameMap");
 
-
-                
-                bundle.put("PositionX", SystemEvent.getCharacterInGame("Player").getComponent(StatusComponent.class).PosX);
-                bundle.put("PositionY", SystemEvent.getCharacterInGame("Player").getComponent(StatusComponent.class).PosY);
+                bundle.put("PositionX", SystemEvent.getCharacterInGame("shuiji").getComponent(MovementComponent.class).PosX);
+                bundle.put("PositionY", SystemEvent.getCharacterInGame("shuiji").getComponent(MovementComponent.class).PosY);
                 bundle.put("nameMap", nameMap);
-                bundle.put("PhaseCutsenceMaki",FXGL.geti("PhaseCutsenceMaki"));
-                bundle.put("PhaseCutsenceKaito",FXGL.geti("PhaseCutsenceKaito"));
-                bundle.put("PhaseCutsenceShuiji",FXGL.geti("PhaseCutsenceShuiji"));
-                bundle.put("PhaseCutsenceKokichi",FXGL.geti("PhaseCutsenceKokichi"));
-                bundle.put("PhaseCutsenceHimiko",FXGL.geti("PhaseCutsenceHimiko"));
-                bundle.put("PhaseCutsenceKeebo",FXGL.geti("PhaseCutsenceKeebo"));
-                bundle.put("PhaseCutsenceGonta",FXGL.geti("PhaseCutsenceGonta"));
-                bundle.put("PhaseCutsenceTsumugi",FXGL.geti("PhaseCutsenceTsumugi"));
+                bundle.put("PhaseCutsenceMaki",SystemEvent.getCharacterInGame("maki").getComponent(StatusComponent.class).getPhaseCutsence());
+                bundle.put("PhaseCutsenceKaito",SystemEvent.getCharacterInGame("kaito").getComponent(StatusComponent.class).getPhaseCutsence());
                 bundle.put("CameraState",FXGL.gets("CameraState"));
                 bundle.put("Zoom",FXGL.getd("Zoom"));
 
@@ -125,11 +118,10 @@ public class App extends GameApplication {
         map = FXGL.getAssetLoader().loadLevel(FXGL.gets("nameMap"), new TMXLevelLoader());
         FXGL.getGameWorld().setLevel(map);
         FXGL.getGameWorld().spawn("Player");
-        
         //set Camera
         FXGL.getGameScene().getViewport().setZoom(FXGL.getd("Zoom"));
         if(FXGL.gets("CameraState")=="player"){
-            FXGL.getGameScene().getViewport().bindToEntity(SystemEvent.getCharacterInGame("Player"), FXGL.getAppWidth()/2, FXGL.getAppHeight()/2);
+            FXGL.getGameScene().getViewport().bindToEntity(SystemEvent.getCharacterInGame("shuiji"), FXGL.getAppWidth()/2, FXGL.getAppHeight()/2);
         }
         else{
             FXGL.getGameScene().getViewport().bindToEntity(FXGL.getGameWorld().getEntitiesByType(SenceType.CAMERA).get(0), FXGL.getAppWidth()/2, FXGL.getAppHeight()/2);
@@ -138,19 +130,10 @@ public class App extends GameApplication {
     @Override
     protected void initGameVars(Map<String, Object> vars) {
         vars.put("nameMap","PreTrialMap.tmx");
-        vars.put("PhaseCutsenceMaki",1);
-        vars.put("PhaseCutsenceKaito",1);
-        vars.put("PhaseCutsenceShuiji",1);
-        vars.put("PhaseCutsenceHimiko",1);
-        vars.put("PhaseCutsenceKokichi",1);
-        vars.put("PhaseCutsenceKeebo",1);
-        vars.put("PhaseCutsenceTsumugi",1);
-        vars.put("PhaseCutsenceGonta",1);
         vars.put("PositionX",150.00);
         vars.put("PositionY",250.00);
         vars.put("CameraState","player");
         vars.put("Zoom",3.00); 
-
     }
 
     @Override
@@ -159,38 +142,36 @@ public class App extends GameApplication {
             FXGL.getSaveLoadService().saveAndWriteTask("save1.sav").run();
         });
 
+        
 
         FXGL.getInput().addAction(new UserAction("Right") {
             @Override
             protected void onAction() {
-                SystemEvent.getCharacterInGame("Player").getComponent(MovementComponent.class).moveRight();
+                SystemEvent.getCharacterInGame("shuiji").getComponent(MovementComponent.class).right();
             }
         }, KeyCode.D);
-
         FXGL.getInput().addAction(new UserAction("Left") {
             @Override
             protected void onAction() {
-                SystemEvent.getCharacterInGame("Player").getComponent(MovementComponent.class).moveLeft();
+                SystemEvent.getCharacterInGame("shuiji").getComponent(MovementComponent.class).left();
             }
         }, KeyCode.A);
-
         FXGL.getInput().addAction(new UserAction("Up") {
             @Override
             protected void onAction() {
-                SystemEvent.getCharacterInGame("Player").getComponent(MovementComponent.class).moveUp();
+                SystemEvent.getCharacterInGame("shuiji").getComponent(MovementComponent.class).up();
             }
         }, KeyCode.W);
-
         FXGL.getInput().addAction(new UserAction("Down") {
             @Override
             protected void onAction() {
-                SystemEvent.getCharacterInGame("Player").getComponent(MovementComponent.class).moveDown();
+                SystemEvent.getCharacterInGame("shuiji").getComponent(MovementComponent.class).down();
             }
         }, KeyCode.S);
         FXGL.getInput().addAction(new UserAction("InteractCharacter") {
             @Override
             protected void onAction() {
-                SystemEvent.getCharacterInGame("Player").getComponent(InteractComponent.class).interactCharacter();
+                SystemEvent.getCharacterInGame("shuiji").getComponent(InteractComponent.class).interactCharacter();
             }
         }, KeyCode.E);
     }

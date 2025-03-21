@@ -18,10 +18,10 @@ public class SystemEvent {
     public void setHandler(){
         eventBus = FXGL.getEventBus();
             eventBus.addEventHandler(CutsenceEvent.MAKI, event -> {
-                if (getCharacterInGame("maki").getComponent(StatusComponent.class).getName().equals("maki")) {
+            if(getCharacterInGame("maki").getComponent(StatusComponent.class).getName().equals("maki")){
                 Cutscene makiCutsence = FXGL.getAssetLoader().loadCutscene("makiCutsencePhase"+getCharacterInGame("maki").getComponent(StatusComponent.class).getPhaseCutsence()+".txt");
                 FXGL.getCutsceneService().startCutscene(makiCutsence);
-                }
+            }
             });
     
             eventBus.addEventHandler(CutsenceEvent.KAITO, event -> {
@@ -90,16 +90,17 @@ public class SystemEvent {
 
 
     public static Entity getCharacterInGame(String name){
-        List<Entity> charcterGame = FXGL.getGameWorld().getEntitiesByType(CharacterType.OTHER);
-        if (charcterGame.isEmpty()) {
-            return FXGL.getGameWorld().getEntitiesByType(CharacterType.PLAYER).get(0); // คืนค่าผู้เล่นหากไม่มีตัวละครในเกม
+        if(name.equals("shuiji")){
+            return FXGL.getGameWorld().getSingleton(CharacterType.PLAYER);
         }
-
+        else{
+            List<Entity> charcterGame = FXGL.getGameWorld().getEntitiesByType(CharacterType.OTHER);
         for (Entity character : charcterGame) {
             if (character.getComponent(StatusComponent.class).getName().equals(name)) {
                 return character; 
             }
         }
-        return FXGL.getGameWorld().getEntitiesByType(CharacterType.PLAYER).get(0);
+        return FXGL.getGameWorld().getEntitiesByType(CharacterType.OTHER).get(0);
+        }
     }
 }
