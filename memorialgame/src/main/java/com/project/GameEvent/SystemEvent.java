@@ -15,28 +15,15 @@ import java.util.List;
 public class SystemEvent {
     public static EventBus eventBus;
 
-    public void setHandler(){
+    public static void setHandler(){
         eventBus = FXGL.getEventBus();
-            eventBus.addEventHandler(CutsenceEvent.MAKI, event -> {
-            if(getCharacterInGame("maki").getComponent(StatusComponent.class).getName().equals("maki")){
-                Cutscene makiCutsence = FXGL.getAssetLoader().loadCutscene("makiCutsencePhase"+getCharacterInGame("maki").getComponent(StatusComponent.class).getPhaseCutsence()+".txt");
-                FXGL.getCutsceneService().startCutscene(makiCutsence);
-            }
-            });
-    
-            eventBus.addEventHandler(CutsenceEvent.KAITO, event -> {
-            if(getCharacterInGame("kaito").getComponent(StatusComponent.class).getName().equals("kaito")){
-                Cutscene kaitoCutsence = FXGL.getAssetLoader().loadCutscene("kaitoCutsencePhase"+getCharacterInGame("kaito").getComponent(StatusComponent.class).getPhaseCutsence()+".txt");
-                FXGL.getCutsceneService().startCutscene(kaitoCutsence);
-                }
-            });
 
             eventBus.addEventHandler(CutsenceEvent.SHUIJI, event -> {
                 if(getCharacterInGame("Player").getComponent(StatusComponent.class).getName().equals("shuiji")){
                     Cutscene shuijiCutsence = FXGL.getAssetLoader().loadCutscene("shuijiCutsencePhase"+getCharacterInGame("shuiji").getComponent(StatusComponent.class).getPhaseCutsence()+".txt");
                     FXGL.getCutsceneService().startCutscene(shuijiCutsence);
                     }
-                });  
+                });     
             
             eventBus.addEventHandler(CutsenceEvent.KOKICHI, event -> {
                 if(getCharacterInGame("kokichi").getComponent(StatusComponent.class).getName().equals("kokichi")){
@@ -91,7 +78,7 @@ public class SystemEvent {
 
     public static Entity getCharacterInGame(String name){
         if(name.equals("shuiji")){
-            return FXGL.getGameWorld().getSingleton(CharacterType.PLAYER);
+            return FXGL.getGameWorld().getEntitiesByType(CharacterType.PLAYER).get(0);
         }
         else{
             List<Entity> charcterGame = FXGL.getGameWorld().getEntitiesByType(CharacterType.OTHER);
@@ -100,7 +87,7 @@ public class SystemEvent {
                 return character; 
             }
         }
-        return FXGL.getGameWorld().getEntitiesByType(CharacterType.OTHER).get(0);
+        return FXGL.getGameWorld().getEntitiesByType(CharacterType.PLAYER).get(0);
         }
     }
 }

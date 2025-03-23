@@ -11,4 +11,6 @@ public class MinigameEvent extends Event{
         public MinigameEvent(EventType<? extends Event> eventType){
             super(eventType);
         }
+
+        
 }

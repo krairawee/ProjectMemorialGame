@@ -13,13 +13,14 @@ public class StatusComponent extends Component {
     public String currentMap;
     public String nameCharacter;
     public String nameCutsence;
-    public int phaseCutsence = 0;
+    public int phaseCutsence;
     public EventType<CutsenceEvent> nameEvent;
 
-    public StatusComponent(String name,String nameCutsence,EventType<CutsenceEvent> nameEvent){
+    public StatusComponent(String name,String nameCutsence,EventType<CutsenceEvent> nameEvent,int phaseCutsence){
         this.nameCharacter = name;
         this.nameCutsence = nameCutsence;
         this.nameEvent = nameEvent;
+        this.phaseCutsence = phaseCutsence;
     }
 
     @Override

@@ -15,7 +15,7 @@ import com.project.GameWorld.Component.ObjectComponent;
 public class InteractComponent extends Component{
     private Entity nearCharacter; 
     private Entity nearTeleport;
-    private int previousPhaseCutsence = 0;
+    private int previousPhaseCutsence = 100000;
 
   
     public void interactCharacter(){
@@ -40,7 +40,7 @@ public class InteractComponent extends Component{
 
         int currentPhaseCutsence = entity.getComponent(StatusComponent.class).getPhaseCutsence();
 
-        if(currentPhaseCutsence > previousPhaseCutsence){
+        if((currentPhaseCutsence > previousPhaseCutsence)){
             SystemEvent.eventBus.fireEvent(new CutsenceEvent(entity.getComponent(StatusComponent.class).getNameEvent()));
             previousPhaseCutsence = currentPhaseCutsence;
         }

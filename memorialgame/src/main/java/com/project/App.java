@@ -1,6 +1,8 @@
 package com.project;
 
 
+import java.io.File;
+
 import java.util.Map;
 
 import com.almasb.fxgl.app.GameApplication;
@@ -8,12 +10,15 @@ import com.almasb.fxgl.app.GameSettings;
 import com.almasb.fxgl.core.serialization.Bundle;
 import com.almasb.fxgl.cutscene.Cutscene;
 import com.almasb.fxgl.dsl.FXGL;
+import com.almasb.fxgl.entity.Entity;
+import com.almasb.fxgl.entity.SpawnData;
 import com.almasb.fxgl.entity.level.Level;
 import com.almasb.fxgl.entity.level.tiled.TMXLevelLoader;
 import com.almasb.fxgl.input.UserAction;
 import com.almasb.fxgl.physics.PhysicsWorld;
 import com.almasb.fxgl.profile.DataFile;
 import com.almasb.fxgl.profile.SaveLoadHandler;
+import com.project.GameCharacter.CharacterType;
 import com.project.GameCharacter.Component.InteractComponent;
 import com.project.GameCharacter.Component.MovementComponent;
 import com.project.GameCharacter.Component.StatusComponent;
@@ -21,7 +26,7 @@ import com.project.GameCharacter.Factory.CharacterFactory;
 import com.project.GameEvent.SystemEvent;
 import com.project.GameWorld.SenceType;
 import com.project.GameWorld.Factory.WorldFactory;
-
+import com.project.SaveData.CharacterData;
 
 import javafx.scene.paint.Color;
 // JavaFX classes
@@ -30,10 +35,8 @@ import javafx.scene.input.KeyCode;
 public class App extends GameApplication {
     private PhysicsWorld gamephysic;
     public SystemEvent gameevent;
-    public SystemEvent systemEvent;
-    public Level map;
-    public Cutscene cutSenceMaki;
-    public Cutscene cutSenceKaito;
+    public static Level map;
+    public static CharacterFactory characterFactory;
 
     public static void main(String[] args) {
         launch(args);
@@ -62,40 +65,68 @@ public class App extends GameApplication {
         FXGL.getSaveLoadService().addHandler(new SaveLoadHandler() {
             @Override
             public void onSave(DataFile data) {
-                var bundle = new Bundle("gameData");
+                Bundle bundle = new Bundle("gameData");
                 String nameMap = FXGL.gets("nameMap");
-
-                bundle.put("PositionX", SystemEvent.getCharacterInGame("shuiji").getComponent(MovementComponent.class).PosX);
-                bundle.put("PositionY", SystemEvent.getCharacterInGame("shuiji").getComponent(MovementComponent.class).PosY);
                 bundle.put("nameMap", nameMap);
-                bundle.put("PhaseCutsenceMaki",SystemEvent.getCharacterInGame("maki").getComponent(StatusComponent.class).getPhaseCutsence());
-                bundle.put("PhaseCutsenceKaito",SystemEvent.getCharacterInGame("kaito").getComponent(StatusComponent.class).getPhaseCutsence());
                 bundle.put("CameraState",FXGL.gets("CameraState"));
                 bundle.put("Zoom",FXGL.getd("Zoom"));
 
+                CharacterData shuijiData = new CharacterData("shuiji", SystemEvent.getCharacterInGame("shuiji").getComponent(MovementComponent.class).getPosX(), SystemEvent.getCharacterInGame("shuiji").getComponent(MovementComponent.class).getPosY(), SystemEvent.getCharacterInGame("shuiji").getComponent(StatusComponent.class).getPhaseCutsence());
+                CharacterData makiData = new CharacterData("maki", SystemEvent.getCharacterInGame("maki").getComponent(MovementComponent.class).getPosX(), SystemEvent.getCharacterInGame("maki").getComponent(MovementComponent.class).getPosY(), SystemEvent.getCharacterInGame("maki").getComponent(StatusComponent.class).getPhaseCutsence());
+                CharacterData kaitoData = new CharacterData("kaito", SystemEvent.getCharacterInGame("kaito").getComponent(MovementComponent.class).getPosX(), SystemEvent.getCharacterInGame("kaito").getComponent(MovementComponent.class).getPosY(), SystemEvent.getCharacterInGame("kaito").getComponent(StatusComponent.class).getPhaseCutsence());
+                CharacterData himikoData = new CharacterData("himiko", SystemEvent.getCharacterInGame("himiko").getComponent(MovementComponent.class).getPosX(), SystemEvent.getCharacterInGame("himiko").getComponent(MovementComponent.class).getPosY(), SystemEvent.getCharacterInGame("himiko").getComponent(StatusComponent.class).getPhaseCutsence());
+                CharacterData kokichiData = new CharacterData("kokichi", SystemEvent.getCharacterInGame("kokichi").getComponent(MovementComponent.class).getPosX(), SystemEvent.getCharacterInGame("kokichi").getComponent(MovementComponent.class).getPosY(), SystemEvent.getCharacterInGame("kokichi").getComponent(StatusComponent.class).getPhaseCutsence());
+                CharacterData tsumugiData = new CharacterData("tsumugi", SystemEvent.getCharacterInGame("tsumugi").getComponent(MovementComponent.class).getPosX(), SystemEvent.getCharacterInGame("tsumugi").getComponent(MovementComponent.class).getPosY(), SystemEvent.getCharacterInGame("tsumugi").getComponent(StatusComponent.class).getPhaseCutsence());
+                CharacterData gontaData = new CharacterData("gonta", SystemEvent.getCharacterInGame("gonta").getComponent(MovementComponent.class).getPosX(), SystemEvent.getCharacterInGame("gonta").getComponent(MovementComponent.class).getPosY(), SystemEvent.getCharacterInGame("gonta").getComponent(StatusComponent.class).getPhaseCutsence());
+                CharacterData keeboData = new CharacterData("keebo", SystemEvent.getCharacterInGame("keebo").getComponent(MovementComponent.class).getPosX(), SystemEvent.getCharacterInGame("keebo").getComponent(MovementComponent.class).getPosY(), SystemEvent.getCharacterInGame("keebo").getComponent(StatusComponent.class).getPhaseCutsence());
+                Bundle shuijiSave = shuijiData.saveData();
+                Bundle makiSave = makiData.saveData();
+                Bundle kaitoSave = kaitoData.saveData();
+                Bundle himikoSave = himikoData.saveData();
+                Bundle kokichiSave = kokichiData.saveData();
+                Bundle tsumugiSave = tsumugiData.saveData();
+                Bundle gontaSave = gontaData.saveData();
+                Bundle keeboSave = keeboData.saveData();
+                
+
                 data.putBundle(bundle);
+                data.putBundle(shuijiSave);
+                data.putBundle(makiSave);
+                data.putBundle(kaitoSave);
+                data.putBundle(himikoSave);
+                data.putBundle(kokichiSave);
+                data.putBundle(tsumugiSave);
+                data.putBundle(gontaSave);
+                data.putBundle(keeboSave);
             }
 
             @Override
             public void onLoad(DataFile data) {
-                var bundle = data.getBundle("gameData");
+                Bundle bundle = data.getBundle("gameData");
+                Bundle shuijiSave = data.getBundle("shuiji");
+                Bundle makiSave = data.getBundle("maki");
+                Bundle kaitoSave = data.getBundle("kaito");
+                Bundle himikoSave = data.getBundle("himiko");
+                Bundle kokichiSave = data.getBundle("kokichi");
+                Bundle tsumugiSave = data.getBundle("tsumugi");
+                Bundle gontaSave = data.getBundle("gonta");
+                Bundle keeboSave = data.getBundle("keebo");
+                
+                CharacterData shuijiData = new CharacterData("shuiji", shuijiSave.get("PositionX"), shuijiSave.get("PositionY"), shuijiSave.get("PhaseCutsence"));
+                CharacterData makiData = new CharacterData("maki", makiSave.get("PositionX"), makiSave.get("PositionY"), makiSave.get("PhaseCutsence"));
+                CharacterData kaitoData = new CharacterData("kaito", kaitoSave.get("PositionX"), kaitoSave.get("PositionY"), kaitoSave.get("PhaseCutsence"));
+                CharacterData himikoData = new CharacterData("himiko", himikoSave.get("PositionX"), himikoSave.get("PositionY"), himikoSave.get("PhaseCutsence"));
+                CharacterData kokichiData = new CharacterData("kokichi", kokichiSave.get("PositionX"), kokichiSave.get("PositionY"), kokichiSave.get("PhaseCutsence"));
+                CharacterData tsumugiData = new CharacterData("tsumugi", tsumugiSave.get("PositionX"), tsumugiSave.get("PositionY"), tsumugiSave.get("PhaseCutsence"));
+                CharacterData gontaData = new CharacterData("gonta", gontaSave.get("PositionX"), gontaSave.get("PositionY"), gontaSave.get("PhaseCutsence"));
+                CharacterData keeboData = new CharacterData("keebo", keeboSave.get("PositionX"), keeboSave.get("PositionY"), keeboSave.get("PhaseCutsence"));
+                characterFactory = new CharacterFactory(shuijiData, makiData, kaitoData, himikoData, kokichiData, tsumugiData, gontaData, keeboData);
 
-                String nameMap = bundle.get("nameMap");
-
-                FXGL.set("nameMap", nameMap);
-                FXGL.set("PhaseCutsenceMaki",bundle.get("PhaseCutsenceMaki"));
-                FXGL.set("PhaseCutsenceKaito",bundle.get("PhaseCutsenceKaito"));
-                FXGL.set("PhaseCutsenceShuiji",bundle.get("PhaseCutsenceShuiji"));
-                FXGL.set("PhaseCutsenceKokichi",bundle.get("PhaseCutsenceKokichi"));
-                FXGL.set("PhaseCutsenceHimiko",bundle.get("PhaseCutsenceHimiko"));
-                FXGL.set("PhaseCutsenceKeebo",bundle.get("PhaseCutsenceKeebo"));
-                FXGL.set("PhaseCutsenceGonta",bundle.get("PhaseCutsenceGonta"));
-                FXGL.set("PhaseCutsenceTsumugi",bundle.get("PhaseCutsenceTsumugi"));
+                FXGL.set("nameMap", bundle.get("nameMap"));
                 FXGL.set("PositionX",bundle.get("PositionX"));
                 FXGL.set("PositionY",bundle.get("PositionY"));
                 FXGL.set("CameraState",bundle.get("CameraState"));
                 FXGL.set("Zoom",bundle.get("Zoom"));
-
             }
         });
     }
@@ -105,19 +136,24 @@ public class App extends GameApplication {
 
     @Override
     protected void initGame() {
+        
         //load Save Data
         FXGL.getSaveLoadService().readAndLoadTask("save1.sav").run();
+        if(characterFactory == null){
+            characterFactory = new CharacterFactory();
+        }
         // setting Baseworld and EntityFactory
         FXGL.getGameScene().setBackgroundColor(Color.BLACK);
         //setting event
-        SystemEvent systemEvent = new SystemEvent();
-        systemEvent.setHandler();
+        
         //init Map Game
-        FXGL.getGameWorld().addEntityFactory(new CharacterFactory());
+        FXGL.getGameWorld().addEntityFactory(characterFactory);
         FXGL.getGameWorld().addEntityFactory(new WorldFactory());
         map = FXGL.getAssetLoader().loadLevel(FXGL.gets("nameMap"), new TMXLevelLoader());
         FXGL.getGameWorld().setLevel(map);
-        FXGL.getGameWorld().spawn("Player");
+        FXGL.getGameWorld().spawn("Player", new SpawnData(144.00,270.00).put("PosX", 144.00).put("PosY", 270.00).put("PhaseCutsence", 1));
+        
+        SystemEvent.setHandler();
         //set Camera
         FXGL.getGameScene().getViewport().setZoom(FXGL.getd("Zoom"));
         if(FXGL.gets("CameraState")=="player"){
@@ -175,4 +211,18 @@ public class App extends GameApplication {
             }
         }, KeyCode.E);
     }
+
+    public static boolean checkFile(String name){
+        File folder = new File("memorialgame\\src\\main\\java\\com");
+        if (folder.exists() && folder.isDirectory()) {
+            for (File file : folder.listFiles()) {
+                if (file.getName().equals(name +".sav")) {
+                    return true;
+                }
+            }
+            return false;
+            
+        }
+        return false;
+    } 
 }

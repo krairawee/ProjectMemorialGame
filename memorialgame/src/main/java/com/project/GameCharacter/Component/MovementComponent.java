@@ -110,4 +110,11 @@ public class MovementComponent extends Component{
             texture.loopAnimationChannel(down);
         }
     }
+
+    public double getPosX(){
+        return this.PosX;
+    }
+    public double getPosY(){
+        return this.PosY;
+    }
 }
