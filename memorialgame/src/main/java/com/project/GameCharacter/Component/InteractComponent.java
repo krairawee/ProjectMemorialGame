@@ -15,7 +15,8 @@ import com.project.GameWorld.Component.ObjectComponent;
 public class InteractComponent extends Component{
     private Entity nearCharacter; 
     private Entity nearTeleport;
-    private int previousPhaseCutsence = 100000;
+    private int previousPhaseCutsence=-1;
+    private boolean isActive; 
 
   
     public void interactCharacter(){
@@ -40,9 +41,14 @@ public class InteractComponent extends Component{
 
         int currentPhaseCutsence = entity.getComponent(StatusComponent.class).getPhaseCutsence();
 
-        if((currentPhaseCutsence > previousPhaseCutsence)){
-            SystemEvent.eventBus.fireEvent(new CutsenceEvent(entity.getComponent(StatusComponent.class).getNameEvent()));
-            previousPhaseCutsence = currentPhaseCutsence;
+        if((currentPhaseCutsence != previousPhaseCutsence)){
+            if(previousPhaseCutsence == -1){
+                previousPhaseCutsence++;
+            }
+            else{
+                SystemEvent.eventBus.fireEvent(new CutsenceEvent(entity.getComponent(StatusComponent.class).getNameEvent()));
+                previousPhaseCutsence = currentPhaseCutsence;
+            }
         }
 
     }
@@ -57,7 +63,6 @@ public class InteractComponent extends Component{
                 return characterInGame.get(i);
             }
         }
-        return entity;
         }
         else if (seperate == "teleport"){
             var teleportInGame = FXGL.getGameWorld().getEntitiesByType(SenceType.TELEPORT);
@@ -66,7 +71,6 @@ public class InteractComponent extends Component{
                 return teleportInGame.get(i);
             }
         }
-        return entity;
         }
         return entity;
     }

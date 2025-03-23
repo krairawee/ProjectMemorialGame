@@ -45,18 +45,17 @@ public class CharacterFactory implements EntityFactory{
     }
     public CharacterFactory(){
     }
-    @Spawns("Player")
+    @Spawns("shuiji")
     public Entity newPlayerCharacter(SpawnData data){
         PhysicsComponent physics = new PhysicsComponent();
         physics.setBodyType(BodyType.DYNAMIC);
         physics.setFixtureDef(new FixtureDef().restitution(0));
-        double posX = data.get("PosX");
-        double posY = data.get("PosY");
+
         
         return FXGL.entityBuilder(data)
                 .type(CharacterType.PLAYER)
                 .bbox(new HitBox(new Point2D(8/2,8/2),BoundingShape.box(24,28)))
-                .at(posX,posY)
+                .at(data.getX(),data.getY())
                 .with(physics)
                 .with(new CollidableComponent(true))
                 .with(new MovementComponent("Shuiji.png","shuiji",96,128))
@@ -75,7 +74,7 @@ public class CharacterFactory implements EntityFactory{
         }
         return FXGL.entityBuilder()
                    .type(CharacterType.SPAWNPOINT)
-                   .with(new SpawnComponent("shuiji",data.getX(),data.getY(),1,true))
+                   .with(new SpawnComponent("shuiji",data.getX(),data.getY(),0,true))
                    .build();
         
     }
@@ -88,6 +87,7 @@ public class CharacterFactory implements EntityFactory{
 
         return FXGL.entityBuilder(data)
                 .type(CharacterType.OTHER)
+                .at(data.getX(), data.getY())
                 .bbox(new HitBox(BoundingShape.box(32,32)))
                 .with(physics)
                 .with(new CollidableComponent(true))
@@ -100,14 +100,14 @@ public class CharacterFactory implements EntityFactory{
     @Spawns("SpawnPointMaki")
     public Entity newSpawnPointMaki(SpawnData data){
         if(makiBundle != null){
-            return FXGL.entityBuilder()
+            return FXGL.entityBuilder(data)
                                .type(CharacterType.SPAWNPOINT)
                                .with(new SpawnComponent("maki",makiBundle.getPositionX(),makiBundle.getPositionY(),makiBundle.getPhaseCutsence(),true))
                                .build();
         }
-        return FXGL.entityBuilder()
+        return FXGL.entityBuilder(data)
                    .type(CharacterType.SPAWNPOINT)
-                   .with(new SpawnComponent("maki",data.getX(),data.getY(),1,true))
+                   .with(new SpawnComponent("maki",data.getX(),data.getY(),0,true))
                    .build();
     }
     
@@ -131,14 +131,14 @@ public class CharacterFactory implements EntityFactory{
     @Spawns("SpawnPointKaito")
     public Entity newSpawnPointKaito(SpawnData data){
         if(kaitoBundle != null){
-            return FXGL.entityBuilder()
+            return FXGL.entityBuilder(data)
                                .type(CharacterType.SPAWNPOINT)
                                .with(new SpawnComponent("kaito",kaitoBundle.getPositionX(),kaitoBundle.getPositionY(),kaitoBundle.getPhaseCutsence(),true))
                                .build();
         }
-        return FXGL.entityBuilder()
+        return FXGL.entityBuilder(data)
                    .type(CharacterType.SPAWNPOINT)
-                   .with(new SpawnComponent("kaito",data.getX(),data.getY(),1,true))
+                   .with(new SpawnComponent("kaito",data.getX(),data.getY(),0,true))
                    .build();
     }
 

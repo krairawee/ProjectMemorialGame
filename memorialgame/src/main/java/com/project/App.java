@@ -2,7 +2,7 @@ package com.project;
 
 
 import java.io.File;
-
+import java.util.List;
 import java.util.Map;
 
 import com.almasb.fxgl.app.GameApplication;
@@ -21,6 +21,7 @@ import com.almasb.fxgl.profile.SaveLoadHandler;
 import com.project.GameCharacter.CharacterType;
 import com.project.GameCharacter.Component.InteractComponent;
 import com.project.GameCharacter.Component.MovementComponent;
+import com.project.GameCharacter.Component.SpawnComponent;
 import com.project.GameCharacter.Component.StatusComponent;
 import com.project.GameCharacter.Factory.CharacterFactory;
 import com.project.GameEvent.SystemEvent;
@@ -29,6 +30,7 @@ import com.project.GameWorld.Factory.WorldFactory;
 import com.project.SaveData.CharacterData;
 
 import javafx.scene.paint.Color;
+import javafx.geometry.Point2D;
 // JavaFX classes
 import javafx.scene.input.KeyCode;
 
@@ -150,10 +152,13 @@ public class App extends GameApplication {
         FXGL.getGameWorld().addEntityFactory(characterFactory);
         FXGL.getGameWorld().addEntityFactory(new WorldFactory());
         map = FXGL.getAssetLoader().loadLevel(FXGL.gets("nameMap"), new TMXLevelLoader());
-        FXGL.getGameWorld().setLevel(map);
-        FXGL.getGameWorld().spawn("Player", new SpawnData(144.00,270.00).put("PosX", 144.00).put("PosY", 270.00).put("PhaseCutsence", 1));
         
+        FXGL.getGameWorld().setLevel(map);
         SystemEvent.setHandler();
+        getSpawnOnMap();
+        
+        
+        
         //set Camera
         FXGL.getGameScene().getViewport().setZoom(FXGL.getd("Zoom"));
         if(FXGL.gets("CameraState")=="player"){
@@ -225,4 +230,14 @@ public class App extends GameApplication {
         }
         return false;
     } 
+    public static void getSpawnOnMap(){
+        List<Entity> entities = FXGL.getGameWorld().getEntitiesFiltered(entity -> entity.isType(CharacterType.SPAWNPOINT));
+        for(Entity entity : entities){
+            if(entity.getComponent(SpawnComponent.class).isShow() == true){
+                SpawnComponent component = entity.getComponent(SpawnComponent.class);
+                Point2D position = component.getPosition();
+                FXGL.spawn(component.getName(),new SpawnData(position.getX(), position.getY()).put("PhaseCutsence", component.getPhaseCutsence()));
+            }
+        }
+    }
 }
