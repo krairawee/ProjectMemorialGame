@@ -20,17 +20,27 @@ public class SystemEvent {
 
             eventBus.addEventHandler(CutsenceEvent.SHUIJI, event -> {
                 if(getCharacterInGame("shuiji").getComponent(StatusComponent.class).getName().equals("shuiji")){
-                    Cutscene shuijiCutsence = FXGL.getAssetLoader().loadCutscene("shuijiCutsencePhase"+getCharacterInGame("shuiji").getComponent(StatusComponent.class).getPhaseCutsence()+".txt");
+                    int currentLevel = FXGL.geti("Level");
+                    Cutscene shuijiCutsence = FXGL.getAssetLoader().loadCutscene("Map"+currentLevel+"shuijiCutsence"+getCharacterInGame("shuiji").getComponent(StatusComponent.class).getPhaseCutsence()+".txt");
                     FXGL.getCutsceneService().startCutscene(shuijiCutsence);
                     }
                 });   
 
             eventBus.addEventHandler(CutsenceEvent.MAKI, event -> {
                 if(getCharacterInGame("maki").getComponent(StatusComponent.class).getName().equals("maki")){
-                        Cutscene makiCutsence = FXGL.getAssetLoader().loadCutscene("makiCutsencePhase"+getCharacterInGame("maki").getComponent(StatusComponent.class).getPhaseCutsence()+".txt");
+                        int currentLevel = FXGL.geti("Level");
+                        Cutscene makiCutsence = FXGL.getAssetLoader().loadCutscene("Map"+currentLevel+"makiCutsence"+getCharacterInGame("maki").getComponent(StatusComponent.class).getPhaseCutsence()+".txt");
                         FXGL.getCutsceneService().startCutscene(makiCutsence);
                         }
-                    });   
+                    }); 
+            
+            eventBus.addEventHandler(CutsenceEvent.KAITO, event -> {
+                if(getCharacterInGame("kaito").getComponent(StatusComponent.class).getName().equals("kaito")){
+                        int currentLevel = FXGL.geti("Level");
+                        Cutscene kaitoCutsence = FXGL.getAssetLoader().loadCutscene("Map"+currentLevel+"kaitoCutsence"+getCharacterInGame("kaito").getComponent(StatusComponent.class).getPhaseCutsence()+".txt");
+                        FXGL.getCutsceneService().startCutscene(kaitoCutsence);
+                        }
+                    }); 
             
             eventBus.addEventHandler(CutsenceEvent.KOKICHI, event -> {
                 if(getCharacterInGame("kokichi").getComponent(StatusComponent.class).getName().equals("kokichi")){

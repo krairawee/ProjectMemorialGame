@@ -8,7 +8,6 @@ import java.util.Map;
 import com.almasb.fxgl.app.GameApplication;
 import com.almasb.fxgl.app.GameSettings;
 import com.almasb.fxgl.core.serialization.Bundle;
-import com.almasb.fxgl.cutscene.Cutscene;
 import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.entity.SpawnData;
@@ -72,6 +71,7 @@ public class App extends GameApplication {
                 bundle.put("nameMap", nameMap);
                 bundle.put("CameraState",FXGL.gets("CameraState"));
                 bundle.put("Zoom",FXGL.getd("Zoom"));
+                bundle.put("Level",FXGL.geti("Level"));
 
                 CharacterData shuijiData = new CharacterData("shuiji", SystemEvent.getCharacterInGame("shuiji").getComponent(MovementComponent.class).getPosX(), SystemEvent.getCharacterInGame("shuiji").getComponent(MovementComponent.class).getPosY(), SystemEvent.getCharacterInGame("shuiji").getComponent(StatusComponent.class).getPhaseCutsence());
                 CharacterData makiData = new CharacterData("maki", SystemEvent.getCharacterInGame("maki").getComponent(MovementComponent.class).getPosX(), SystemEvent.getCharacterInGame("maki").getComponent(MovementComponent.class).getPosY(), SystemEvent.getCharacterInGame("maki").getComponent(StatusComponent.class).getPhaseCutsence());
@@ -100,6 +100,8 @@ public class App extends GameApplication {
                 data.putBundle(tsumugiSave);
                 data.putBundle(gontaSave);
                 data.putBundle(keeboSave);
+
+
             }
 
             @Override
@@ -129,6 +131,7 @@ public class App extends GameApplication {
                 FXGL.set("PositionY",bundle.get("PositionY"));
                 FXGL.set("CameraState",bundle.get("CameraState"));
                 FXGL.set("Zoom",bundle.get("Zoom"));
+                FXGL.set("Level", bundle.get("Level"));
             }
         });
     }
@@ -153,6 +156,7 @@ public class App extends GameApplication {
         FXGL.getGameWorld().addEntityFactory(new WorldFactory());
         map = FXGL.getAssetLoader().loadLevel(FXGL.gets("nameMap"), new TMXLevelLoader());
         
+        
         FXGL.getGameWorld().setLevel(map);
         SystemEvent.setHandler();
         getSpawnOnMap();
@@ -175,6 +179,7 @@ public class App extends GameApplication {
         vars.put("PositionY",250.00);
         vars.put("CameraState","player");
         vars.put("Zoom",3.00); 
+        vars.put("Level",1);
     }
 
     @Override

@@ -15,7 +15,7 @@ import com.project.GameWorld.Component.ObjectComponent;
 public class InteractComponent extends Component{
     private Entity nearCharacter; 
     private Entity nearTeleport;
-    private int previousPhaseCutsence=-1;
+    private int previousPhaseCutsence;
     private boolean isActive; 
 
   
@@ -32,6 +32,12 @@ public class InteractComponent extends Component{
         }
     }
 
+    @Override
+    public void onAdded() {
+    // กำหนดค่าเริ่มต้นให้ previousPhaseCutsence ตรงกับ phaseCutsence ใน StatusComponent
+    previousPhaseCutsence = entity.getComponent(StatusComponent.class).getPhaseCutsence();
+    }
+
     
 
     @Override
@@ -42,13 +48,10 @@ public class InteractComponent extends Component{
         int currentPhaseCutsence = entity.getComponent(StatusComponent.class).getPhaseCutsence();
 
         if((currentPhaseCutsence != previousPhaseCutsence)){
-            if(previousPhaseCutsence == -1){
-                previousPhaseCutsence++;
-            }
-            else{
+            
                 SystemEvent.eventBus.fireEvent(new CutsenceEvent(entity.getComponent(StatusComponent.class).getNameEvent()));
                 previousPhaseCutsence = currentPhaseCutsence;
-            }
+            
         }
 
     }

@@ -92,8 +92,8 @@ public class CharacterFactory implements EntityFactory{
                 .with(physics)
                 .with(new CollidableComponent(true))
                 .with(new MovementComponent("Maki.png","maki",96,128))
-                .with(new InteractComponent())
                 .with(new StatusComponent("maki","PhaseCutsenceMaki",CutsenceEvent.MAKI,data.get("PhaseCutsence")))
+                .with(new InteractComponent())
                 .build(); 
     }
 
@@ -123,8 +123,8 @@ public class CharacterFactory implements EntityFactory{
                 .with(physics)//set physic
                 .with(new CollidableComponent(true))
                 .with(new MovementComponent("Kaito.png","kaito",96,128))
-                .with(new InteractComponent())
                 .with(new StatusComponent("kaito","PhaseCutsenceKaito",CutsenceEvent.KAITO,data.get("PhaseCutsence")))
+                .with(new InteractComponent())
                 .build(); 
     }
 
