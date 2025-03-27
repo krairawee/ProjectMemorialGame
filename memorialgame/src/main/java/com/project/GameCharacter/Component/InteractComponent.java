@@ -7,7 +7,8 @@ import com.almasb.fxgl.entity.component.Component;
 import com.project.GameCharacter.CharacterType;
 import com.project.GameEvent.CutsenceEvent;
 import com.project.GameEvent.MapEvent;
-import com.project.GameEvent.SystemEvent;
+import com.project.GameEvent.MapEventHandler;
+import com.project.GameEvent.CharacterEventHandler;
 import com.project.GameWorld.SenceType;
 import com.project.GameWorld.Component.ObjectComponent;
 
@@ -15,15 +16,14 @@ import com.project.GameWorld.Component.ObjectComponent;
 public class InteractComponent extends Component{
     private Entity nearCharacter; 
     private Entity nearTeleport;
-    private int previousPhaseCutsence;
-    private boolean isActive; 
+    private int previousPhaseCutsence; 
 
   
     public void interactCharacter(){
 
         if(nearTeleport.getType() == SenceType.TELEPORT){
             if(nearTeleport.getComponent(ObjectComponent.class).getName().equals("pretrial")){
-                SystemEvent.eventBus.fireEvent(new MapEvent(MapEvent.TELEPORT_PRETRIAL));
+                MapEventHandler.eventBus.fireEvent(new MapEvent(MapEvent.TELEPORT_PRETRIAL));
             }
         }
         
@@ -46,13 +46,16 @@ public class InteractComponent extends Component{
         nearTeleport = calculateDistance("teleport");
 
         int currentPhaseCutsence = entity.getComponent(StatusComponent.class).getPhaseCutsence();
-
-        if((currentPhaseCutsence != previousPhaseCutsence)){
+        if(FXGL.geti("StatusGame")==0){
+            previousPhaseCutsence = currentPhaseCutsence;
+        }
+        else if((FXGL.geti("StatusGame")!=0&&currentPhaseCutsence != previousPhaseCutsence)){
             
-                SystemEvent.eventBus.fireEvent(new CutsenceEvent(entity.getComponent(StatusComponent.class).getNameEvent()));
+                CharacterEventHandler.eventBus.fireEvent(new CutsenceEvent(entity.getComponent(StatusComponent.class).getNameEvent()));
                 previousPhaseCutsence = currentPhaseCutsence;
             
         }
+
 
     }
 
@@ -70,7 +73,7 @@ public class InteractComponent extends Component{
         else if (seperate == "teleport"){
             var teleportInGame = FXGL.getGameWorld().getEntitiesByType(SenceType.TELEPORT);
             for(int i = 0;i<teleportInGame.size();i++){
-            if(entity.distance(teleportInGame.get(i))<20){
+            if(entity.distance(teleportInGame.get(i))<30){
                 return teleportInGame.get(i);
             }
         }

@@ -3,16 +3,14 @@ package com.project.GameEvent;
 import com.almasb.fxgl.cutscene.Cutscene;
 import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.entity.Entity;
-import com.almasb.fxgl.entity.level.Level;
-import com.almasb.fxgl.entity.level.tiled.TMXLevelLoader;
 import com.almasb.fxgl.event.EventBus;
 import com.project.GameCharacter.CharacterType;
 import com.project.GameCharacter.Component.StatusComponent;
-import com.project.GameWorld.SenceType;
+
 
 import java.util.List;
 
-public class SystemEvent {
+public class CharacterEventHandler {
     public static EventBus eventBus;
 
     public static void setHandler(){
@@ -73,22 +71,6 @@ public class SystemEvent {
                         FXGL.getCutsceneService().startCutscene(keeboCutsence);
                         }
                     }); 
-
-            eventBus.addEventHandler(MapEvent.TELEPORT_PRETRIAL, event -> {
-                FXGL.set("nameMap","Trialmap.tmx");
-                Level mapgame =  FXGL.getAssetLoader().loadLevel(FXGL.gets("nameMap"), new TMXLevelLoader());
-                FXGL.set("PositionX", 160.33);
-                FXGL.set("PositionY",180.00);
-                FXGL.getGameWorld().setLevel(mapgame);
-                FXGL.spawn("Player");
-                FXGL.set("Zoom", 1.5);
-                FXGL.getGameScene().getViewport().setZoom(FXGL.getd("Zoom"));
-                FXGL.set("CameraState", "camera");
-                FXGL.getGameScene().getViewport().bindToEntity(FXGL.getGameWorld().getEntitiesByType(SenceType.CAMERA).get(0), FXGL.getAppWidth()/2, FXGL.getAppHeight()/2);
-                FXGL.set("PhaseCutsenceShuiji", FXGL.geti("PhaseCutsenceShuiji")+1);
-                FXGL.set("animaInitMaki", "Left");
-                FXGL.set("animaInitKaito","Left");
-                });
         }
         
 
@@ -104,7 +86,7 @@ public class SystemEvent {
                 return character; 
             }
         }
-        return FXGL.getGameWorld().getEntitiesByType(CharacterType.PLAYER).get(0);
+        return null;
         }
     }
 }

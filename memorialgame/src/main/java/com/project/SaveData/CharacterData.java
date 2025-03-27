@@ -3,7 +3,7 @@ package com.project.SaveData;
 import com.almasb.fxgl.core.serialization.Bundle;
 import com.project.GameCharacter.Component.MovementComponent;
 import com.project.GameCharacter.Component.StatusComponent;
-import com.project.GameEvent.SystemEvent;
+import com.project.GameEvent.CharacterEventHandler;
 
 public class CharacterData {
     public String name;
@@ -29,9 +29,9 @@ public class CharacterData {
     }
     public Bundle saveData(){
         var bundle = new Bundle(name);
-        bundle.put("PositionX", SystemEvent.getCharacterInGame(name).getComponent(MovementComponent.class).PosX);
-        bundle.put("PositionY", SystemEvent.getCharacterInGame(name).getComponent(MovementComponent.class).PosY);
-        bundle.put("PhaseCutsence",SystemEvent.getCharacterInGame(name).getComponent(StatusComponent.class).getPhaseCutsence());
+        bundle.put("PositionX", CharacterEventHandler.getCharacterInGame(name).getComponent(MovementComponent.class).PosX);
+        bundle.put("PositionY", CharacterEventHandler.getCharacterInGame(name).getComponent(MovementComponent.class).PosY);
+        bundle.put("PhaseCutsence",CharacterEventHandler.getCharacterInGame(name).getComponent(StatusComponent.class).getPhaseCutsence());
         return bundle;
         
     }

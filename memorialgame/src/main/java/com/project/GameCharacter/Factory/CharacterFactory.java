@@ -1,8 +1,5 @@
 package com.project.GameCharacter.Factory;
 
-import java.io.File;
-
-import com.almasb.fxgl.core.serialization.Bundle;
 import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.entity.EntityFactory;
@@ -150,102 +147,171 @@ public class CharacterFactory implements EntityFactory{
 
         return FXGL.entityBuilder(data)
                 .type(CharacterType.OTHER)
-                .bbox(new HitBox(BoundingShape.box(data.<Integer>get("width"),data.<Integer>get("height"))))
+                .bbox(new HitBox(BoundingShape.box(32,32)))
                 .with(physics)//set physic
                 .with(new CollidableComponent(true))
                 .with(new MovementComponent("Himiko.png","himiko",96,128))
                 .with(new StatusComponent("himiko","PhaseCutsenceHimiko",CutsenceEvent.HIMIKO,data.get("PhaseCutsence")))
+                .with(new InteractComponent())
                 .build(); 
     }
 
     @Spawns("SpawnPointHimiko")
     public Entity newSpawnPointHimiko(SpawnData data){
-        return FXGL.entityBuilder()
-                               .type(CharacterType.OTHER)
-                               .with(new SpawnComponent("kokichi",kokichiBundle.getPositionX(),kokichiBundle.getPositionY(),kokichiBundle.getPhaseCutsence(),true))
+        if(himikoBundle != null){
+            return FXGL.entityBuilder(data)
+                               .type(CharacterType.SPAWNPOINT)
+                               .with(new SpawnComponent("himiko",himikoBundle.getPositionX(),himikoBundle.getPositionY(),himikoBundle.getPhaseCutsence(),true))
                                .build();
+        }
+        return FXGL.entityBuilder(data)
+                   .type(CharacterType.SPAWNPOINT)
+                   .with(new SpawnComponent("himiko",data.getX(),data.getY(),0,true))
+                   .build();
     }
 
     @Spawns("kokichi")
     public Entity newkokichiCharacter(SpawnData data){
         PhysicsComponent physics = new PhysicsComponent();
-        physics.setBodyType(BodyType.STATIC);
-        physics.setFixtureDef(new FixtureDef().restitution(1));
+        physics.setBodyType(BodyType.KINEMATIC);
+        physics.setFixtureDef(new FixtureDef().restitution(0));
 
         return FXGL.entityBuilder(data)
                 .type(CharacterType.OTHER)
-                .bbox(new HitBox(BoundingShape.box(data.<Integer>get("width"),data.<Integer>get("height"))))
+                .bbox(new HitBox(BoundingShape.box(32, 32)))
                 .with(physics)//set physic
                 .with(new CollidableComponent(true))
                 .with(new MovementComponent("Kokichi.png","kokichi",96,128))
                 .with(new StatusComponent("kokichi","PhaseCutsenceKokichi",CutsenceEvent.KOKICHI,data.get("PhaseCutsence")))
+                .with(new InteractComponent())
                 .build(); 
     }
 
     @Spawns("SpawnPointKokichi")
     public Entity newSpawnPointKokichi(SpawnData data){
-        return FXGL.entityBuilder()
-                               .type(CharacterType.OTHER)
+        if(kokichiBundle != null){
+            return FXGL.entityBuilder(data)
+                               .type(CharacterType.SPAWNPOINT)
                                .with(new SpawnComponent("kokichi",kokichiBundle.getPositionX(),kokichiBundle.getPositionY(),kokichiBundle.getPhaseCutsence(),true))
                                .build();
+        }
+        return FXGL.entityBuilder(data)
+                   .type(CharacterType.SPAWNPOINT)
+                   .with(new SpawnComponent("kokichi",data.getX(),data.getY(),0,true))
+                   .build();
     }
 
     @Spawns("gonta")
     public Entity newgontaCharacter(SpawnData data){
         PhysicsComponent physics = new PhysicsComponent();
-        physics.setBodyType(BodyType.STATIC);
-        physics.setFixtureDef(new FixtureDef().restitution(1));
+        physics.setBodyType(BodyType.KINEMATIC);
+        physics.setFixtureDef(new FixtureDef().restitution(0));
 
         return FXGL.entityBuilder(data)
                 .type(CharacterType.OTHER)
-                .bbox(new HitBox(BoundingShape.box(data.<Integer>get("width"),data.<Integer>get("height"))))
+                .bbox(new HitBox(BoundingShape.box(32,32)))
                 .with(physics)//set physic
                 .with(new CollidableComponent(true))
                 .with(new MovementComponent("Gonta.png","gonta",96,128))
                 .with(new StatusComponent("gonta","PhaseCutsenceGonta",CutsenceEvent.GONTA,data.get("PhaseCutsence")))
+                .with(new InteractComponent())
                 .build(); 
     }
 
     @Spawns("SpawnPointGonta")
     public Entity newSpawnPointGonta(SpawnData data){
-        return FXGL.entityBuilder()
-                               .type(CharacterType.OTHER)
-                               .with(new SpawnComponent("kokichi",kokichiBundle.getPositionX(),kokichiBundle.getPositionY(),kokichiBundle.getPhaseCutsence(),true))
+        if(gontaBundle != null){
+            return FXGL.entityBuilder(data)
+                               .type(CharacterType.SPAWNPOINT)
+                               .with(new SpawnComponent("gonta",gontaBundle.getPositionX(),gontaBundle.getPositionY(),gontaBundle.getPhaseCutsence(),true))
                                .build();
+        }
+        return FXGL.entityBuilder(data)
+                   .type(CharacterType.SPAWNPOINT)
+                   .with(new SpawnComponent("gonta",data.getX(),data.getY(),0,true))
+                   .build();
     }
 
     @Spawns("tsumugi")
     public Entity newtsumugiCharacter(SpawnData data){
         PhysicsComponent physics = new PhysicsComponent();
-        physics.setBodyType(BodyType.STATIC);
-        physics.setFixtureDef(new FixtureDef().restitution(1));
+        physics.setBodyType(BodyType.KINEMATIC);
+        physics.setFixtureDef(new FixtureDef().restitution(0));
 
         return FXGL.entityBuilder(data)
                 .type(CharacterType.OTHER)
-                .bbox(new HitBox(BoundingShape.box(data.<Integer>get("width"),data.<Integer>get("height"))))
+                .bbox(new HitBox(BoundingShape.box(32,32)))
                 .with(physics)//set physic
                 .with(new CollidableComponent(true))
                 .with(new MovementComponent("Tsumugi.png","tsumugi",96,128))
                 .with(new StatusComponent("tsumugi","PhaseCutsenceTsumugi",CutsenceEvent.TSUMUGI,data.get("PhaseCutsence")))
+                .with(new InteractComponent())
                 .build(); 
+    }
+
+    @Spawns("SpawnPointTsumugi")
+    public Entity newSpawnPointTsumugi(SpawnData data){
+        if(tsumugiBundle != null){
+            return FXGL.entityBuilder(data)
+                               .type(CharacterType.SPAWNPOINT)
+                               .with(new SpawnComponent("tsumugi",tsumugiBundle.getPositionX(),tsumugiBundle.getPositionY(),tsumugiBundle.getPhaseCutsence(),true))
+                               .build();
+        }
+        return FXGL.entityBuilder(data)
+                   .type(CharacterType.SPAWNPOINT)
+                   .with(new SpawnComponent("tsumugi",data.getX(),data.getY(),0,true))
+                   .build();
     }
 
     @Spawns("keebo")
     public Entity newkeeboCharacter(SpawnData data){
         PhysicsComponent physics = new PhysicsComponent();
-        physics.setBodyType(BodyType.STATIC);
-        physics.setFixtureDef(new FixtureDef().restitution(1));
+        physics.setBodyType(BodyType.KINEMATIC);
+        physics.setFixtureDef(new FixtureDef().restitution(0));
 
         return FXGL.entityBuilder(data)
                 .type(CharacterType.OTHER)
-                .bbox(new HitBox(BoundingShape.box(data.<Integer>get("width"),data.<Integer>get("height"))))
+                .bbox(new HitBox(BoundingShape.box(32,32)))
                 .with(physics)//set physic
                 .with(new CollidableComponent(true))
                 .with(new MovementComponent("Keebo.png","keebo",96,128))
                 .with(new StatusComponent("keebo","PhaseCutsenceKeebo",CutsenceEvent.KEEBO,data.get("PhaseCutsence")))
                 .build(); 
     }
-    public void setData(CharacterData data){
-        this.makiBundle = data;
+
+    @Spawns("SpawnPointKeebo")
+    public Entity newSpawnPointKeebo(SpawnData data){
+        if(keeboBundle != null){
+            return FXGL.entityBuilder(data)
+                               .type(CharacterType.SPAWNPOINT)
+                               .with(new SpawnComponent("keebo",keeboBundle.getPositionX(),keeboBundle.getPositionY(),keeboBundle.getPhaseCutsence(),true))
+                               .build();
+        }
+        return FXGL.entityBuilder(data)
+                   .type(CharacterType.SPAWNPOINT)
+                   .with(new SpawnComponent("keebo",data.getX(),data.getY(),0,true))
+                   .build();
+    }
+
+
+    public void setData(){
+        this.makiBundle = null;
+        this.shuijiBundle = null;
+        this.gontaBundle = null;
+        this.tsumugiBundle = null;
+        this.kaitoBundle = null;
+        this.kokichiBundle = null;
+        this.keeboBundle = null;
+    }
+    public void setCharacter(String name,CharacterData data){
+        if(name == "shuiji"){
+            shuijiBundle = data;
+        }
+        else if(name == "maki"){
+            makiBundle = data;
+        }
+        else if(name == "kaito"){
+            kaitoBundle = data;
+        }
     }
 }
