@@ -19,13 +19,16 @@ public class CharacterData {
     }
     
     public int getPhaseCutsence(){
-        return PhaseCutsence;
+        return this.PhaseCutsence;
     }
     public double getPositionX(){
-        return PositionX;
+        return this.PositionX;
     }
     public double getPositionY(){
-        return PositionY;
+        return this.PositionY;
+    }
+    public String getName(){
+        return this.name;
     }
     public Bundle saveData(){
         var bundle = new Bundle(name);

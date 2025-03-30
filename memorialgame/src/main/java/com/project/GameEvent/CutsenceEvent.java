@@ -29,6 +29,9 @@ public class CutsenceEvent extends Event {
     public static final EventType<CutsenceEvent> GONTA
             = new EventType<>(Event.ANY, "GONTA");
 
+    public static final EventType<CutsenceEvent> TRIAL
+            = new EventType<>(Event.ANY,"TRIAL");
+
     
 
     public CutsenceEvent(EventType<? extends Event> eventType) {

@@ -22,26 +22,27 @@ import com.project.SaveData.CharacterData;
 import javafx.geometry.Point2D;
 
 public class CharacterFactory implements EntityFactory{
-    private CharacterData shuijiBundle;
-    private CharacterData makiBundle;
-    private CharacterData kaitoBundle;
-    private CharacterData kokichiBundle;
-    private CharacterData tsumugiBundle;
-    private CharacterData gontaBundle;
-    private CharacterData himikoBundle;
-    private CharacterData keeboBundle;
-    public CharacterFactory(CharacterData shuiji,CharacterData maki,CharacterData kaito,CharacterData himiko,CharacterData kokichi,CharacterData tsumugi,CharacterData gonta,CharacterData keebo){
-        this.makiBundle = maki;
-        this.shuijiBundle = shuiji;
-        this.kaitoBundle = kaito;
-        this.kokichiBundle = kokichi;
-        this.tsumugiBundle = tsumugi;
-        this.gontaBundle = gonta;
-        this.himikoBundle = himiko;
-        this.keeboBundle = keebo;
-    }
+    public CharacterData shuijiBundle;
+    public CharacterData makiBundle;
+    public CharacterData kaitoBundle;
+    public CharacterData kokichiBundle;
+    public CharacterData tsumugiBundle;
+    public CharacterData gontaBundle;
+    public CharacterData himikoBundle;
+    public CharacterData keeboBundle;
+    private static CharacterFactory instance;
+
+
     public CharacterFactory(){
     }
+
+    public static CharacterFactory getInstance() {
+        if (instance == null) {
+            instance = new CharacterFactory();
+        }
+        return instance;
+    }
+
     @Spawns("shuiji")
     public Entity newPlayerCharacter(SpawnData data){
         PhysicsComponent physics = new PhysicsComponent();
@@ -63,21 +64,20 @@ public class CharacterFactory implements EntityFactory{
 
     @Spawns("SpawnPointPlayer")
     public Entity newSpawnPointPlayer(SpawnData data){
-        if(shuijiBundle != null){
             return FXGL.entityBuilder()
-                               .type(CharacterType.SPAWNPOINT)
-                               .with(new SpawnComponent("shuiji",shuijiBundle.getPositionX(),shuijiBundle.getPositionY(),shuijiBundle.getPhaseCutsence(),true))
-                               .build();
-        }
-        return FXGL.entityBuilder()
                    .type(CharacterType.SPAWNPOINT)
+                   .bbox(new HitBox(BoundingShape.box(10, 10)))
                    .with(new SpawnComponent("shuiji",data.getX(),data.getY(),0,true))
                    .build();
         
-    }
+
+        }
+        
+    
 
     @Spawns("maki")
     public Entity newMakiCharacter(SpawnData data){
+        System.out.println("MakiReal" + data.getX());
         PhysicsComponent physics = new PhysicsComponent();
         physics.setBodyType(BodyType.KINEMATIC); 
         physics.setFixtureDef(new FixtureDef().restitution(0));
@@ -96,12 +96,6 @@ public class CharacterFactory implements EntityFactory{
 
     @Spawns("SpawnPointMaki")
     public Entity newSpawnPointMaki(SpawnData data){
-        if(makiBundle != null){
-            return FXGL.entityBuilder(data)
-                               .type(CharacterType.SPAWNPOINT)
-                               .with(new SpawnComponent("maki",makiBundle.getPositionX(),makiBundle.getPositionY(),makiBundle.getPhaseCutsence(),true))
-                               .build();
-        }
         return FXGL.entityBuilder(data)
                    .type(CharacterType.SPAWNPOINT)
                    .with(new SpawnComponent("maki",data.getX(),data.getY(),0,true))
@@ -127,12 +121,6 @@ public class CharacterFactory implements EntityFactory{
 
     @Spawns("SpawnPointKaito")
     public Entity newSpawnPointKaito(SpawnData data){
-        if(kaitoBundle != null){
-            return FXGL.entityBuilder(data)
-                               .type(CharacterType.SPAWNPOINT)
-                               .with(new SpawnComponent("kaito",kaitoBundle.getPositionX(),kaitoBundle.getPositionY(),kaitoBundle.getPhaseCutsence(),true))
-                               .build();
-        }
         return FXGL.entityBuilder(data)
                    .type(CharacterType.SPAWNPOINT)
                    .with(new SpawnComponent("kaito",data.getX(),data.getY(),0,true))
@@ -158,12 +146,6 @@ public class CharacterFactory implements EntityFactory{
 
     @Spawns("SpawnPointHimiko")
     public Entity newSpawnPointHimiko(SpawnData data){
-        if(himikoBundle != null){
-            return FXGL.entityBuilder(data)
-                               .type(CharacterType.SPAWNPOINT)
-                               .with(new SpawnComponent("himiko",himikoBundle.getPositionX(),himikoBundle.getPositionY(),himikoBundle.getPhaseCutsence(),true))
-                               .build();
-        }
         return FXGL.entityBuilder(data)
                    .type(CharacterType.SPAWNPOINT)
                    .with(new SpawnComponent("himiko",data.getX(),data.getY(),0,true))
@@ -189,12 +171,7 @@ public class CharacterFactory implements EntityFactory{
 
     @Spawns("SpawnPointKokichi")
     public Entity newSpawnPointKokichi(SpawnData data){
-        if(kokichiBundle != null){
-            return FXGL.entityBuilder(data)
-                               .type(CharacterType.SPAWNPOINT)
-                               .with(new SpawnComponent("kokichi",kokichiBundle.getPositionX(),kokichiBundle.getPositionY(),kokichiBundle.getPhaseCutsence(),true))
-                               .build();
-        }
+      
         return FXGL.entityBuilder(data)
                    .type(CharacterType.SPAWNPOINT)
                    .with(new SpawnComponent("kokichi",data.getX(),data.getY(),0,true))
@@ -220,12 +197,6 @@ public class CharacterFactory implements EntityFactory{
 
     @Spawns("SpawnPointGonta")
     public Entity newSpawnPointGonta(SpawnData data){
-        if(gontaBundle != null){
-            return FXGL.entityBuilder(data)
-                               .type(CharacterType.SPAWNPOINT)
-                               .with(new SpawnComponent("gonta",gontaBundle.getPositionX(),gontaBundle.getPositionY(),gontaBundle.getPhaseCutsence(),true))
-                               .build();
-        }
         return FXGL.entityBuilder(data)
                    .type(CharacterType.SPAWNPOINT)
                    .with(new SpawnComponent("gonta",data.getX(),data.getY(),0,true))
@@ -251,12 +222,7 @@ public class CharacterFactory implements EntityFactory{
 
     @Spawns("SpawnPointTsumugi")
     public Entity newSpawnPointTsumugi(SpawnData data){
-        if(tsumugiBundle != null){
-            return FXGL.entityBuilder(data)
-                               .type(CharacterType.SPAWNPOINT)
-                               .with(new SpawnComponent("tsumugi",tsumugiBundle.getPositionX(),tsumugiBundle.getPositionY(),tsumugiBundle.getPhaseCutsence(),true))
-                               .build();
-        }
+        
         return FXGL.entityBuilder(data)
                    .type(CharacterType.SPAWNPOINT)
                    .with(new SpawnComponent("tsumugi",data.getX(),data.getY(),0,true))
@@ -281,12 +247,7 @@ public class CharacterFactory implements EntityFactory{
 
     @Spawns("SpawnPointKeebo")
     public Entity newSpawnPointKeebo(SpawnData data){
-        if(keeboBundle != null){
-            return FXGL.entityBuilder(data)
-                               .type(CharacterType.SPAWNPOINT)
-                               .with(new SpawnComponent("keebo",keeboBundle.getPositionX(),keeboBundle.getPositionY(),keeboBundle.getPhaseCutsence(),true))
-                               .build();
-        }
+        
         return FXGL.entityBuilder(data)
                    .type(CharacterType.SPAWNPOINT)
                    .with(new SpawnComponent("keebo",data.getX(),data.getY(),0,true))
@@ -295,6 +256,9 @@ public class CharacterFactory implements EntityFactory{
 
 
     public void setData(){
+        System.out.println("Before setData:");
+        System.out.println("Shuiji Bundle: " + shuijiBundle);
+        System.out.println("Maki Bundle: " + makiBundle);
         this.makiBundle = null;
         this.shuijiBundle = null;
         this.gontaBundle = null;
@@ -302,7 +266,12 @@ public class CharacterFactory implements EntityFactory{
         this.kaitoBundle = null;
         this.kokichiBundle = null;
         this.keeboBundle = null;
+        System.out.println("After setData:");
+        System.out.println("Shuiji Bundle: " + shuijiBundle);
+        System.out.println("Maki Bundle: " + makiBundle);
+    
     }
+    
     public void setCharacter(String name,CharacterData data){
         if(name == "shuiji"){
             shuijiBundle = data;

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.11.0" orientation="orthogonal" renderorder="right-down" width="30" height="30" tilewidth="16" tileheight="16" infinite="0" nextlayerid="5" nextobjectid="30">
+<map version="1.10" tiledversion="1.11.0" orientation="orthogonal" renderorder="right-down" width="30" height="30" tilewidth="16" tileheight="16" infinite="0" nextlayerid="5" nextobjectid="35">
  <tileset firstgid="1" name="PropsTrial" tilewidth="16" tileheight="16" tilecount="400" columns="20">
   <image source="TilesetTrialMap/PropsTrial.png" width="320" height="320"/>
  </tileset>
@@ -75,6 +75,7 @@
 </data>
  </layer>
  <objectgroup id="3" name="OtherCharacter">
+  <object id="27" type="SpawnPointPlayer" x="161.333" y="190.667" width="16.6667" height="12"/>
   <object id="1" type="SpawnPointMaki" x="160.667" y="212.667" width="16.6667" height="14"/>
   <object id="3" type="SpawnPointKaito" x="160.333" y="237.667" width="16.6667" height="14"/>
   <object id="5" type="SpawnPointHimiko" x="160.333" y="263.667" width="16.6667" height="14"/>
@@ -82,7 +83,6 @@
   <object id="9" type="SpawnPointTsumugi" x="292.333" y="212.333" width="16.6667" height="14"/>
   <object id="10" type="SpawnPointGonta" x="291.667" y="236.333" width="16.6667" height="14"/>
   <object id="13" type="SpawnPointKeebo" x="291" y="261" width="16.6667" height="14"/>
-  <object id="27" type="SpawnPointPlayer" x="161.333" y="186.667" width="16.6667" height="12"/>
  </objectgroup>
  <objectgroup id="4" name="camera">
   <object id="29" type="camera" x="233.333" y="228.667" width="16.6667" height="14.6667"/>

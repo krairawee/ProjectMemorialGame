@@ -23,7 +23,7 @@ public class InteractComponent extends Component{
 
         if(nearTeleport.getType() == SenceType.TELEPORT){
             if(nearTeleport.getComponent(ObjectComponent.class).getName().equals("pretrial")){
-                MapEventHandler.eventBus.fireEvent(new MapEvent(MapEvent.TELEPORT_PRETRIAL));
+                MapEventHandler.eventBus.fireEvent(new MapEvent(MapEvent.PRETRIAL_TO_TRIAL));
             }
         }
         

@@ -17,6 +17,16 @@ public class SpawnComponent extends Component{
         this.isShow = isShow;
         this.name = name;
     }
+    public SpawnComponent(String name,int phaseCutsence,boolean isShow){
+        this.PhaseCutsence = phaseCutsence;
+        this.isShow = isShow;
+        this.name = name;
+
+    }
+    public void onUpdate(double tpf){
+        
+    }
+    
 
     public boolean isShow(){
         return this.isShow;

@@ -2,7 +2,6 @@ package com.project;
 
 
 import java.io.File;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -27,10 +26,14 @@ import com.project.GameCharacter.Component.SpawnComponent;
 import com.project.GameCharacter.Component.StatusComponent;
 import com.project.GameCharacter.Factory.CharacterFactory;
 import com.project.GameEvent.CharacterEventHandler;
+import com.project.GameEvent.MapEvent;
 import com.project.GameEvent.MapEventHandler;
+import com.project.GameEvent.MinigameEventHandler;
+import com.project.GameEvent.StoryEventHandler;
 import com.project.GameWorld.SenceType;
 import com.project.GameWorld.Factory.WorldFactory;
 import com.project.SaveData.CharacterData;
+import com.project.SaveData.CharacterSystem;
 
 import javafx.scene.paint.Color;
 import javafx.geometry.Point2D;
@@ -42,7 +45,7 @@ public class App extends GameApplication {
     public CharacterEventHandler gameevent;
     public static Level map;
     public static CharacterFactory characterFactory;
-    private ArrayList<String> allCharacter = new ArrayList<>(Arrays.asList("shuiji","maki","kaito","himiko","kokichi","tsumugi","gonta","keebo"));
+    public static ArrayList<String> allCharacter = new ArrayList<>(Arrays.asList("shuiji","maki","kaito","himiko","kokichi","tsumugi","gonta","keebo"));
     public static boolean isCamera = true;
     
 
@@ -75,10 +78,9 @@ public class App extends GameApplication {
             @Override
             public void onSave(DataFile data) {
                 Bundle bundle = new Bundle("gameData");
-                String nameMap = FXGL.gets("nameMap");
-                bundle.put("nameMap", nameMap);
+                bundle.put("nameMap", FXGL.gets("nameMap"));
                 bundle.put("Zoom",FXGL.getd("Zoom"));
-                bundle.put("Level",FXGL.geti("Level"));
+                bundle.put("view", FXGL.gets("view"));
              
                
 
@@ -103,16 +105,13 @@ public class App extends GameApplication {
                 for(String name :  allCharacter){
                     if(data.getBundle(name)!=null){
                         CharacterData charData = new CharacterData(name, data.getBundle(name).get("PositionX"), data.getBundle(name).get("PositionY"), data.getBundle(name).get("PhaseCutsence"));
-                        characterFactory.setCharacter(name,charData);
+                        CharacterSystem.setData(name, charData);
                     }
                 }
                 FXGL.set("nameMap", bundle.get("nameMap"));
-                FXGL.set("PositionX",bundle.get("PositionX"));
-                FXGL.set("PositionY",bundle.get("PositionY"));
                 FXGL.set("Zoom",bundle.get("Zoom"));
-                FXGL.set("Level", bundle.get("Level"));
-         
-                
+                FXGL.set("view", bundle.get("view"));
+                System.out.println(FXGL.gets("view")); 
             }
         });
     }
@@ -122,53 +121,64 @@ public class App extends GameApplication {
 
     @Override
     protected void initGame() {
-        
+        //set BackGround Scence
+        FXGL.getGameScene().setBackgroundColor(Color.BLACK);
+
         //load Save Data
-        FXGL.getSaveLoadService().readAndLoadTask("save1.sav").run();
+        FXGL.getSaveLoadService().readAndLoadTask("latest.sav").run();
         if(characterFactory == null){
             characterFactory = new CharacterFactory();
         }
-        // setting Baseworld and EntityFactory
-        FXGL.getGameScene().setBackgroundColor(Color.BLACK);
-        //setting event
-        
+
         //init Map Game
         FXGL.getGameWorld().addEntityFactory(characterFactory);
         FXGL.getGameWorld().addEntityFactory(new WorldFactory());
-        map = FXGL.getAssetLoader().loadLevel(FXGL.gets("nameMap"), new TMXLevelLoader());
-        
-        
+        map = FXGL.getAssetLoader().loadLevel(FXGL.gets("nameMap")+".tmx", new TMXLevelLoader());
         FXGL.getGameWorld().setLevel(map);
+
+
+        
+        
+        
+        //setting event
+        StoryEventHandler.setHandler();
         CharacterEventHandler.setHandler();
         MapEventHandler.setHandler();
+        MinigameEventHandler.setHandler();
+
+        //spawn Entity
         getSpawnOnMap();
-        
-        
         
         //set Camera
         FXGL.getGameScene().getViewport().setZoom(FXGL.getd("Zoom"));
-        if(FXGL.getGameWorld().getEntitiesByType(SenceType.CAMERA).isEmpty()){
+        if(FXGL.gets("view").equals("player")){
             FXGL.getGameScene().getViewport().bindToEntity(CharacterEventHandler.getCharacterInGame("shuiji"), FXGL.getAppWidth()/2, FXGL.getAppHeight()/2);
         }
         else{
             FXGL.getGameScene().getViewport().bindToEntity(FXGL.getGameWorld().getEntitiesByType(SenceType.CAMERA).get(0), FXGL.getAppWidth()/2, FXGL.getAppHeight()/2);
+            
         }
     }
     @Override
     protected void initGameVars(Map<String, Object> vars) {
-        vars.put("nameMap","PreTrialMap.tmx");
-        vars.put("PositionX",150.00);
-        vars.put("PositionY",250.00);
+        // General Variable
+        vars.put("nameMap","PreTrialMap");
         vars.put("view","player");
         vars.put("Zoom",3.00); 
-        vars.put("Level",1);
         vars.put("StatusGame",1);
+        // Storyline Variable
+        vars.put("MainEventPhase",1);
+        vars.put("MinigamePhase",1);
+        vars.put("TrialDialoguePhase", 1);
+    }
+    @Override 
+    public void onUpdate(double tft){
     }
 
     @Override
     protected void initInput() {
         FXGL.onKeyDown(KeyCode.F, "Save", () -> {
-            FXGL.getSaveLoadService().saveAndWriteTask("save1.sav").run();
+            FXGL.getSaveLoadService().saveAndWriteTask("latest.sav").run();
         });
 
         
@@ -177,6 +187,7 @@ public class App extends GameApplication {
             @Override
             protected void onAction() {
                 CharacterEventHandler.getCharacterInGame("shuiji").getComponent(MovementComponent.class).right();
+                
             }
         }, KeyCode.D);
         FXGL.getInput().addAction(new UserAction("Left") {
@@ -203,7 +214,10 @@ public class App extends GameApplication {
                 CharacterEventHandler.getCharacterInGame("shuiji").getComponent(InteractComponent.class).interactCharacter();
             }
         }, KeyCode.E);
+
+
     }
+
 
     public static boolean checkFile(String name){
         File folder = new File("memorialgame\\src\\main\\java\\com");
@@ -222,9 +236,16 @@ public class App extends GameApplication {
         List<Entity> entities = FXGL.getGameWorld().getEntitiesFiltered(entity -> entity.isType(CharacterType.SPAWNPOINT));
         for(Entity entity : entities){
             if(entity.getComponent(SpawnComponent.class).isShow() == true){
+                CharacterData character = CharacterSystem.getData(entity.getComponent(SpawnComponent.class).getName());
                 SpawnComponent component = entity.getComponent(SpawnComponent.class);
-                Point2D position = component.getPosition();
-                FXGL.spawn(component.getName(),new SpawnData(position.getX(), position.getY()).put("PhaseCutsence", component.getPhaseCutsence()));
+                if(character!=null){
+                    Point2D position = new Point2D(character.getPositionX(), character.getPositionY());
+                    FXGL.spawn(character.getName(),new SpawnData(position.getX(), position.getY()).put("PhaseCutsence", character.getPhaseCutsence()));
+
+                }else{
+                    FXGL.spawn(component.getName(),new SpawnData(component.getPosition()).put("PhaseCutsence", component.getPhaseCutsence()));
+                }
+                
             }
         }
     }

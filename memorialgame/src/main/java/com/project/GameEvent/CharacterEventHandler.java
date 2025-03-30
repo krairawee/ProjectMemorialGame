@@ -18,57 +18,62 @@ public class CharacterEventHandler {
 
             eventBus.addEventHandler(CutsenceEvent.SHUIJI, event -> {
                 if(getCharacterInGame("shuiji").getComponent(StatusComponent.class).getName().equals("shuiji")){
-                    int currentLevel = FXGL.geti("Level");
-                    Cutscene shuijiCutsence = FXGL.getAssetLoader().loadCutscene("Map"+currentLevel+"shuijiCutsence"+getCharacterInGame("shuiji").getComponent(StatusComponent.class).getPhaseCutsence()+".txt");
+                    String nameMap = FXGL.gets("nameMap");
+                    Cutscene shuijiCutsence = FXGL.getAssetLoader().loadCutscene(nameMap+"shuijiCutsence"+getCharacterInGame("shuiji").getComponent(StatusComponent.class).getPhaseCutsence()+".txt");
                     FXGL.getCutsceneService().startCutscene(shuijiCutsence);
                     }
                 });   
 
             eventBus.addEventHandler(CutsenceEvent.MAKI, event -> {
                 if(getCharacterInGame("maki").getComponent(StatusComponent.class).getName().equals("maki")){
-                        int currentLevel = FXGL.geti("Level");
-                        Cutscene makiCutsence = FXGL.getAssetLoader().loadCutscene("Map"+currentLevel+"makiCutsence"+getCharacterInGame("maki").getComponent(StatusComponent.class).getPhaseCutsence()+".txt");
+                        String nameMap = FXGL.gets("nameMap");
+                        Cutscene makiCutsence = FXGL.getAssetLoader().loadCutscene(nameMap+"makiCutsence"+getCharacterInGame("maki").getComponent(StatusComponent.class).getPhaseCutsence()+".txt");
                         FXGL.getCutsceneService().startCutscene(makiCutsence);
                         }
                     }); 
             
             eventBus.addEventHandler(CutsenceEvent.KAITO, event -> {
                 if(getCharacterInGame("kaito").getComponent(StatusComponent.class).getName().equals("kaito")){
-                        int currentLevel = FXGL.geti("Level");
-                        Cutscene kaitoCutsence = FXGL.getAssetLoader().loadCutscene("Map"+currentLevel+"kaitoCutsence"+getCharacterInGame("kaito").getComponent(StatusComponent.class).getPhaseCutsence()+".txt");
+                        String nameMap = FXGL.gets("nameMap");
+                        Cutscene kaitoCutsence = FXGL.getAssetLoader().loadCutscene(nameMap+"kaitoCutsence"+getCharacterInGame("kaito").getComponent(StatusComponent.class).getPhaseCutsence()+".txt");
                         FXGL.getCutsceneService().startCutscene(kaitoCutsence);
                         }
                     }); 
             
             eventBus.addEventHandler(CutsenceEvent.KOKICHI, event -> {
                 if(getCharacterInGame("kokichi").getComponent(StatusComponent.class).getName().equals("kokichi")){
-                        Cutscene kokichiCutsence = FXGL.getAssetLoader().loadCutscene("kokichiCutsencePhase"+getCharacterInGame("kokichi").getComponent(StatusComponent.class).getPhaseCutsence()+".txt");
+                        String nameMap = FXGL.gets("nameMap");
+                        Cutscene kokichiCutsence = FXGL.getAssetLoader().loadCutscene(nameMap+"kokichiCutsence"+getCharacterInGame("kokichi").getComponent(StatusComponent.class).getPhaseCutsence()+".txt");
                         FXGL.getCutsceneService().startCutscene(kokichiCutsence);
                         }
                     }); 
 
             eventBus.addEventHandler(CutsenceEvent.HIMIKO, event -> {
                 if(getCharacterInGame("himiko").getComponent(StatusComponent.class).getName().equals("himiko")){
-                        Cutscene himikoCutsence = FXGL.getAssetLoader().loadCutscene("himikoCutsencePhase"+getCharacterInGame("himiko").getComponent(StatusComponent.class).getPhaseCutsence()+".txt");
+                        String nameMap = FXGL.gets("nameMap");
+                        Cutscene himikoCutsence = FXGL.getAssetLoader().loadCutscene(nameMap+"himikoCutsence"+getCharacterInGame("himiko").getComponent(StatusComponent.class).getPhaseCutsence()+".txt");
                         FXGL.getCutsceneService().startCutscene(himikoCutsence);
                         }
                     }); 
             eventBus.addEventHandler(CutsenceEvent.TSUMUGI, event -> {
                 if(getCharacterInGame("tsumugi").getComponent(StatusComponent.class).getName().equals("tsumugi")){
-                        Cutscene tsumugiCutsence = FXGL.getAssetLoader().loadCutscene("tsumugiCutsencePhase"+getCharacterInGame("tsumugi").getComponent(StatusComponent.class).getPhaseCutsence()+".txt");
+                        String nameMap = FXGL.gets("nameMap");
+                        Cutscene tsumugiCutsence = FXGL.getAssetLoader().loadCutscene(nameMap+"tsumugiCutsence"+getCharacterInGame("tsumugi").getComponent(StatusComponent.class).getPhaseCutsence()+".txt");
                         FXGL.getCutsceneService().startCutscene(tsumugiCutsence);
                         }
                     });  
             eventBus.addEventHandler(CutsenceEvent.GONTA, event -> {
                 if(getCharacterInGame("gonta").getComponent(StatusComponent.class).getName().equals("gonta")){
-                        Cutscene gontaCutsence = FXGL.getAssetLoader().loadCutscene("gontaCutsencePhase"+getCharacterInGame("gonta").getComponent(StatusComponent.class).getPhaseCutsence()+".txt");
+                        String nameMap = FXGL.gets("nameMap");
+                        Cutscene gontaCutsence = FXGL.getAssetLoader().loadCutscene(nameMap+"gontaCutsence"+getCharacterInGame("gonta").getComponent(StatusComponent.class).getPhaseCutsence()+".txt");
                         FXGL.getCutsceneService().startCutscene(gontaCutsence);
                         }
                     }); 
             eventBus.addEventHandler(CutsenceEvent.KEEBO, event -> {
                 if(getCharacterInGame("keebo").getComponent(StatusComponent.class).getName().equals("keebo")){
-                        Cutscene keeboCutsence = FXGL.getAssetLoader().loadCutscene("keeboCutsencePhase"+getCharacterInGame("keebo").getComponent(StatusComponent.class).getPhaseCutsence()+".txt");
-                        FXGL.getCutsceneService().startCutscene(keeboCutsence);
+                       String nameMap = FXGL.gets("nameMap");
+                       Cutscene keeboCutsence = FXGL.getAssetLoader().loadCutscene(nameMap+"keeboCutsence"+getCharacterInGame("keebo").getComponent(StatusComponent.class).getPhaseCutsence()+".txt");
+                       FXGL.getCutsceneService().startCutscene(keeboCutsence);
                         }
                     }); 
         }
