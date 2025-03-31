@@ -24,7 +24,7 @@ public class MapEventHandler {
             FXGL.set("view", "camera");
             //Load Map
             FXGL.getGameWorld().setLevel(TrialMap);
-            App.getSpawnOnMap();
+            App.getSpawnDefault();
             FXGL.getGameScene().getViewport().setZoom(FXGL.getd("Zoom"));
             FXGL.getGameScene().getViewport().bindToEntity(FXGL.getGameWorld().getEntitiesByType(SenceType.CAMERA).get(0), FXGL.getAppWidth()/2, FXGL.getAppHeight()/2);
             StoryEventHandler.eventBus.fireEvent(new CutsenceEvent(CutsenceEvent.TRIAL));;

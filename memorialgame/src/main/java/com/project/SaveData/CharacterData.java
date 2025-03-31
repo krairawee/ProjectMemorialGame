@@ -1,5 +1,7 @@
 package com.project.SaveData;
 
+import java.util.ArrayList;
+
 import com.almasb.fxgl.core.serialization.Bundle;
 import com.project.GameCharacter.Component.MovementComponent;
 import com.project.GameCharacter.Component.StatusComponent;
@@ -10,12 +12,15 @@ public class CharacterData {
     public double PositionX;
     public double PositionY;
     public int PhaseCutsence;
+    public static ArrayList<CharacterData> allCharacter = new ArrayList<>();
 
     public CharacterData(String name,double PositionX,double PositionY,int phaseCutsence){
         this.name = name;
         this.PositionX = PositionX;
         this.PositionY = PositionY;
         this.PhaseCutsence = phaseCutsence;
+        allCharacter.add(this);
+        
     }
     
     public int getPhaseCutsence(){
@@ -37,5 +42,9 @@ public class CharacterData {
         bundle.put("PhaseCutsence",CharacterEventHandler.getCharacterInGame(name).getComponent(StatusComponent.class).getPhaseCutsence());
         return bundle;
         
+    }
+
+    public static void removeAll(){
+        allCharacter.clear();
     }
 }

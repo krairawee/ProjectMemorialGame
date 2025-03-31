@@ -82,14 +82,12 @@ public class App extends GameApplication {
              
                
 
-                var allentity = FXGL.getGameWorld().getEntitiesByType(CharacterType.OTHER);
+                var allentity = FXGL.getGameWorld().getEntitiesFiltered(entity -> entity.isType(CharacterType.OTHER) || entity.isType(CharacterType.PLAYER));
                 for(int i = 0;i<allentity.size();i++){
                     String name = allentity.get(i).getComponent(StatusComponent.class).getName();
                     CharacterData characterData = new CharacterData(name, CharacterEventHandler.getCharacterInGame(name).getComponent(MovementComponent.class).getPosX(), CharacterEventHandler.getCharacterInGame(name).getComponent(MovementComponent.class).getPosY(), CharacterEventHandler.getCharacterInGame(name).getComponent(StatusComponent.class).getPhaseCutsence());
                     data.putBundle(characterData.saveData());
                 }
-                CharacterData PlayerData = new CharacterData("shuiji", CharacterEventHandler.getCharacterInGame("shuiji").getComponent(MovementComponent.class).getPosX(), CharacterEventHandler.getCharacterInGame("shuiji").getComponent(MovementComponent.class).getPosY(), CharacterEventHandler.getCharacterInGame("shuiji").getComponent(StatusComponent.class).getPhaseCutsence());
-                data.putBundle(PlayerData.saveData());
                 data.putBundle(bundle);
    
 
@@ -102,8 +100,7 @@ public class App extends GameApplication {
                 Bundle bundle = data.getBundle("gameData");
                 for(String name :  allCharacter){
                     if(data.getBundle(name)!=null){
-                        CharacterData charData = new CharacterData(name, data.getBundle(name).get("PositionX"), data.getBundle(name).get("PositionY"), data.getBundle(name).get("PhaseCutsence"));
-                        CharacterSystem.setData(name, charData);
+                        new CharacterData(name, data.getBundle(name).get("PositionX"), data.getBundle(name).get("PositionY"), data.getBundle(name).get("PhaseCutsence"));
                     }
                 }
 
@@ -142,7 +139,12 @@ public class App extends GameApplication {
         MinigameEventHandler.setHandler();
 
         //spawn Entity
-        getSpawnOnMap();
+        if(checkFile("latest.sav")){
+            getSpawnOnMap();
+        }
+        else{
+            getSpawnDefault();
+        }
         
         //set Camera
         FXGL.getGameScene().getViewport().setZoom(FXGL.getd("Zoom"));
@@ -216,33 +218,23 @@ public class App extends GameApplication {
 
 
     public static boolean checkFile(String name){
-        File folder = new File("memorialgame\\src\\main\\java\\com");
-        if (folder.exists() && folder.isDirectory()) {
-            for (File file : folder.listFiles()) {
-                if (file.getName().equals(name +".sav")) {
-                    return true;
-                }
-            }
-            return false;
-            
+        File folder = new File(name);
+        if (folder.exists()) {
+            return true;
         }
         return false;
     } 
     public static void getSpawnOnMap(){
-        List<Entity> entities = FXGL.getGameWorld().getEntitiesFiltered(entity -> entity.isType(CharacterType.SPAWNPOINT));
-        for(Entity entity : entities){
-            if(entity.getComponent(SpawnComponent.class).isShow() == true){
-                CharacterData character = CharacterSystem.getData(entity.getComponent(SpawnComponent.class).getName());
-                SpawnComponent component = entity.getComponent(SpawnComponent.class);
-                if(character!=null){
-                    Point2D position = new Point2D(character.getPositionX(), character.getPositionY());
-                    FXGL.spawn(character.getName(),new SpawnData(position.getX(), position.getY()).put("PhaseCutsence", character.getPhaseCutsence()));
-
-                }else{
-                    FXGL.spawn(component.getName(),new SpawnData(component.getPosition()).put("PhaseCutsence", component.getPhaseCutsence()));
-                }
-                
-            }
+        for(CharacterData data : CharacterData.allCharacter){
+            Point2D position = new Point2D(data.getPositionX(), data.getPositionY());
+            FXGL.spawn(data.getName(),new SpawnData(position).put("PhaseCutsence", data.getPhaseCutsence()));
         }
     }
+    public static void getSpawnDefault(){
+        List<Entity> entities = FXGL.getGameWorld().getEntitiesByType((CharacterType.SPAWNPOINT));
+        for(Entity entity : entities){
+            SpawnComponent component = entity.getComponent(SpawnComponent.class);
+            FXGL.spawn(component.getName(),new SpawnData(component.getPosition()).put("PhaseCutsence", component.getPhaseCutsence()));     
+            }
+        }
 }
