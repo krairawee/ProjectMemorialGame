@@ -1,5 +1,7 @@
 package com.project.GameEvent;
 
+
+
 import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.event.EventBus;
 
@@ -15,6 +17,7 @@ import javafx.scene.text.TextAlignment;
 
 public class MinigameEventHandler {
     public static EventBus eventBus;
+    
     public static void setHandler(){
         eventBus = new EventBus();
         eventBus.addEventHandler(MinigameEvent.CHOICE, event->{
@@ -42,28 +45,26 @@ public class MinigameEventHandler {
             // การกระทำเมื่อกดปุ่ม
             option1.setOnAction(e -> {
                 FXGL.showMessage("You chose to fight!");
-                FXGL.getGameScene().removeUINode(menu.getParent());  // ลบเมนูหลังเลือกเสร็จ
+                FXGL.getGameScene().removeUINode(menu.getParent());  
             });
     
             option2.setOnAction(e -> {
                 FXGL.showMessage("You chose to negotiate!");
                 FXGL.getGameScene().removeUINode(menu.getParent());
+                
             });
-    
+
             option3.setOnAction(e -> {
                 FXGL.showMessage("You chose to run away!");
                 FXGL.getGameScene().removeUINode(menu.getParent());
             });
     
-            // เพิ่ม Title และปุ่มเข้าใน VBox
             menu.getChildren().addAll(title, option1, option2, option3);
     
-            // StackPane ใช้ซ้อนฉากหลังกับ VBox และจัดให้อยู่กลางหน้าจอ
             StackPane menuPane = new StackPane(background, menu);
             menuPane.setTranslateX(FXGL.getAppWidth() / 2.0 - 200);  // กึ่งกลางตามแกน X
             menuPane.setTranslateY(FXGL.getAppHeight() / 2.0 - 150); // กึ่งกลางตามแกน Y
     
-            // เพิ่มเมนูเข้าไปใน Game Scene
             FXGL.getGameScene().addUINode(menuPane);
         });
     }

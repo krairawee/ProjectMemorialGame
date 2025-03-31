@@ -3,7 +3,6 @@ package com.project.SaveData;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import com.project.App;
 
 public class CharacterSystem {
     public static CharacterData shuiji = new CharacterData("shuiji", 0, 0, -1);

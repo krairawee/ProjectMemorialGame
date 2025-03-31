@@ -6,8 +6,6 @@ import com.almasb.fxgl.entity.level.tiled.TMXLevelLoader;
 import com.almasb.fxgl.event.EventBus;
 import com.project.App;
 import com.project.GameWorld.SenceType;
-import com.project.SaveData.CharacterData;
-import com.project.SaveData.CharacterSystem;
 
 public class MapEventHandler {
     private static Level TrialMap = FXGL.getAssetLoader().loadLevel("TrialMap.tmx", new TMXLevelLoader());  
@@ -33,7 +31,6 @@ public class MapEventHandler {
             });
         
         eventBus.addEventHandler(MapEvent.RESET, event -> {
-            
             FXGL.set("StatusGame", 0);
             System.out.println(FXGL.geti("StatusGame"));
         });

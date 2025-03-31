@@ -26,7 +26,6 @@ import com.project.GameCharacter.Component.SpawnComponent;
 import com.project.GameCharacter.Component.StatusComponent;
 import com.project.GameCharacter.Factory.CharacterFactory;
 import com.project.GameEvent.CharacterEventHandler;
-import com.project.GameEvent.MapEvent;
 import com.project.GameEvent.MapEventHandler;
 import com.project.GameEvent.MinigameEventHandler;
 import com.project.GameEvent.StoryEventHandler;
@@ -46,7 +45,6 @@ public class App extends GameApplication {
     public static Level map;
     public static CharacterFactory characterFactory;
     public static ArrayList<String> allCharacter = new ArrayList<>(Arrays.asList("shuiji","maki","kaito","himiko","kokichi","tsumugi","gonta","keebo"));
-    public static boolean isCamera = true;
     
 
 
@@ -108,6 +106,7 @@ public class App extends GameApplication {
                         CharacterSystem.setData(name, charData);
                     }
                 }
+
                 FXGL.set("nameMap", bundle.get("nameMap"));
                 FXGL.set("Zoom",bundle.get("Zoom"));
                 FXGL.set("view", bundle.get("view"));
@@ -136,10 +135,6 @@ public class App extends GameApplication {
         map = FXGL.getAssetLoader().loadLevel(FXGL.gets("nameMap")+".tmx", new TMXLevelLoader());
         FXGL.getGameWorld().setLevel(map);
 
-
-        
-        
-        
         //setting event
         StoryEventHandler.setHandler();
         CharacterEventHandler.setHandler();
@@ -156,9 +151,9 @@ public class App extends GameApplication {
         }
         else{
             FXGL.getGameScene().getViewport().bindToEntity(FXGL.getGameWorld().getEntitiesByType(SenceType.CAMERA).get(0), FXGL.getAppWidth()/2, FXGL.getAppHeight()/2);
-            
         }
     }
+
     @Override
     protected void initGameVars(Map<String, Object> vars) {
         // General Variable
@@ -171,6 +166,7 @@ public class App extends GameApplication {
         vars.put("MinigamePhase",1);
         vars.put("TrialDialoguePhase", 1);
     }
+    
     @Override 
     public void onUpdate(double tft){
     }
