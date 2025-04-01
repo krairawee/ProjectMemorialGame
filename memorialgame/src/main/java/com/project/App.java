@@ -79,6 +79,9 @@ public class App extends GameApplication {
                 Bundle bundle = new Bundle("gameData");
                 bundle.put("nameMap", FXGL.gets("nameMap"));
                 bundle.put("view", FXGL.gets("view"));
+                bundle.put("MainEventPhase",FXGL.geti("MainEventPhase"));
+                bundle.put("MinigamePhase",FXGL.geti("MinigamePhase"));
+                bundle.put("TrialDialoguePhase", FXGL.geti("TrialDialoguePhase"));
                 data.putBundle(bundle);
                 
                 //put character data
@@ -104,8 +107,10 @@ public class App extends GameApplication {
                 }
 
                 FXGL.set("nameMap", bundle.get("nameMap"));
-                FXGL.set("view", bundle.get("view"));
-                System.out.println(FXGL.gets("view")); 
+                FXGL.set("view", bundle.get("view")); 
+                FXGL.set("MainEventPhase",bundle.get("MainEventPhase"));
+                FXGL.set("MinigamePhase",bundle.get("MinigamePhase"));
+                FXGL.set("TrialDialoguePhase",bundle.get("TrialDialoguePhase"));
             }
         });
     }
@@ -146,6 +151,10 @@ public class App extends GameApplication {
         
         //set Camera
         getCamera(FXGL.gets("view"));
+
+        
+       
+       
     }
 
     @Override
@@ -235,7 +244,7 @@ public class App extends GameApplication {
             FXGL.getGameScene().getViewport().bindToEntity(CharacterEventHandler.getCharacterInGame("shuiji"), FXGL.getAppWidth()/2, FXGL.getAppHeight()/2);
         }
         else{
-            FXGL.getGameScene().getViewport().setZoom(1.5);
+            FXGL.getGameScene().getViewport().setZoom(1.9);
             FXGL.getGameScene().getViewport().bindToEntity(FXGL.getGameWorld().getEntitiesByType(SenceType.CAMERA).get(0), FXGL.getAppWidth()/2, FXGL.getAppHeight()/2);
         }
     }

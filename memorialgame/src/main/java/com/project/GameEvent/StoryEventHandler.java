@@ -10,9 +10,9 @@ public class StoryEventHandler {
     public static void setHandler(){
         eventBus = new EventBus();
         eventBus.addEventHandler(CutsenceEvent.TRIAL, event -> {
+            FXGL.getInput().setProcessInput(false);
             Cutscene dialogue = FXGL.getAssetLoader().loadCutscene("trialDialogue"+FXGL.geti("TrialDialoguePhase")+".txt");
-            FXGL.getCutsceneService().startCutscene(dialogue,()->MinigameEventHandler.eventBus.fireEvent(new MinigameEvent(MinigameEvent.CHOICE))
-            );
+            FXGL.getCutsceneService().startCutscene(dialogue,()->MinigameEventHandler.eventBus.fireEvent(new MinigameEvent(MinigameEvent.CHOICE)));
         });
     }
 }

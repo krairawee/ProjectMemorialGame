@@ -88,6 +88,6 @@
   <object id="41" type="Trial_to_Pretrial" x="230" y="440.667" width="24" height="20.6667"/>
  </objectgroup>
  <objectgroup id="4" name="camera">
-  <object id="29" type="camera" x="233.333" y="228.667" width="16.6667" height="14.6667"/>
+  <object id="29" type="camera" x="234.667" y="232" width="16.6667" height="14.6667"/>
  </objectgroup>
 </map>

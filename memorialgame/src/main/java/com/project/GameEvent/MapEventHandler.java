@@ -4,7 +4,6 @@ import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.entity.level.tiled.TMXLevelLoader;
 import com.almasb.fxgl.event.EventBus;
 import com.project.App;
-import com.project.GameWorld.SenceType;
 import com.project.SaveData.CharacterData;
 
 public class MapEventHandler {
