@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.11.0" orientation="orthogonal" renderorder="right-down" width="30" height="30" tilewidth="16" tileheight="16" infinite="0" nextlayerid="5" nextobjectid="35">
+<map version="1.10" tiledversion="1.11.0" orientation="orthogonal" renderorder="right-down" width="30" height="30" tilewidth="16" tileheight="16" infinite="0" nextlayerid="6" nextobjectid="42">
  <tileset firstgid="1" name="PropsTrial" tilewidth="16" tileheight="16" tilecount="400" columns="20">
   <image source="TilesetTrialMap/PropsTrial.png" width="320" height="320"/>
  </tileset>
@@ -83,6 +83,9 @@
   <object id="9" type="SpawnPointTsumugi" x="292.333" y="212.333" width="16.6667" height="14"/>
   <object id="10" type="SpawnPointGonta" x="291.667" y="236.333" width="16.6667" height="14"/>
   <object id="13" type="SpawnPointKeebo" x="291" y="261" width="16.6667" height="14"/>
+ </objectgroup>
+ <objectgroup id="5" name="teleport">
+  <object id="41" type="Trial_to_Pretrial" x="230" y="440.667" width="24" height="20.6667"/>
  </objectgroup>
  <objectgroup id="4" name="camera">
   <object id="29" type="camera" x="233.333" y="228.667" width="16.6667" height="14.6667"/>

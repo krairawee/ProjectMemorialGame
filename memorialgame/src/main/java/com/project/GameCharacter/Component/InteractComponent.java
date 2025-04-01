@@ -22,9 +22,7 @@ public class InteractComponent extends Component{
     public void interactCharacter(){
 
         if(nearTeleport.getType() == SenceType.TELEPORT){
-            if(nearTeleport.getComponent(ObjectComponent.class).getName().equals("pretrial")){
-                MapEventHandler.eventBus.fireEvent(new MapEvent(MapEvent.PRETRIAL_TO_TRIAL));
-            }
+                MapEventHandler.eventBus.fireEvent(new MapEvent(nearTeleport.getComponent(ObjectComponent.class).getMapEvent()));
         }
         
         if(nearCharacter.getType() == CharacterType.OTHER){
@@ -36,6 +34,7 @@ public class InteractComponent extends Component{
     public void onAdded() {
     // กำหนดค่าเริ่มต้นให้ previousPhaseCutsence ตรงกับ phaseCutsence ใน StatusComponent
     previousPhaseCutsence = entity.getComponent(StatusComponent.class).getPhaseCutsence();
+ 
     }
 
     

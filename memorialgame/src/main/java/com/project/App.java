@@ -32,7 +32,7 @@ import com.project.GameEvent.StoryEventHandler;
 import com.project.GameWorld.SenceType;
 import com.project.GameWorld.Factory.WorldFactory;
 import com.project.SaveData.CharacterData;
-import com.project.SaveData.CharacterSystem;
+
 
 import javafx.scene.paint.Color;
 import javafx.geometry.Point2D;
@@ -75,20 +75,20 @@ public class App extends GameApplication {
         FXGL.getSaveLoadService().addHandler(new SaveLoadHandler() {
             @Override
             public void onSave(DataFile data) {
+                //put general data
                 Bundle bundle = new Bundle("gameData");
                 bundle.put("nameMap", FXGL.gets("nameMap"));
-                bundle.put("Zoom",FXGL.getd("Zoom"));
                 bundle.put("view", FXGL.gets("view"));
-             
-               
-
+                data.putBundle(bundle);
+                
+                //put character data
                 var allentity = FXGL.getGameWorld().getEntitiesFiltered(entity -> entity.isType(CharacterType.OTHER) || entity.isType(CharacterType.PLAYER));
                 for(int i = 0;i<allentity.size();i++){
                     String name = allentity.get(i).getComponent(StatusComponent.class).getName();
                     CharacterData characterData = new CharacterData(name, CharacterEventHandler.getCharacterInGame(name).getComponent(MovementComponent.class).getPosX(), CharacterEventHandler.getCharacterInGame(name).getComponent(MovementComponent.class).getPosY(), CharacterEventHandler.getCharacterInGame(name).getComponent(StatusComponent.class).getPhaseCutsence());
                     data.putBundle(characterData.saveData());
                 }
-                data.putBundle(bundle);
+                
    
 
 
@@ -96,7 +96,6 @@ public class App extends GameApplication {
 
             @Override
             public void onLoad(DataFile data) {
-                characterFactory = new CharacterFactory();
                 Bundle bundle = data.getBundle("gameData");
                 for(String name :  allCharacter){
                     if(data.getBundle(name)!=null){
@@ -105,7 +104,6 @@ public class App extends GameApplication {
                 }
 
                 FXGL.set("nameMap", bundle.get("nameMap"));
-                FXGL.set("Zoom",bundle.get("Zoom"));
                 FXGL.set("view", bundle.get("view"));
                 System.out.println(FXGL.gets("view")); 
             }
@@ -121,7 +119,7 @@ public class App extends GameApplication {
         FXGL.getGameScene().setBackgroundColor(Color.BLACK);
 
         //load Save Data
-        FXGL.getSaveLoadService().readAndLoadTask("latest.sav").run();
+        FXGL.getSaveLoadService().readAndLoadTask(FXGL.gets("nameMap")+".sav").run();
         if(characterFactory == null){
             characterFactory = new CharacterFactory();
         }
@@ -139,7 +137,7 @@ public class App extends GameApplication {
         MinigameEventHandler.setHandler();
 
         //spawn Entity
-        if(checkFile("latest.sav")){
+        if(checkFile(FXGL.gets("nameMap")+".sav")){
             getSpawnOnMap();
         }
         else{
@@ -147,13 +145,7 @@ public class App extends GameApplication {
         }
         
         //set Camera
-        FXGL.getGameScene().getViewport().setZoom(FXGL.getd("Zoom"));
-        if(FXGL.gets("view").equals("player")){
-            FXGL.getGameScene().getViewport().bindToEntity(CharacterEventHandler.getCharacterInGame("shuiji"), FXGL.getAppWidth()/2, FXGL.getAppHeight()/2);
-        }
-        else{
-            FXGL.getGameScene().getViewport().bindToEntity(FXGL.getGameWorld().getEntitiesByType(SenceType.CAMERA).get(0), FXGL.getAppWidth()/2, FXGL.getAppHeight()/2);
-        }
+        getCamera(FXGL.gets("view"));
     }
 
     @Override
@@ -161,7 +153,6 @@ public class App extends GameApplication {
         // General Variable
         vars.put("nameMap","PreTrialMap");
         vars.put("view","player");
-        vars.put("Zoom",3.00); 
         vars.put("StatusGame",1);
         // Storyline Variable
         vars.put("MainEventPhase",1);
@@ -176,7 +167,7 @@ public class App extends GameApplication {
     @Override
     protected void initInput() {
         FXGL.onKeyDown(KeyCode.F, "Save", () -> {
-            FXGL.getSaveLoadService().saveAndWriteTask("latest.sav").run();
+            FXGL.getSaveLoadService().saveAndWriteTask(FXGL.gets("nameMap")+".sav").run();
         });
 
         
@@ -206,12 +197,10 @@ public class App extends GameApplication {
                 CharacterEventHandler.getCharacterInGame("shuiji").getComponent(MovementComponent.class).down();
             }
         }, KeyCode.S);
-        FXGL.getInput().addAction(new UserAction("InteractCharacter") {
-            @Override
-            protected void onAction() {
-                CharacterEventHandler.getCharacterInGame("shuiji").getComponent(InteractComponent.class).interactCharacter();
-            }
-        }, KeyCode.E);
+        FXGL.onKeyDown(KeyCode.E, "Interact", () -> {
+         
+            CharacterEventHandler.getCharacterInGame("shuiji").getComponent(InteractComponent.class).interactCharacter();
+        });
 
 
     }
@@ -228,7 +217,9 @@ public class App extends GameApplication {
         for(CharacterData data : CharacterData.allCharacter){
             Point2D position = new Point2D(data.getPositionX(), data.getPositionY());
             FXGL.spawn(data.getName(),new SpawnData(position).put("PhaseCutsence", data.getPhaseCutsence()));
+            
         }
+        System.out.println(CharacterData.allCharacter);
     }
     public static void getSpawnDefault(){
         List<Entity> entities = FXGL.getGameWorld().getEntitiesByType((CharacterType.SPAWNPOINT));
@@ -237,4 +228,19 @@ public class App extends GameApplication {
             FXGL.spawn(component.getName(),new SpawnData(component.getPosition()).put("PhaseCutsence", component.getPhaseCutsence()));     
             }
         }
+    
+    public static void getCamera(String view){
+        if(view.equals("player")){
+            FXGL.getGameScene().getViewport().setZoom(3.00);
+            FXGL.getGameScene().getViewport().bindToEntity(CharacterEventHandler.getCharacterInGame("shuiji"), FXGL.getAppWidth()/2, FXGL.getAppHeight()/2);
+        }
+        else{
+            FXGL.getGameScene().getViewport().setZoom(1.5);
+            FXGL.getGameScene().getViewport().bindToEntity(FXGL.getGameWorld().getEntitiesByType(SenceType.CAMERA).get(0), FXGL.getAppWidth()/2, FXGL.getAppHeight()/2);
+        }
+    }
+
+        
+
+
 }

@@ -134,7 +134,7 @@
 </data>
  </layer>
  <objectgroup id="10" name="Teleport">
-  <object id="26" type="teleport" x="153" y="62.5" width="14.5" height="12.5"/>
+  <object id="26" type="Pretrial_to_Trial" x="153" y="62.5" width="14.5" height="12.5"/>
  </objectgroup>
  <layer id="11" name="shadow" width="20" height="20">
   <data encoding="csv">
