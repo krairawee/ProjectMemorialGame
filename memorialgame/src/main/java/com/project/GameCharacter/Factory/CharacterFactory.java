@@ -17,31 +17,10 @@ import com.project.GameCharacter.Component.MovementComponent;
 import com.project.GameCharacter.Component.SpawnComponent;
 import com.project.GameCharacter.Component.StatusComponent;
 import com.project.GameEvent.CutsenceEvent;
-import com.project.SaveData.CharacterData;
 
 import javafx.geometry.Point2D;
 
 public class CharacterFactory implements EntityFactory{
-    public CharacterData shuijiBundle;
-    public CharacterData makiBundle;
-    public CharacterData kaitoBundle;
-    public CharacterData kokichiBundle;
-    public CharacterData tsumugiBundle;
-    public CharacterData gontaBundle;
-    public CharacterData himikoBundle;
-    public CharacterData keeboBundle;
-    private static CharacterFactory instance;
-
-
-    public CharacterFactory(){
-    }
-
-    public static CharacterFactory getInstance() {
-        if (instance == null) {
-            instance = new CharacterFactory();
-        }
-        return instance;
-    }
 
     @Spawns("shuiji")
     public Entity newPlayerCharacter(SpawnData data){
@@ -252,35 +231,5 @@ public class CharacterFactory implements EntityFactory{
                    .type(CharacterType.SPAWNPOINT)
                    .with(new SpawnComponent("keebo",data.getX(),data.getY(),0,true))
                    .build();
-    }
-
-
-    public void setData(){
-        System.out.println("Before setData:");
-        System.out.println("Shuiji Bundle: " + shuijiBundle);
-        System.out.println("Maki Bundle: " + makiBundle);
-        this.makiBundle = null;
-        this.shuijiBundle = null;
-        this.gontaBundle = null;
-        this.tsumugiBundle = null;
-        this.kaitoBundle = null;
-        this.kokichiBundle = null;
-        this.keeboBundle = null;
-        System.out.println("After setData:");
-        System.out.println("Shuiji Bundle: " + shuijiBundle);
-        System.out.println("Maki Bundle: " + makiBundle);
-    
-    }
-    
-    public void setCharacter(String name,CharacterData data){
-        if(name == "shuiji"){
-            shuijiBundle = data;
-        }
-        else if(name == "maki"){
-            makiBundle = data;
-        }
-        else if(name == "kaito"){
-            kaitoBundle = data;
-        }
     }
 }

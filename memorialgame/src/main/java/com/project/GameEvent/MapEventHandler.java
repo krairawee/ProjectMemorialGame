@@ -15,14 +15,13 @@ public class MapEventHandler {
         eventBus = new EventBus();
         eventBus.addEventHandler(MapEvent.PRETRIAL_TO_TRIAL, event -> {
             //save currentMap
-            FXGL.getSaveLoadService().saveAndWriteTask("PreTrialMap.sav").run();
-            CharacterData.removeAll();
+            App.Save();
             FXGL.getSaveLoadService().readAndLoadTask("TrialMap.sav").run();
             
             //set Global Variable Status
             FXGL.set("nameMap","TrialMap");
             FXGL.set("view", "camera");
-            FXGL.set("StatusGame", 0);
+            FXGL.set("StatusGame", false);
             //Load Map
             FXGL.getGameWorld().setLevel(FXGL.getAssetLoader().loadLevel("TrialMap.tmx", new TMXLevelLoader()));
             if(App.checkFile("TrialMap.sav")){
@@ -32,20 +31,20 @@ public class MapEventHandler {
                 App.getSpawnDefault();
             }
             App.getCamera("camera");
-            StoryEventHandler.eventBus.fireEvent(new CutsenceEvent(CutsenceEvent.TRIAL));
+            //load Status
+            FXGL.set("StatusGame", false);
             });
 
         eventBus.addEventHandler(MapEvent.TRIAL_TO_PRETRIAL, event -> {
             //save 
-            FXGL.getSaveLoadService().saveAndWriteTask("TrialMap.sav").run();
-            CharacterData.removeAll();
+            App.Save();
             FXGL.getSaveLoadService().readAndLoadTask("PreTrialMap.sav").run();
            
     
             //set Global Variable Status
             FXGL.set("nameMap","PreTrialMap");
             FXGL.set("view", "player");
-            FXGL.set("StatusGame", 0);
+            FXGL.set("StatusGame", false);
             //Load Map
             FXGL.getGameWorld().setLevel(FXGL.getAssetLoader().loadLevel("PreTrialMap.tmx", new TMXLevelLoader()));
             if(App.checkFile("PreTrialMap.sav")){
@@ -55,6 +54,8 @@ public class MapEventHandler {
                 App.getSpawnDefault();
             } 
             App.getCamera("player");
+            //load Status
+            FXGL.set("StatusGame", false);
             });
     }
     

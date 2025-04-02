@@ -44,6 +44,8 @@ public class MovementComponent extends Component{
         
         entity.getViewComponent().addChild(texture);
         texture.loopAnimationChannel(idle);  
+        PosX = entity.getPosition().getX();
+        PosY = entity.getPosition().getY();
     }
 
     @Override

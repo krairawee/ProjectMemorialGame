@@ -2,10 +2,13 @@ package com.project;
 
 
 import java.io.File;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.Scanner;
 
 import com.almasb.fxgl.app.GameApplication;
 import com.almasb.fxgl.app.GameSettings;
@@ -45,7 +48,9 @@ public class App extends GameApplication {
     public static Level map;
     public static CharacterFactory characterFactory;
     public static ArrayList<String> allCharacter = new ArrayList<>(Arrays.asList("shuiji","maki","kaito","himiko","kokichi","tsumugi","gonta","keebo"));
-    
+    private int saveStoryPhase = 0;
+    private String nameSav;
+    private boolean TrialStarted = true;
 
 
     public static void main(String[] args) {
@@ -80,8 +85,10 @@ public class App extends GameApplication {
                 bundle.put("nameMap", FXGL.gets("nameMap"));
                 bundle.put("view", FXGL.gets("view"));
                 bundle.put("MainEventPhase",FXGL.geti("MainEventPhase"));
+                bundle.put("StatusGame", FXGL.getb("StatusGame"));
                 bundle.put("MinigamePhase",FXGL.geti("MinigamePhase"));
                 bundle.put("TrialDialoguePhase", FXGL.geti("TrialDialoguePhase"));
+                bundle.put("StoryPhase",StoryEventHandler.getPhase());
                 data.putBundle(bundle);
                 
                 //put character data
@@ -111,6 +118,8 @@ public class App extends GameApplication {
                 FXGL.set("MainEventPhase",bundle.get("MainEventPhase"));
                 FXGL.set("MinigamePhase",bundle.get("MinigamePhase"));
                 FXGL.set("TrialDialoguePhase",bundle.get("TrialDialoguePhase"));
+                FXGL.set("StatusGame", bundle.get("StatusGame"));
+                saveStoryPhase = bundle.get("StoryPhase");
             }
         });
     }
@@ -124,19 +133,28 @@ public class App extends GameApplication {
         FXGL.getGameScene().setBackgroundColor(Color.BLACK);
 
         //load Save Data
-        FXGL.getSaveLoadService().readAndLoadTask(FXGL.gets("nameMap")+".sav").run();
+        
         if(characterFactory == null){
             characterFactory = new CharacterFactory();
         }
 
         //init Map Game
+        nameSav = getCurrentSaveName();
+        if(nameSav != null){   
+            FXGL.getSaveLoadService().readAndLoadTask(nameSav).run();
+        }
         FXGL.getGameWorld().addEntityFactory(characterFactory);
         FXGL.getGameWorld().addEntityFactory(new WorldFactory());
         map = FXGL.getAssetLoader().loadLevel(FXGL.gets("nameMap")+".tmx", new TMXLevelLoader());
         FXGL.getGameWorld().setLevel(map);
 
         //setting event
-        StoryEventHandler.setHandler();
+        if(FXGL.getb("StatusGame")==false){
+            StoryEventHandler.setHandler(saveStoryPhase-1);
+        }
+        else{
+            StoryEventHandler.setHandler(saveStoryPhase);
+        }
         CharacterEventHandler.setHandler();
         MapEventHandler.setHandler();
         MinigameEventHandler.setHandler();
@@ -151,10 +169,6 @@ public class App extends GameApplication {
         
         //set Camera
         getCamera(FXGL.gets("view"));
-
-        
-       
-       
     }
 
     @Override
@@ -162,7 +176,7 @@ public class App extends GameApplication {
         // General Variable
         vars.put("nameMap","PreTrialMap");
         vars.put("view","player");
-        vars.put("StatusGame",1);
+        vars.put("StatusGame",true);
         // Storyline Variable
         vars.put("MainEventPhase",1);
         vars.put("MinigamePhase",1);
@@ -171,12 +185,20 @@ public class App extends GameApplication {
     
     @Override 
     public void onUpdate(double tft){
+        if(TrialStarted){
+            if(FXGL.gets("nameMap").equals("TrialMap")&&FXGL.getb("StatusGame")==false&&StoryEventHandler.getPhase()>=0){
+                StoryEventHandler.phase.set(StoryEventHandler.getPhase()+1);
+            }
+            TrialStarted = false;
+        }
+            
+        
     }
 
     @Override
     protected void initInput() {
         FXGL.onKeyDown(KeyCode.F, "Save", () -> {
-            FXGL.getSaveLoadService().saveAndWriteTask(FXGL.gets("nameMap")+".sav").run();
+            App.Save();
         });
 
         
@@ -222,6 +244,7 @@ public class App extends GameApplication {
         }
         return false;
     } 
+
     public static void getSpawnOnMap(){
         for(CharacterData data : CharacterData.allCharacter){
             Point2D position = new Point2D(data.getPositionX(), data.getPositionY());
@@ -230,6 +253,7 @@ public class App extends GameApplication {
         }
         System.out.println(CharacterData.allCharacter);
     }
+    
     public static void getSpawnDefault(){
         List<Entity> entities = FXGL.getGameWorld().getEntitiesByType((CharacterType.SPAWNPOINT));
         for(Entity entity : entities){
@@ -247,6 +271,37 @@ public class App extends GameApplication {
             FXGL.getGameScene().getViewport().setZoom(1.9);
             FXGL.getGameScene().getViewport().bindToEntity(FXGL.getGameWorld().getEntitiesByType(SenceType.CAMERA).get(0), FXGL.getAppWidth()/2, FXGL.getAppHeight()/2);
         }
+    }
+
+    public static String getCurrentSaveName(){
+        File input = new File("CurrentSave.txt");
+        try(Scanner scanner = new Scanner(input)){
+            String a = scanner.nextLine();
+            return a;
+        }catch(IOException e){
+            System.err.println(e.getMessage());
+        }
+        return null;
+    }
+
+    public static void writeCurrentSaveName(String name){
+        File input = new File("CurrentSave.txt");
+        try(PrintWriter printWriter = new PrintWriter(input)){
+            printWriter.println(name);
+           
+        }catch(IOException e){
+            System.err.println(e.getMessage());
+        }
+    }
+
+    public static void Save(){
+        FXGL.getSaveLoadService().saveAndWriteTask(FXGL.gets("nameMap")+".sav").run();
+        CharacterData.removeAll();
+        writeCurrentSaveName(FXGL.gets("nameMap")+".sav");
+    }
+
+    public static void Load(){
+        FXGL.getSaveLoadService().readAndLoadTask(FXGL.gets("nameMap")+".sav").run();
     }
 
         
