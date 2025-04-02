@@ -191,8 +191,6 @@ public class App extends GameApplication {
             }
             TrialStarted = false;
         }
-            
-        
     }
 
     @Override
