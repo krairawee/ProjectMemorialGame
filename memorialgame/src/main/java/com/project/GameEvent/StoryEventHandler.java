@@ -2,14 +2,11 @@ package com.project.GameEvent;
 
 import com.almasb.fxgl.cutscene.Cutscene;
 import com.almasb.fxgl.dsl.FXGL;
-import com.project.App;
-import com.project.GameEvent.Interface.UI;
-import com.project.GameEvent.Interface.PictureScene;
+
 
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.value.ChangeListener;
-import javafx.util.Duration;
 
 public class StoryEventHandler {
     public static IntegerProperty phase = new SimpleIntegerProperty(0);

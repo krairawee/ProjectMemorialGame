@@ -9,11 +9,8 @@ import java.util.Scanner;
 
 import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.event.EventBus;
-import com.project.App;
-import com.project.GameCharacter.Component.InventoryComponent;
 import com.project.GameEvent.Interface.BulletMinigame;
 import com.project.GameEvent.Interface.UI;
-import com.project.GameEvent.Interface.Inventory;
 import com.project.GameEvent.Interface.PictureScene;
 
 

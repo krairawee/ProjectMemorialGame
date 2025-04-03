@@ -20,14 +20,15 @@ public class Item {
         this.imageFile = imageFile;  // กำหนดรูปภาพให้กับ Item
         this.type = type;
         this.detail = loadDetailFromFile(detailFile);
+    
     }
 
-    // ✅ ฟังก์ชันที่ใช้ในการดึงไฟล์รูปภาพ
+    
     public File getImageFile() {
-        return imageFile;  // คืนค่าไฟล์รูปภาพ
+        return imageFile;  
     }
 
-    // ✅ โหลดรายละเอียดจากไฟล์
+    
     private String loadDetailFromFile(File file) {
         StringBuilder details = new StringBuilder();
         try (Scanner scanner = new Scanner(file)) {
@@ -38,10 +39,10 @@ public class Item {
             System.err.println("Error reading file: " + e.getMessage());
             return "ไม่สามารถโหลดรายละเอียดไอเทมได้"; // ค่าเริ่มต้นถ้าอ่านไม่ได้
         }
-        return details.toString().trim(); // ลบ \n ท้ายสุด
+        return details.toString().trim(); 
     }
 
-    // ✅ Getter
+    
     public String getName() {
         return name;
     }

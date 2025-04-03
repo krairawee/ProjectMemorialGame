@@ -12,6 +12,7 @@ import java.util.Scanner;
 
 import com.almasb.fxgl.app.GameApplication;
 import com.almasb.fxgl.app.GameSettings;
+
 import com.almasb.fxgl.core.serialization.Bundle;
 import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.entity.Entity;
@@ -35,16 +36,19 @@ import com.project.GameEvent.MinigameEventHandler;
 import com.project.GameEvent.StoryEventHandler;
 import com.project.GameEvent.Interface.UI;
 import com.project.GameEvent.Interface.Inventory;
-import com.project.GameEvent.StoryEventHandler.CurrentEvent;
+import com.project.GameEvent.Interface.ScenceMenuFactory;
 import com.project.GameWorld.SenceType;
 import com.project.GameWorld.Factory.WorldFactory;
 import com.project.SaveData.CharacterData;
 
 
+
 import javafx.scene.paint.Color;
+
 import javafx.geometry.Point2D;
 // JavaFX classes
 import javafx.scene.input.KeyCode;
+
 
 public class App extends GameApplication {
     private PhysicsWorld gamephysic;
@@ -52,9 +56,7 @@ public class App extends GameApplication {
     public static Level map;
     public static CharacterFactory characterFactory;
     public static ArrayList<String> allCharacter = new ArrayList<>(Arrays.asList("shuiji","maki","kaito","himiko","kokichi","tsumugi","gonta","keebo"));
-    private int saveStoryPhase = 0;
     private String nameSav;
-    private boolean TrialStarted = true;
     public static UI Inventory;
     
 
@@ -73,7 +75,20 @@ public class App extends GameApplication {
         settings.setTitle("Memorial");
         settings.setVersion("Beta");
         settings.setDeveloperMenuEnabled(true);
+        settings.setMainMenuEnabled(true);  
+        settings.setSceneFactory(new ScenceMenuFactory());
+        
+
+
+     
+
+           
+        
+     
+
+        
     }
+
 
     @Override
     protected void initPhysics() {
@@ -130,6 +145,7 @@ public class App extends GameApplication {
             }
         });
     }
+    
 
     
 
@@ -318,6 +334,10 @@ public class App extends GameApplication {
     public static void Load(){
         FXGL.getSaveLoadService().readAndLoadTask(FXGL.gets("nameMap")+".sav").run();
     }
+
+    
+
+    
 
  
         
