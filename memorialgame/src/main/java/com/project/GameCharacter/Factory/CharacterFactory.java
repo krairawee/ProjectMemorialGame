@@ -13,6 +13,7 @@ import com.almasb.fxgl.physics.box2d.dynamics.BodyType;
 import com.almasb.fxgl.physics.box2d.dynamics.FixtureDef;
 import com.project.GameCharacter.CharacterType;
 import com.project.GameCharacter.Component.InteractComponent;
+import com.project.GameCharacter.Component.InventoryComponent;
 import com.project.GameCharacter.Component.MovementComponent;
 import com.project.GameCharacter.Component.SpawnComponent;
 import com.project.GameCharacter.Component.StatusComponent;
@@ -37,6 +38,7 @@ public class CharacterFactory implements EntityFactory{
                 .with(new CollidableComponent(true))
                 .with(new MovementComponent("Shuiji.png","shuiji",96,128))
                 .with(new StatusComponent("shuiji","PhaseCutsenceShuiji",CutsenceEvent.SHUIJI,data.get("PhaseCutsence")))
+                .with(new InventoryComponent())
                 .with(new InteractComponent())
                 .build(); 
     }

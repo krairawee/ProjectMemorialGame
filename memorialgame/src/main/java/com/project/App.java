@@ -24,6 +24,7 @@ import com.almasb.fxgl.profile.DataFile;
 import com.almasb.fxgl.profile.SaveLoadHandler;
 import com.project.GameCharacter.CharacterType;
 import com.project.GameCharacter.Component.InteractComponent;
+import com.project.GameCharacter.Component.InventoryComponent;
 import com.project.GameCharacter.Component.MovementComponent;
 import com.project.GameCharacter.Component.SpawnComponent;
 import com.project.GameCharacter.Component.StatusComponent;
@@ -32,6 +33,8 @@ import com.project.GameEvent.CharacterEventHandler;
 import com.project.GameEvent.MapEventHandler;
 import com.project.GameEvent.MinigameEventHandler;
 import com.project.GameEvent.StoryEventHandler;
+import com.project.GameEvent.Interface.UI;
+import com.project.GameEvent.Interface.PanicTalk;
 import com.project.GameEvent.StoryEventHandler.CurrentEvent;
 import com.project.GameWorld.SenceType;
 import com.project.GameWorld.Factory.WorldFactory;
@@ -52,6 +55,8 @@ public class App extends GameApplication {
     private int saveStoryPhase = 0;
     private String nameSav;
     private boolean TrialStarted = true;
+    private UI Inventory;
+    
 
     public static void main(String[] args) {
         launch(args);
@@ -121,11 +126,7 @@ public class App extends GameApplication {
                 FXGL.set("StatusGame", bundle.get("StatusGame"));
                 FXGL.set("StoryPhase", bundle.get("StoryPhase"));
                 FXGL.set("CurrentEvent", bundle.get("CurrentEvent"));
-        
-        
-               
                 
-    
             }
         });
     }
@@ -137,6 +138,7 @@ public class App extends GameApplication {
     protected void initGame() {
         //set BackGround Scence
         FXGL.getGameScene().setBackgroundColor(Color.BLACK);
+        
 
         //load Save Data
         
@@ -167,7 +169,8 @@ public class App extends GameApplication {
         else{
             getSpawnDefault();
         }
-        
+        Inventory = new PanicTalk(CharacterEventHandler.getCharacterInGame("shuiji").getComponent(InventoryComponent.class).getInventory());
+        Inventory.set();
         //set Camera
         getCamera(FXGL.gets("view"));
     }
@@ -194,7 +197,7 @@ public class App extends GameApplication {
         }
         if((StoryEventHandler.statusgame == StoryEventHandler.StatusGame.INVOKE&&FXGL.gets("CurrentEvent").equals("Trial"))){
             StoryEventHandler.statusgame = StoryEventHandler.StatusGame.CONTINUE;
-            StoryEventHandler.setSameNumber();
+            StoryEventHandler.setSameNumber(FXGL.geti("StoryPhase"));
         }
         
     }
@@ -203,6 +206,9 @@ public class App extends GameApplication {
     protected void initInput() {
         FXGL.onKeyDown(KeyCode.F, "Save", () -> {
             App.Save();
+        });
+        FXGL.onKeyDown(KeyCode.V, "Inventory", () -> {
+            Inventory.show();
         });
 
         

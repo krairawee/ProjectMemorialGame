@@ -21,7 +21,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 
-public class BulletMinigame extends Choice implements MinigameUI{
+public class BulletMinigame extends Choice implements UI{
     private ProgressBar healthBar;
     private double health = 200.00;
     private Texture background;
@@ -123,7 +123,7 @@ public class BulletMinigame extends Choice implements MinigameUI{
                         if(healthBar.getCurrentValue() == 0){
                             FXGL.showMessage("False Answer", () -> {
                             FXGL.getGameScene().removeUINode(menuPane);
-                            StoryEventHandler.setSameNumber();
+                            StoryEventHandler.setSameNumber(FXGL.geti("StoryPhase"));
                             });
                         }
                     });
@@ -137,7 +137,6 @@ public class BulletMinigame extends Choice implements MinigameUI{
         FXGL.getGameScene().addUINode(node);
     }
 
-    @Override
     public ArrayList<String> getData(){
         return getData(sequence,numberChoice);
     }

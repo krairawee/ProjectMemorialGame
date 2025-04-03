@@ -4,8 +4,7 @@ import java.util.ArrayList;
 
 
 
-public interface MinigameUI {
-    public Object getData();
+public interface UI {
     public void show();
     public void set();
 

@@ -13,7 +13,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 
-public class PictureScene implements MinigameUI{
+public class PictureScene implements UI{
     private String name;
     private Texture view;
     public Node node;
@@ -57,8 +57,8 @@ public class PictureScene implements MinigameUI{
             FXGL.set("MinigamePhase", FXGL.geti("MinigamePhase")+1);
             FXGL.set("StoryPhase", FXGL.geti("StoryPhase")+1);
             FXGL.set("StatusGame", false);
-            StoryEventHandler.phase.set(FXGL.geti("StoryPhase"));
             App.Save();
+            StoryEventHandler.phase.set(FXGL.geti("StoryPhase"));
         }
     };
     FXGL.getInput().addAction(enterAction, KeyCode.ENTER);
@@ -72,7 +72,6 @@ public class PictureScene implements MinigameUI{
         FXGL.addUINode(node);
     }
 
-    @Override
     public Texture getData(){
         return this.view;
     }

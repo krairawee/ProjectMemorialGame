@@ -9,8 +9,10 @@ import java.util.Scanner;
 
 import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.event.EventBus;
+import com.project.GameCharacter.Component.InventoryComponent;
 import com.project.GameEvent.Interface.BulletMinigame;
-import com.project.GameEvent.Interface.MinigameUI;
+import com.project.GameEvent.Interface.UI;
+import com.project.GameEvent.Interface.PanicTalk;
 import com.project.GameEvent.Interface.PictureScene;
 
 
@@ -23,20 +25,26 @@ public class MinigameEventHandler {
         eventBus = new EventBus();
         //choice bullet
         eventBus.addEventHandler(MinigameEvent.CHOICE_BULLET, event->{
-           MinigameUI minigame = new BulletMinigame(FXGL.geti("MinigamePhase"), 4);
+           UI minigame = new BulletMinigame(FXGL.geti("MinigamePhase"), 4);
            minigame.set();
            minigame.show();
         });
         eventBus.addEventHandler(MinigameEvent.CHOICE_NETURAL, event->{
-            MinigameUI minigame = new BulletMinigame(FXGL.geti("MinigamePhase"), 4);
+            UI minigame = new BulletMinigame(FXGL.geti("MinigamePhase"), 4);
             minigame.set();
             minigame.show();
          });
         eventBus.addEventHandler(MinigameEvent.SHOW_PICTURE, event->{
-            MinigameUI minigame = new PictureScene("UI/MiuPicture.png","Cause of Death");
+            UI minigame = new PictureScene("UI/MiuPicture.png","Cause of Death");
             minigame.set();
             minigame.show();
          });
+         eventBus.addEventHandler(MinigameEvent.PANICTALK_ACTION, event->{
+            UI minigame = new PanicTalk(CharacterEventHandler.getCharacterInGame("shuiji").getComponent(InventoryComponent.class).getInventory());
+            minigame.set();
+            minigame.show();
+         });
+
     }
     public static ArrayList<String> getData(int n, int choice) {
     try (Scanner scanner = new Scanner(inputFile)) {
