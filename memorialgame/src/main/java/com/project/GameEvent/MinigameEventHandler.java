@@ -41,12 +41,6 @@ public class MinigameEventHandler {
             UI minigame = new PictureScene("UI/MiuPicture.png","Cause of Death");
             minigame.set();
             minigame.show();
-            FXGL.set("TrialDialoguePhase", FXGL.geti("TrialDialoguePhase")+1);
-            FXGL.set("MinigamePhase", FXGL.geti("MinigamePhase")+1);
-            FXGL.set("StoryPhase", FXGL.geti("StoryPhase")+1);
-            FXGL.set("StatusGame", false);
-            App.Save();
-            MinigameEventHandler.isEventPicture = true;
    
          });
          eventBus.addEventHandler(MinigameEvent.PANICTALK_ACTION, event->{
