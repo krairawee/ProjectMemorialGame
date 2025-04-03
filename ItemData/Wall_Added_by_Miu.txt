@@ -1,0 +1,1 @@
+Coordinates in the Virtual World are represented on an X and Y axis. Miu added a wall along the length of the Y-axis. The wall had a special setting that allowed non-human objects to pass through it.

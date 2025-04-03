@@ -1,0 +1,1 @@
+When everyone logged in for the first time, an avatar user error occurred.

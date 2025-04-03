@@ -1,0 +1,13 @@
+With the exception of Miu, who died before she could log out, everyone only logged in and out once each. The timestamps for their logins and logouts are as follows:
+23:02 Himiko, Tsumugi, Kaito, Keebo, and Shuichi logged in.
+23:03 Maki logged in.
+23:04 Kokichi and Gonta logged in.
+23:06 Miu logged in.
+05:17 Kaito logged out.
+06:55 Keebo logged out.
+06:55 Himiko logged out.
+06:55 Maki logged out.
+06:56 Gonta logged out
+06:56 Tsumugi logged out.
+06:58 Shuichi logged out.
+07:00 Kokichi logged out.
