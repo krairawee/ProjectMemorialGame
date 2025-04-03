@@ -32,6 +32,7 @@ import com.project.GameEvent.CharacterEventHandler;
 import com.project.GameEvent.MapEventHandler;
 import com.project.GameEvent.MinigameEventHandler;
 import com.project.GameEvent.StoryEventHandler;
+import com.project.GameEvent.StoryEventHandler.CurrentEvent;
 import com.project.GameWorld.SenceType;
 import com.project.GameWorld.Factory.WorldFactory;
 import com.project.SaveData.CharacterData;
@@ -51,7 +52,6 @@ public class App extends GameApplication {
     private int saveStoryPhase = 0;
     private String nameSav;
     private boolean TrialStarted = true;
-
 
     public static void main(String[] args) {
         launch(args);
@@ -84,11 +84,12 @@ public class App extends GameApplication {
                 Bundle bundle = new Bundle("gameData");
                 bundle.put("nameMap", FXGL.gets("nameMap"));
                 bundle.put("view", FXGL.gets("view"));
-                bundle.put("MainEventPhase",FXGL.geti("MainEventPhase"));
+
                 bundle.put("StatusGame", FXGL.getb("StatusGame"));
                 bundle.put("MinigamePhase",FXGL.geti("MinigamePhase"));
                 bundle.put("TrialDialoguePhase", FXGL.geti("TrialDialoguePhase"));
-                bundle.put("StoryPhase",StoryEventHandler.getPhase());
+                bundle.put("StoryPhase",FXGL.geti("StoryPhase"));
+                bundle.put("CurrentEvent", FXGL.gets("CurrentEvent"));
                 data.putBundle(bundle);
                 
                 //put character data
@@ -115,11 +116,16 @@ public class App extends GameApplication {
 
                 FXGL.set("nameMap", bundle.get("nameMap"));
                 FXGL.set("view", bundle.get("view")); 
-                FXGL.set("MainEventPhase",bundle.get("MainEventPhase"));
                 FXGL.set("MinigamePhase",bundle.get("MinigamePhase"));
                 FXGL.set("TrialDialoguePhase",bundle.get("TrialDialoguePhase"));
                 FXGL.set("StatusGame", bundle.get("StatusGame"));
-                saveStoryPhase = bundle.get("StoryPhase");
+                FXGL.set("StoryPhase", bundle.get("StoryPhase"));
+                FXGL.set("CurrentEvent", bundle.get("CurrentEvent"));
+        
+        
+               
+                
+    
             }
         });
     }
@@ -149,12 +155,7 @@ public class App extends GameApplication {
         FXGL.getGameWorld().setLevel(map);
 
         //setting event
-        if(FXGL.getb("StatusGame")==false){
-            StoryEventHandler.setHandler(saveStoryPhase-1);
-        }
-        else{
-            StoryEventHandler.setHandler(saveStoryPhase);
-        }
+        StoryEventHandler.setHandler(FXGL.geti("StoryPhase"));
         CharacterEventHandler.setHandler();
         MapEventHandler.setHandler();
         MinigameEventHandler.setHandler();
@@ -178,19 +179,24 @@ public class App extends GameApplication {
         vars.put("view","player");
         vars.put("StatusGame",true);
         // Storyline Variable
-        vars.put("MainEventPhase",1);
+        vars.put("StoryPhase",0);
+        vars.put("CurrentEvent", "Default");
         vars.put("MinigamePhase",1);
         vars.put("TrialDialoguePhase", 1);
     }
     
     @Override 
     public void onUpdate(double tft){
-        if(TrialStarted){
-            if(FXGL.gets("nameMap").equals("TrialMap")&&FXGL.getb("StatusGame")==false&&StoryEventHandler.getPhase()>=0){
-                StoryEventHandler.phase.set(StoryEventHandler.getPhase()+1);
-            }
-            TrialStarted = false;
+        if(FXGL.gets("nameMap").equals("TrialMap")&&FXGL.geti("StoryPhase")==0){
+            FXGL.set("CurrentEvent", "Trial");
+            FXGL.set("StoryPhase", FXGL.geti("StoryPhase")+1);
+            App.Save();
         }
+        if((StoryEventHandler.statusgame == StoryEventHandler.StatusGame.INVOKE&&FXGL.gets("CurrentEvent").equals("Trial"))){
+            StoryEventHandler.statusgame = StoryEventHandler.StatusGame.CONTINUE;
+            StoryEventHandler.setSameNumber();
+        }
+        
     }
 
     @Override
@@ -230,11 +236,7 @@ public class App extends GameApplication {
          
             CharacterEventHandler.getCharacterInGame("shuiji").getComponent(InteractComponent.class).interactCharacter();
         });
-
-
     }
-
-
     public static boolean checkFile(String name){
         File folder = new File(name);
         if (folder.exists()) {

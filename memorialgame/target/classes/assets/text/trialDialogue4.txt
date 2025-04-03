@@ -1,0 +1,26 @@
+1.name = Shuij
+2.name = Kaito
+3.name = Maki
+4.name = Kokichi
+5.name = Himiko
+6.name = Keebo
+7.name = Tsumugi
+8.name = Gonta
+9.name = Tofu
+
+1.image = ShuijiProtrait.png
+2.image = KaitoProtrait.png
+3.image = MakiProtrait.png
+4.image = KokichiProtrait.png
+5.image = HimikoProtrait.png
+6.image = KeeboProtrait.png
+7.image = TsumugiProtrait.png
+8.image = GontaProtrait.png
+9.image = TofuProtrait.png
+
+1: มิอุก็แสดงถึงอาการคัดขืนน่ะนะ
+
+
+
+
+

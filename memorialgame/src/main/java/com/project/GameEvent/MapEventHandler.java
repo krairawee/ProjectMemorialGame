@@ -4,7 +4,6 @@ import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.entity.level.tiled.TMXLevelLoader;
 import com.almasb.fxgl.event.EventBus;
 import com.project.App;
-import com.project.SaveData.CharacterData;
 
 public class MapEventHandler {
 
@@ -55,7 +54,7 @@ public class MapEventHandler {
             } 
             App.getCamera("player");
             //load Status
-            FXGL.set("StatusGame", false);
+            FXGL.set("StatusGame", true);
             });
     }
     

@@ -1,44 +1,24 @@
-package com.project.GameEvent;
-
-
+package com.project.GameEvent.Interface;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-import com.almasb.fxgl.dsl.FXGL;
-import com.almasb.fxgl.event.EventBus;
-import com.project.GameEvent.Interface.BulletMinigame;
-import com.project.GameEvent.Interface.MinigameUI;
-import com.project.GameEvent.Interface.PictureScene;
+public class Choice {
+    protected String name;
+    protected int numberChoice;
+    protected int sequence;
+    private static final File inputFile = new File("MinigameData.txt");
+    public Choice(String name,int sequence,int numberChoice){
+        this.name = name;
+        this.sequence = sequence;
+        this.numberChoice = numberChoice;
 
-
-
-public class MinigameEventHandler {
-    public static EventBus eventBus;
-    private static File inputFile = new File("MinigameData.txt");
-    
-    public static void setHandler(){
-        eventBus = new EventBus();
-        //choice bullet
-        eventBus.addEventHandler(MinigameEvent.CHOICE_BULLET, event->{
-           MinigameUI minigame = new BulletMinigame(FXGL.geti("MinigamePhase"), 4);
-           minigame.set();
-           minigame.show();
-        });
-        eventBus.addEventHandler(MinigameEvent.CHOICE_NETURAL, event->{
-            MinigameUI minigame = new BulletMinigame(FXGL.geti("MinigamePhase"), 4);
-            minigame.set();
-            minigame.show();
-         });
-        eventBus.addEventHandler(MinigameEvent.SHOW_PICTURE, event->{
-            MinigameUI minigame = new PictureScene("UI/MiuPicture.png","Cause of Death");
-            minigame.set();
-            minigame.show();
-         });
     }
-    public static ArrayList<String> getData(int n, int choice) {
+
+    
+    public ArrayList<String> getData(int n, int choice) {
     try (Scanner scanner = new Scanner(inputFile)) {
         // ข้ามไปยังคำถามที่ n
         for (int i = 0; i < n - 1; i++) {
@@ -73,7 +53,4 @@ public class MinigameEventHandler {
     }
     return null;
 }
-    }
-
-    
-
+}

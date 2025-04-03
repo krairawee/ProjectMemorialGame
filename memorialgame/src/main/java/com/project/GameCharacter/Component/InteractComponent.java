@@ -1,8 +1,6 @@
 package com.project.GameCharacter.Component;
 
 
-import javax.net.ssl.SSLEngineResult.Status;
-
 import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.entity.component.Component;
