@@ -4,6 +4,7 @@ import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.input.UserAction;
 import com.almasb.fxgl.texture.Texture;
 import com.project.App;
+import com.project.GameEvent.MinigameEventHandler;
 import com.project.GameEvent.StoryEventHandler;
 
 import javafx.geometry.Pos;
@@ -49,19 +50,7 @@ public class PictureScene implements UI{
     panel.setTranslateY((FXGL.getAppHeight() - background.getHeight()) / 2);
     panel.setAlignment(Pos.CENTER);
 
-    UserAction enterAction = new UserAction("EnterPressed") {
-        @Override
-        protected void onActionBegin() {
-            FXGL.removeUINode(panel);
-            FXGL.set("TrialDialoguePhase", FXGL.geti("TrialDialoguePhase")+1);
-            FXGL.set("MinigamePhase", FXGL.geti("MinigamePhase")+1);
-            FXGL.set("StoryPhase", FXGL.geti("StoryPhase")+1);
-            FXGL.set("StatusGame", false);
-            App.Save();
-            StoryEventHandler.phase.set(FXGL.geti("StoryPhase"));
-        }
-    };
-    FXGL.getInput().addAction(enterAction, KeyCode.ENTER);
+
     
 
     this.node = panel;

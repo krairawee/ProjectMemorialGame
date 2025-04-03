@@ -34,7 +34,7 @@ import com.project.GameEvent.MapEventHandler;
 import com.project.GameEvent.MinigameEventHandler;
 import com.project.GameEvent.StoryEventHandler;
 import com.project.GameEvent.Interface.UI;
-import com.project.GameEvent.Interface.PanicTalk;
+import com.project.GameEvent.Interface.Inventory;
 import com.project.GameEvent.StoryEventHandler.CurrentEvent;
 import com.project.GameWorld.SenceType;
 import com.project.GameWorld.Factory.WorldFactory;
@@ -55,7 +55,7 @@ public class App extends GameApplication {
     private int saveStoryPhase = 0;
     private String nameSav;
     private boolean TrialStarted = true;
-    private UI Inventory;
+    public static UI Inventory;
     
 
     public static void main(String[] args) {
@@ -155,21 +155,23 @@ public class App extends GameApplication {
         FXGL.getGameWorld().addEntityFactory(new WorldFactory());
         map = FXGL.getAssetLoader().loadLevel(FXGL.gets("nameMap")+".tmx", new TMXLevelLoader());
         FXGL.getGameWorld().setLevel(map);
+        
 
         //setting event
         StoryEventHandler.setHandler(FXGL.geti("StoryPhase"));
         CharacterEventHandler.setHandler();
         MapEventHandler.setHandler();
-        MinigameEventHandler.setHandler();
-
-        //spawn Entity
         if(checkFile(FXGL.gets("nameMap")+".sav")){
             getSpawnOnMap();
         }
         else{
             getSpawnDefault();
         }
-        Inventory = new PanicTalk(CharacterEventHandler.getCharacterInGame("shuiji").getComponent(InventoryComponent.class).getInventory());
+        MinigameEventHandler.setHandler();
+
+        //spawn Entity
+      
+        Inventory = new Inventory(CharacterEventHandler.getCharacterInGame("shuiji").getComponent(InventoryComponent.class).getInventory());
         Inventory.set();
         //set Camera
         getCamera(FXGL.gets("view"));
@@ -210,6 +212,13 @@ public class App extends GameApplication {
         FXGL.onKeyDown(KeyCode.V, "Inventory", () -> {
             Inventory.show();
         });
+
+        FXGL.onKeyDown(KeyCode.ENTER, "PictureSkip",()->{
+            if(MinigameEventHandler.isEventPicture==true){
+                System.out.println(FXGL.geti("StoryPhase"));
+                FXGL.getGameScene().getContentRoot().getChildren().remove(1);
+            }
+            });
 
         
 
@@ -310,6 +319,7 @@ public class App extends GameApplication {
         FXGL.getSaveLoadService().readAndLoadTask(FXGL.gets("nameMap")+".sav").run();
     }
 
+ 
         
 
 

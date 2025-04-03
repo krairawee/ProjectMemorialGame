@@ -1,14 +1,12 @@
 package com.project.GameEvent.Interface;
 
-import java.nio.file.Files;
-import java.nio.file.Paths;
+
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.Action;
+
 
 import com.almasb.fxgl.dsl.FXGL;
-import com.almasb.fxgl.input.UserAction;
 import com.project.GameWorld.Item;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
@@ -16,13 +14,10 @@ import javafx.scene.control.SplitPane;
 import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.KeyCode;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 
-public class PanicTalk implements UI {
+public class Inventory implements UI {
     private List<Item> inventory;
     private Text nameLabel;
     private Text detailText;
@@ -33,7 +28,7 @@ public class PanicTalk implements UI {
     private VBox detailPanel;
     private boolean isClick = false;
 
-    public PanicTalk(ArrayList<Item> inventory) {
+    public Inventory(ArrayList<Item> inventory) {
         this.inventory = inventory;
     }
 
@@ -80,6 +75,7 @@ public class PanicTalk implements UI {
         
             itemButton.setStyle("-fx-background-color: black; -fx-text-fill: white; -fx-border-color: transparent;");
             itemButton.setPrefWidth(FXGL.getAppWidth() * 0.20);
+           
 
             
             itemButton.setOnAction(e -> {
@@ -108,13 +104,6 @@ public class PanicTalk implements UI {
         splitPane.setPrefHeight(FXGL.getAppHeight());
 
         // 🔹 เพิ่ม SplitPane ลงในหน้าจอ
-    
-        
-
-    
-  
-        
-
     }
 
     @Override 
@@ -128,10 +117,6 @@ public class PanicTalk implements UI {
             FXGL.getGameScene().getContentRoot().getChildren().remove(splitPane);
             isClick = false;
           }
-
-          
-            
-          
     }
 
 }

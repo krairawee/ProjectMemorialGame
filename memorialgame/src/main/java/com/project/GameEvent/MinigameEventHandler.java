@@ -9,10 +9,11 @@ import java.util.Scanner;
 
 import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.event.EventBus;
+import com.project.App;
 import com.project.GameCharacter.Component.InventoryComponent;
 import com.project.GameEvent.Interface.BulletMinigame;
 import com.project.GameEvent.Interface.UI;
-import com.project.GameEvent.Interface.PanicTalk;
+import com.project.GameEvent.Interface.Inventory;
 import com.project.GameEvent.Interface.PictureScene;
 
 
@@ -20,8 +21,10 @@ import com.project.GameEvent.Interface.PictureScene;
 public class MinigameEventHandler {
     public static EventBus eventBus;
     private static File inputFile = new File("MinigameData.txt");
+    public static boolean isEventPicture = false;
     
     public static void setHandler(){
+        
         eventBus = new EventBus();
         //choice bullet
         eventBus.addEventHandler(MinigameEvent.CHOICE_BULLET, event->{
@@ -38,9 +41,16 @@ public class MinigameEventHandler {
             UI minigame = new PictureScene("UI/MiuPicture.png","Cause of Death");
             minigame.set();
             minigame.show();
+            FXGL.set("TrialDialoguePhase", FXGL.geti("TrialDialoguePhase")+1);
+            FXGL.set("MinigamePhase", FXGL.geti("MinigamePhase")+1);
+            FXGL.set("StoryPhase", FXGL.geti("StoryPhase")+1);
+            FXGL.set("StatusGame", false);
+            App.Save();
+            MinigameEventHandler.isEventPicture = true;
+   
          });
          eventBus.addEventHandler(MinigameEvent.PANICTALK_ACTION, event->{
-            UI minigame = new PanicTalk(CharacterEventHandler.getCharacterInGame("shuiji").getComponent(InventoryComponent.class).getInventory());
+            UI minigame = new BulletMinigame(FXGL.geti("MinigamePhase"), 4);
             minigame.set();
             minigame.show();
          });

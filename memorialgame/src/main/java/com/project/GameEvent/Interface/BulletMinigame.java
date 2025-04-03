@@ -112,9 +112,9 @@ public class BulletMinigame extends Choice implements UI{
                         FXGL.set("MinigamePhase", FXGL.geti("MinigamePhase")+1);
                         FXGL.set("StoryPhase", FXGL.geti("StoryPhase")+1);
                         FXGL.set("StatusGame", false);
+                        System.out.println(FXGL.geti("StoryPhase"));
                         App.Save();
                         StoryEventHandler.phase.set(FXGL.geti("StoryPhase"));
-                        
                     });
                 }
                 else{
