@@ -34,22 +34,22 @@ public class Inventory implements UI {
 
     @Override
     public void set() {
-        // 🔹 สร้าง Panel ซ้าย (Inventory) โดยใช้ ListView
+     
         ListView<Button> listView = new ListView<>();
-        listView.setPrefWidth(FXGL.getAppWidth() * 0.25); // ใช้ 25% ของความกว้างหน้าจอ
-        listView.setPrefHeight(FXGL.getAppHeight()); // ใช้ความสูงเต็มหน้าจอ
+        listView.setPrefWidth(FXGL.getAppWidth() * 0.25); 
+        listView.setPrefHeight(FXGL.getAppHeight()); 
 
-        // 🔹 สร้าง Panel ขวา (รายละเอียดไอเทม)
+       
         detailPanel = new VBox(10);
         
-        // สร้าง TextArea สำหรับแสดงเนื้อหาจากไฟล์ .txt
+       
         textArea = new TextArea();
-        textArea.setWrapText(true);  // ทำให้ข้อความแสดงในบรรทัดใหม่เมื่อเกินขนาด
-        textArea.setEditable(false); // ไม่ให้ผู้ใช้แก้ไขข้อความ
-        textArea.setPrefWidth(FXGL.getAppWidth() * 0.75);  // ความกว้าง 75% ของหน้าจอ
-        textArea.setPrefHeight(FXGL.getAppHeight() * 0.50); // ความสูง 50% ของหน้าจอ
+        textArea.setWrapText(true); 
+        textArea.setEditable(false); 
+        textArea.setPrefWidth(FXGL.getAppWidth() * 0.75);  
+        textArea.setPrefHeight(FXGL.getAppHeight() * 0.50); 
 
-        // อ่านไฟล์ .txt และแสดงใน TextArea
+       
        
 
         
@@ -75,40 +75,37 @@ public class Inventory implements UI {
         
             itemButton.setStyle("-fx-background-color: black; -fx-text-fill: white; -fx-border-color: transparent;");
             itemButton.setPrefWidth(FXGL.getAppWidth() * 0.20);
-           
 
-            
             itemButton.setOnAction(e -> {
                 nameLabel.setText(item.getName());
                 textArea.setText(item.getDetail());
                 textArea.setStyle("-fx-font-size: 20px; -fx-text-fill: black;");
-
+                
             imageView.setImage(new Image(item.getImageFile().toURI().toString()));
             
-        }); // เมื่อคลิกที่ปุ่ม
-            listView.getItems().add(itemButton); // เพิ่มปุ่มใน ListView
+        }); 
+            listView.getItems().add(itemButton);
         }
 
-    // เพิ่มปุ่ม "ปิด" ลงใน detailPanel
 
 
-        // 🔹 สร้าง SplitPane สำหรับแบ่งซ้ายและขวา
+
         splitPane = new SplitPane();
-        splitPane.getItems().addAll(listView, detailPanel); // เพิ่ม ListView และ VBox ที่แสดงรายละเอียด
+        splitPane.getItems().addAll(listView, detailPanel); 
 
-        // 🔹 ตั้งค่า SplitPane ให้เหมาะสมกับขนาดหน้าจอ
-        splitPane.setDividerPositions(0.25); // กำหนดตำแหน่งของ divider (แบ่ง 25% ซ้าย, 75% ขวา)
+       
+        splitPane.setDividerPositions(0.25); 
 
-        // 🔹 ทำให้ SplitPane ครอบคลุมเต็มหน้าจอ
+       
         splitPane.setPrefWidth(FXGL.getAppWidth());
         splitPane.setPrefHeight(FXGL.getAppHeight());
 
-        // 🔹 เพิ่ม SplitPane ลงในหน้าจอ
+    
     }
 
     @Override 
     public void show() {
-          // 🔹 เพิ่ม SplitPane ลงในหน้าจอ
+        
           if(isClick == false){
             FXGL.getGameScene().getContentRoot().getChildren().add(splitPane);
             isClick = true;

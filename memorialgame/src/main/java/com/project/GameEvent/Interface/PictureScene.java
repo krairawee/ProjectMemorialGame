@@ -41,7 +41,6 @@ public class PictureScene implements UI {
         panel.setTranslateY((FXGL.getAppHeight() - background.getHeight()) / 2);
         panel.setAlignment(Pos.CENTER);
 
-        // 📌 ตรวจจับการคลิกที่หน้าจอ
         panel.setOnMouseClicked(event -> {
             FXGL.removeUINode(node);
                      FXGL.set("TrialDialoguePhase", FXGL.geti("TrialDialoguePhase")+1);
@@ -65,6 +64,6 @@ public class PictureScene implements UI {
         return this.view;
     }
 
-    // 📌 เช็กว่าคลิกที่รูปภาพหรือไม่
+
   
 }

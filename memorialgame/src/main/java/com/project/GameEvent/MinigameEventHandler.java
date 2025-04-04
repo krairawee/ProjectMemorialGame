@@ -10,6 +10,7 @@ import java.util.Scanner;
 import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.event.EventBus;
 import com.project.GameEvent.Interface.BulletMinigame;
+import com.project.GameEvent.Interface.PanicTalkAction;
 import com.project.GameEvent.Interface.UI;
 import com.project.GameEvent.Interface.PictureScene;
 
@@ -41,9 +42,7 @@ public class MinigameEventHandler {
    
          });
          eventBus.addEventHandler(MinigameEvent.PANICTALK_ACTION, event->{
-            UI minigame = new BulletMinigame(FXGL.geti("MinigamePhase"), 4);
-            minigame.set();
-            minigame.show();
+            new PanicTalkAction();
          });
 
     }
