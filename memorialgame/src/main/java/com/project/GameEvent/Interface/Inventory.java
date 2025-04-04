@@ -115,5 +115,4 @@ public class Inventory implements UI {
             isClick = false;
           }
     }
-
 }

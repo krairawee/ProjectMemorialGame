@@ -69,7 +69,7 @@ public class MinigameEventHandler {
         // ตรวจสอบว่ามีข้อมูลเพิ่มเติมหลังจากนั้นหรือไม่
         while (scanner.hasNextLine()) {
             String data = scanner.nextLine();
-            if (data.startsWith("#")) {  // หยุดเมื่อเจอ # เพื่อแบ่งกลุ่มคำถาม
+            if (data.startsWith("#")) {  // หยุดเมื่อเจอ # 
                 break;
             } else {
                 allChoice.add(data);
